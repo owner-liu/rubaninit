@@ -2,14 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
-    compileSdkVersion 29
+    compileSdkVersion Integer.valueOf(version_compile_sdk)
 
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion version_min_sdk
+        targetSdkVersion version_target_sdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -27,9 +25,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation "androidx.appcompat:appcompat:$version_appcompat"
+    implementation "androidx.core:core-ktx:$version_core_ktx"
+    testImplementation "junit:junit:$version_junit"
+    androidTestImplementation "androidx.test.ext:junit:$version_ext_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$version_espresso_core"
 }
