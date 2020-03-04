@@ -1,0 +1,2 @@
+include ':app', ':ruban_core', ':runban'
+rootProject.name='RubanInit'
