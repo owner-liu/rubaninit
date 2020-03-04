@@ -1,4 +1,4 @@
-package com.lyw.ruban_core
+package com.lyw.ruban
 
 import org.junit.Test
 

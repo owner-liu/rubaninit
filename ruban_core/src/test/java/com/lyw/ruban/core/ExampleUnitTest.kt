@@ -1,4 +1,4 @@
-package com.lyw.runban
+package com.lyw.ruban.core
 
 import org.junit.Test
 
