@@ -10,9 +10,4 @@ abstract class BaseInitGroup<T : IInitObserver> : AbsInit<T>() {
     abstract fun isEmpty(): Boolean
 
     abstract fun isNotEmpty(): Boolean
-
-    abstract fun container(tag: T): Boolean
-
-    abstract fun insertFirstInit(init: Any)
-
 }
