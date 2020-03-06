@@ -8,7 +8,7 @@ import com.lyw.ruban.core.depend.observer.DependContainerObserver
  * Created by  lyw
  * Created for depend init container~
  */
-abstract class DependInitContainer<T : AbsBaseInit<IInitObserver>>
+open class DependInitContainer<T : AbsBaseInit<IInitObserver>>
 constructor(
     private var dependInitProxyAliases: ArrayList<String>,
     private var init: T?
@@ -37,5 +37,9 @@ constructor(
             //可以执行，则执行对应的数据～
             it.initialize(context, mObserver)
         }
+    }
+
+    override fun getAliasName(): String {
+        return init?.getAliasName() ?: this.javaClass.simpleName
     }
 }

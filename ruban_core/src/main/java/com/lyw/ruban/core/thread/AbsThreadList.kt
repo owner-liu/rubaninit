@@ -1,5 +1,6 @@
 package com.lyw.ruban.core.thread
 
+import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.thread.observer.ThreadGroupObserver
@@ -7,10 +8,11 @@ import com.lyw.ruban.core.thread.observer.ThreadGroupObserver
 /**
  * Created on  2020-03-06
  * Created by  lyw
- * Created for abs thread list~
+ * Created for thread list~
  */
-abstract class AbsThreadList<T : AbsBaseThreadInit>
-constructor(private var absThreadArrayListCode: Int) : AbsThreadInitGroup(absThreadArrayListCode) {
+abstract class AbsThreadList<T : AbsBaseInit<IInitObserver>>
+constructor(private var absThreadArrayListCode: Int) :
+    AbsThreadInitGroup<IInitObserver>(absThreadArrayListCode) {
 
     private val mList: List<T>? = null
 
@@ -29,8 +31,7 @@ constructor(private var absThreadArrayListCode: Int) : AbsThreadInitGroup(absThr
         )
     }
 
-
-    final override fun initialize(context: InitContext, observer: IInitObserver?) {
+    override fun initialize(context: InitContext, observer: IInitObserver?) {
         if (hasInit) {
             return
         }
@@ -39,9 +40,7 @@ constructor(private var absThreadArrayListCode: Int) : AbsThreadInitGroup(absThr
         mObserver.mThreadCount = mList?.size ?: 0
 
         mList?.forEach {
-            doInit(context, it, mObserver)
+            it.initialize(context, observer)
         }
     }
-
-    abstract fun doInit(context: InitContext, value: T?, observer: IInitObserver?)
 }

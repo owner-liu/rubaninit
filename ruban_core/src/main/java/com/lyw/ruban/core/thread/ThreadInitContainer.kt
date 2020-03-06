@@ -9,7 +9,7 @@ import com.lyw.ruban.core.thread.observer.ThreadContainerObserver
  * Created by  lyw
  * Created for thread init proxy~
  */
-abstract class ThreadInitContainer<T : AbsBaseInit<IInitObserver>>
+open class ThreadInitContainer<T : AbsBaseInit<IInitObserver>>
 constructor(
     private var baseThreadCode: Int,
     private var init: T? = null
@@ -57,7 +57,9 @@ constructor(
                 }
             }
         }
+    }
 
-
+    override fun getAliasName(): String {
+        return init?.getAliasName() ?: this.javaClass.simpleName
     }
 }
