@@ -11,6 +11,5 @@ class ConstantsForCore {
         const val THREAD_ASYNC = 0
         //同步～
         const val THREAD_SYNC = 1
-
     }
 }

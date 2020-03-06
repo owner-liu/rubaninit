@@ -1,7 +1,5 @@
 package com.lyw.ruban.core
 
-import com.lyw.ruban.core.depend.BaseDependInit
-
 /**
  * Created on  2020-03-05
  * Created by  lyw
@@ -10,5 +8,5 @@ import com.lyw.ruban.core.depend.BaseDependInit
 
 interface IInitObserver {
 
-    fun onCompleted(context: InitContext, tag: String)
+    fun onCompleted(context: InitContext, aliasName: String)
 }
