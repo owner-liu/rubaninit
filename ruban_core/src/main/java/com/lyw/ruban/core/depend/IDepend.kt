@@ -6,6 +6,12 @@ package com.lyw.ruban.core.depend
  * Created for depend interface～
  */
 interface IDepend {
-    //获取别名～
-    fun getAlias(): String
+
+    fun getDependAliased(): ArrayList<String>
+
+    fun refreshDependComplete(aliasName: String)
+
+    fun hasDepend(): Boolean
+
+    fun getFirstDependAlias(): String
 }
