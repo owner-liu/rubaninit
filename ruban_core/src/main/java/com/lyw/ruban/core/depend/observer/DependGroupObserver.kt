@@ -9,7 +9,7 @@ import com.lyw.ruban.core.depend.*
  * Created by  lyw
  * Created for depend observer~
  */
-class DependGroupObserver<T, U : AbsBaseDependInit>
+class DependGroupObserver<T, U>
 constructor(
     private var init: AbsDependMap<T, U>
 ) : IInitObserver {

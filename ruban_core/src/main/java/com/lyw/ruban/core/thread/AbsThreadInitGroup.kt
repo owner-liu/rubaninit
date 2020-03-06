@@ -8,11 +8,11 @@ import com.lyw.ruban.core.AbsInitGroup
  * Created by  lyw
  * Created for abs thread init group~
  */
-abstract class AbsThreadInitGroup
+abstract class AbsThreadInitGroup<T:IInitObserver>
 //记录相关的依赖别名～
 constructor(
     private var absThreadInitGroupCode: Int
-) : AbsInitGroup<IInitObserver>(),
+) : AbsInitGroup<T>(),
     IThread {
 
     override fun getThreadCode(): Int {

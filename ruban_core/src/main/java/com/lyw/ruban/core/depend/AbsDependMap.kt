@@ -10,7 +10,7 @@ import kotlin.collections.ArrayList
  * Created by  lyw
  * Created for abs depend map~
  */
-abstract class AbsDependMap<T, U : AbsBaseDependInit>
+abstract class AbsDependMap<T, U>
 constructor(
     private var absMapAliases: ArrayList<String>
 ) : AbsDependInitGroup(absMapAliases) {
@@ -19,12 +19,16 @@ constructor(
 
     private val mObserver by lazy { DependGroupObserver(this) }
 
-    override fun isEmpty(): Boolean {
+    final override fun isEmpty(): Boolean {
         return !isNotEmpty()
     }
 
-    override fun isNotEmpty(): Boolean {
+    final override fun isNotEmpty(): Boolean {
         return mData?.isNotEmpty() == true
+    }
+
+    fun getValue(key: T): U? {
+        return mData?.get(key)
     }
 
     final override fun initialize(context: InitContext, observer: IDependGroupObserver?) {

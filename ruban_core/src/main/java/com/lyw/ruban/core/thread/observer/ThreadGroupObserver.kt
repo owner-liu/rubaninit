@@ -1,7 +1,6 @@
 package com.lyw.ruban.core.thread.observer
 
 import com.lyw.ruban.core.*
-import com.lyw.ruban.core.thread.AbsBaseThreadInit
 import com.lyw.ruban.core.thread.AbsThreadList
 
 /**
@@ -9,7 +8,7 @@ import com.lyw.ruban.core.thread.AbsThreadList
  * Created by  lyw
  * Created for thread container observer~
  */
-class ThreadGroupObserver<T : AbsBaseThreadInit>
+class ThreadGroupObserver<T : AbsBaseInit<IInitObserver>>
 constructor(
     private var observerThreadCode: Int,
     private var threadInit: AbsThreadList<T>

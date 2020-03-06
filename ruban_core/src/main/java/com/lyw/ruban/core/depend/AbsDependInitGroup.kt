@@ -14,7 +14,20 @@ constructor(
 ) : AbsInitGroup<IDependGroupObserver>()
     , IDepend {
 
-    override fun getDependAliased(): ArrayList<String> {
+    final override fun getDependAliased(): ArrayList<String> {
         return this.AbsDependInitGroupAliases
     }
+
+    final override fun refreshDependComplete(aliasName: String) {
+        AbsDependInitGroupAliases.remove(aliasName)
+    }
+
+    final override fun hasDepend(): Boolean {
+        return AbsDependInitGroupAliases.isNotEmpty()
+    }
+
+    final override fun getFirstDependAlias(): String {
+        return AbsDependInitGroupAliases.first()
+    }
+
 }

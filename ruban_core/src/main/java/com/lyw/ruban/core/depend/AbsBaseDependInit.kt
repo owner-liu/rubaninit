@@ -12,23 +12,19 @@ constructor(private var absBaseDependInitAliases: ArrayList<String>) :
     AbsBaseInit<IDependInitObserver>()
     , IDepend {
 
-    fun getAlias(): String {
-        return this.javaClass.simpleName
-    }
-
-    override fun getDependAliased(): ArrayList<String> {
+    final override fun getDependAliased(): ArrayList<String> {
         return absBaseDependInitAliases
     }
 
-    override fun refreshDependComplete(aliasName: String) {
+    final override fun refreshDependComplete(aliasName: String) {
         absBaseDependInitAliases.remove(aliasName)
     }
 
-    override fun hasDepend(): Boolean {
+    final override fun hasDepend(): Boolean {
         return absBaseDependInitAliases.isNotEmpty()
     }
 
-    override fun getFirstDependAlias(): String {
+    final override fun getFirstDependAlias(): String {
         return absBaseDependInitAliases.first()
     }
 }
