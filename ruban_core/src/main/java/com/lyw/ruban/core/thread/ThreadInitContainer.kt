@@ -1,54 +1,67 @@
 package com.lyw.ruban.core.thread
 
 import android.os.Looper
-import com.lyw.ruban.core.*
-import com.lyw.ruban.core.thread.observer.ThreadContainerObserver
+import android.util.Log
+import com.lyw.ruban.core.ConstantsForCore
+import com.lyw.ruban.core.InitContext
+import com.lyw.ruban.core.AbsBaseInit
+import com.lyw.ruban.core.IInit
+import com.lyw.ruban.core.IInitObserver
+import com.lyw.ruban.core.CommStatusObserverInvokeHandler
+import java.lang.reflect.Proxy
 
 /**
- * Created on  2020-03-06
+ * Created on  2020-03-08
  * Created by  lyw
- * Created for thread init proxy~
+ * Created for
  */
-open class ThreadInitContainer<T : AbsBaseInit<IInitObserver>>
+class ThreadInitContainer<T : IInitObserver>
 constructor(
-    private var baseThreadCode: Int,
-    private var init: T? = null
-) : AbsBaseThreadInit(baseThreadCode) {
+    threadCode: Int,
+    var init: IInit<T>
+) : AbsThreadInit(threadCode), IInit<T> {
 
+    private val mContainerObserver =
+        ThreadInitContainerObserver<T>(getCurrentThreadCode())
 
-    private val mObserver by lazy {
-        init?.let {
-            ThreadContainerObserver(baseThreadCode, this, it)
-        } ?: throw IllegalArgumentException("ThreadInitContainer  init is null")
+    override fun getAliasName(): String {
+        return javaClass.simpleName
     }
 
-    override fun doInit(context: InitContext, observer: IInitObserver?) {
-
+    override fun initialize(context: InitContext, observer: T) {
         if (hasInit) {
             return
         }
 
         init?.let {
-            mObserver.mObserver = observer
+            mContainerObserver.mObserver = observer
+            val handler: CommStatusObserverInvokeHandler<T, IInitObserver> =
+                CommStatusObserverInvokeHandler(
+                    observer,
+                    mContainerObserver
+                )
+            val proxyObserver: T = Proxy.newProxyInstance(
+                handler.javaClass.classLoader,
+                observer.javaClass.interfaces, handler
+            ) as T
 
-            when (baseThreadCode) {
+            when (getCurrentThreadCode()) {
                 ConstantsForCore.THREAD_ASYNC -> {
-                    if (context.asyncHandle?.looper == Looper.myLooper()) {
-                        init?.initialize(context, mObserver)
+                    if (context.asyncHandle.looper == Looper.myLooper()) {
+                        it.initialize(context, proxyObserver)
                     } else {
-                        context.asyncHandle?.postAtFrontOfQueue {
-                            it.initialize(context, mObserver)
+                        context.asyncHandle.postAtFrontOfQueue {
+                            it.initialize(context, proxyObserver)
                         }
                     }
-
                 }
 
                 ConstantsForCore.THREAD_SYNC -> {
-                    if (context.syncHandle?.looper == Looper.myLooper()) {
-                        init?.initialize(context, mObserver)
+                    if (context.syncHandle.looper == Looper.myLooper()) {
+                        init?.initialize(context, proxyObserver)
                     } else {
-                        context.syncHandle?.postAtFrontOfQueue {
-                            it.initialize(context, mObserver)
+                        context.syncHandle.postAtFrontOfQueue {
+                            it.initialize(context, proxyObserver)
                         }
                     }
                 }
@@ -57,9 +70,5 @@ constructor(
                 }
             }
         }
-    }
-
-    override fun getAliasName(): String {
-        return init?.getAliasName() ?: this.javaClass.simpleName
     }
 }
