@@ -1,45 +1,57 @@
 package com.lyw.ruban.core.depend
 
 import com.lyw.ruban.core.*
-import com.lyw.ruban.core.depend.observer.DependContainerObserver
+import java.lang.reflect.Proxy
 
 /**
- * Created on  2020-03-06
+ * Created on  2020-03-08
  * Created by  lyw
- * Created for depend init container~
+ * Created for depend init container ~
  */
-open class DependInitContainer<T : AbsBaseInit<IInitObserver>>
+class DependInitContainer<T : IInitObserver>
 constructor(
-    private var dependInitProxyAliases: ArrayList<String>,
-    private var init: T?
-) : AbsBaseDependInit(dependInitProxyAliases) {
+    aliasList: ArrayList<String>,
+    var init: AbsBaseInit<T>
+) : AbsDependInit<IDependInitObserver<T>>(aliasList),
+    IInit<IDependInitObserver<T>> {
 
-    private val mObserver by lazy {
-        init?.let {
-            DependContainerObserver(this, it)
-        } ?: throw IllegalArgumentException("DependInitContainer  init is null")
-    }
+    private val mContainerObserver = DependInitContainerObserver<T>()
 
-    override fun doInit(context: InitContext, observer: IDependInitObserver?) {
+    override fun initialize(context: InitContext, observer: IDependInitObserver<T>) {
         if (hasInit) {
             return
         }
 
         init?.let {
 
-            mObserver.mObserver = observer
+            mContainerObserver.mObserver = observer
 
             if (hasDepend()) {
-                observer?.waitToInit(context, this, getFirstDependAlias())
+                //抛出自己～
+                mContainerObserver.mObserver?.onWaitToInit(
+                    context,
+                    this as IInit<T>,
+                    getFirstDependAlias()
+                )
                 return
             }
 
-            //可以执行，则执行对应的数据～
-            it.initialize(context, mObserver)
+            val handler: DependStatusObserverInvokeHandler<T> =
+                DependStatusObserverInvokeHandler(
+                    observer,
+                    mContainerObserver
+                )
+            val proxyObserver = Proxy.newProxyInstance(
+                handler.javaClass.classLoader,
+                observer.javaClass.interfaces, handler
+            ) as T
+
+            it.initialize(context, proxyObserver)
         }
     }
 
     override fun getAliasName(): String {
-        return init?.getAliasName() ?: this.javaClass.simpleName
+        return this.javaClass.simpleName
     }
+
 }

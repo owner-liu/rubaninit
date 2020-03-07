@@ -6,5 +6,5 @@ package com.lyw.ruban.core.thread
  * Created for thread interface～
  */
 interface IThread {
-    fun getThreadCode(): Int
+    fun getCurrentThreadCode(): Int
 }

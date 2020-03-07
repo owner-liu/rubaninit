@@ -5,7 +5,7 @@ package com.lyw.ruban.core
  * Created by  lyw
  * Created for abs init group～
  */
-abstract class AbsInitGroup<T : IInitObserver> : AbsInit<T>() {
+abstract class AbsInitGroup<T : IInitObserver> : AbsInit() {
 
     abstract fun isEmpty(): Boolean
 
