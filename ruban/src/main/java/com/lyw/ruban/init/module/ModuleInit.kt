@@ -1,17 +1,15 @@
 package com.lyw.ruban.init.module
 
 import com.lyw.ruban.core.*
-import com.lyw.ruban.core.thread.ThreadInitContainer
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.widgets.CommThreadArrayList
-import com.lyw.ruban.init.widgets.LibInitArrayList
 import java.util.*
 
 /**
  * Created on  2020-03-06
  * Created by  lyw
  * Created for module~ 不涉及任何依赖～ 只包含线程～
- * 内部格式 ： Map<Int, ThreadInitContainer<LibInitArrayList<LibInit>>>
+ * 内部格式 ： Map<Int, CommThreadArrayList>
  *
  */
 class ModuleInit
@@ -54,17 +52,15 @@ constructor(
 
     private fun addLib(
         init: LibInit,
-        threadInitContainer: ThreadInitContainer<IInitObserver>?
+        threadInitContainer: CommThreadArrayList?
     ) {
         val threadCode = init.libThreadCode
         var container = threadInitContainer ?: let {
-            val list = LibInitArrayList()
-            CommThreadArrayList(threadCode, list).also {
+            CommThreadArrayList(threadCode).also {
                 addThreadList(it)
             }
         }
-
-        (container.init as LibInitArrayList).add(init)
+        container.commThreadArrayList.add(init)
     }
 
 }
