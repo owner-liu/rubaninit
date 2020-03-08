@@ -8,9 +8,9 @@ import com.lyw.ruban.init.lib.LibInit
 /**
  * Created on  2020-03-08
  * Created by  lyw
- * Created for lib init ArrayList~
+ * Created for 集合内部 存在依赖～
  */
-class LibInitArrayList : AbsInitArrayList<LibInit, IInitObserver>() {
+class LibExternalDependInitArrayList : AbsInitArrayList<LibInit, IInitObserver>() {
 
     override var mData: List<LibInit> = arrayListOf()
 
@@ -19,6 +19,6 @@ class LibInitArrayList : AbsInitArrayList<LibInit, IInitObserver>() {
     }
 
     override fun getAliasName(): String {
-        return javaClass.simpleName
+        return this.javaClass.simpleName
     }
 }

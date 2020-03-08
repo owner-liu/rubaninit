@@ -8,12 +8,11 @@ import java.lang.reflect.Proxy
  * Created by  lyw
  * Created for depend init container ~
  */
-class DependInitContainer<T : IInitObserver>
+open class DependInitContainer<T : IInitObserver>
 constructor(
     aliasList: ArrayList<String>,
     var init: AbsBaseInit<T>
-) : AbsDependInit<IDependInitObserver<T>>(aliasList),
-    IInit<IDependInitObserver<T>> {
+) : AbsDependInit<IDependInitObserver<T>>(aliasList) {
 
     private val mContainerObserver = DependInitContainerObserver<T>()
 
@@ -22,7 +21,7 @@ constructor(
             return
         }
 
-        init?.let {
+        init.let {
 
             mContainerObserver.mObserver = observer
 
@@ -30,7 +29,7 @@ constructor(
                 //抛出自己～
                 mContainerObserver.mObserver?.onWaitToInit(
                     context,
-                    this as IInit<T>,
+                    this as AbsDependInit<T>,
                     getFirstDependAlias()
                 )
                 return

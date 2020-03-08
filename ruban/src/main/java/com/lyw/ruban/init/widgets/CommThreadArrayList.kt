@@ -13,4 +13,7 @@ constructor(
     threadCode: Int,
     var commThreadArrayList: LibInitArrayList = LibInitArrayList()
 ) : ThreadInitContainer<IInitObserver>(threadCode, commThreadArrayList) {
+    override fun getAliasName(): String {
+        return commThreadArrayList.getAliasName()
+    }
 }
