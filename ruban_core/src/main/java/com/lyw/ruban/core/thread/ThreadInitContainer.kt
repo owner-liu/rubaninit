@@ -15,7 +15,7 @@ import java.lang.reflect.Proxy
  * Created by  lyw
  * Created for
  */
-class ThreadInitContainer<T : IInitObserver>
+open class ThreadInitContainer<T : IInitObserver>
 constructor(
     threadCode: Int,
     var init: IInit<T>
