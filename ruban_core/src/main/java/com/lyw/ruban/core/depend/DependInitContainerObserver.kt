@@ -16,7 +16,7 @@ class DependInitContainerObserver<T : IInitObserver>
         mObserver?.onCompleted(context, aliasName)
     }
 
-    override fun onWaitToInit(context: InitContext, init: IInit<T>, dependAliasName: String) {
+    override fun onWaitToInit(context: InitContext, init: AbsDependInit<T>, dependAliasName: String) {
         mObserver?.onWaitToInit(context, init, dependAliasName)
     }
 }

@@ -1,7 +1,9 @@
 package com.lyw.ruban.init.widgets
 
+import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.DependInitContainer
+import com.lyw.ruban.core.thread.ThreadInitContainer
 import com.lyw.ruban.init.lib.LibInit
 
 /**
@@ -10,26 +12,7 @@ import com.lyw.ruban.init.lib.LibInit
  * Created for
  */
 class ThreadExternalDependArrayList
-//constructor(threadCode: Int) :
-//    AbsThreadExternalDependList<DependInitContainer<LibInit>>(threadCode) {
-//
-//    override fun initList(): List<DependInitContainer<LibInit>> {
-//        return arrayListOf()
-//    }
-//
-//    override fun add(init: DependInitContainer<LibInit>) {
-//        (getData() as ArrayList).add(init)
-//    }
-//
-//    override fun doInit(
-//        context: InitContext,
-//        init: DependInitContainer<LibInit>,
-//        observer: IDependInitObserverOptimize<DependInitContainer<LibInit>>
-//    ) {
-//        init.initialize(context, observer)
-//    }
-//
-//    override fun getAliasName(): String {
-//        return "ThreadExternal_${getCurrentThreadCode()}"
-//    }
-//}
+constructor(
+    threadCode: Int,
+    var commThreadArrayList: LibExternalDependInitArrayList = LibExternalDependInitArrayList()
+) : ThreadInitContainer<IInitObserver>(threadCode, commThreadArrayList)
