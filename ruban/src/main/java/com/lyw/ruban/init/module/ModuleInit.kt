@@ -1,11 +1,9 @@
-package com.lyw.ruban.init.module.comm
+package com.lyw.ruban.init.module
 
-import android.util.Log
 import com.lyw.ruban.core.*
-import com.lyw.ruban.core.comm.AbsInitTreeMap
 import com.lyw.ruban.core.thread.ThreadInitContainer
 import com.lyw.ruban.init.lib.LibInit
-import com.lyw.ruban.init.module.IModule
+import com.lyw.ruban.init.widgets.CommThreadArrayList
 import com.lyw.ruban.init.widgets.LibInitArrayList
 import java.util.*
 
@@ -13,37 +11,35 @@ import java.util.*
  * Created on  2020-03-06
  * Created by  lyw
  * Created for module~ 不涉及任何依赖～ 只包含线程～
- * 内部格式 ： Map<Int, ThreadInitContainer<InitArrayList<LibInit>>>
+ * 内部格式 ： Map<Int, ThreadInitContainer<LibInitArrayList<LibInit>>>
  *
  */
 class ModuleInit
 constructor(
     var moduleCode: Int
-) : IInitMap<Int, ThreadInitContainer<IInitObserver>, IInitObserver>,
+) : IInitMap<Int, CommThreadArrayList, IInitObserver>,
     AbsBaseInit<IInitObserver>(),
-    IModule<ThreadInitContainer<IInitObserver>, LibInit> {
+    IModule<CommThreadArrayList, LibInit> {
 
-    override var mData: Map<Int, ThreadInitContainer<IInitObserver>> = TreeMap()
+    override var mData: Map<Int, CommThreadArrayList> = TreeMap()
 
-    override fun getAliasName(): String {
-        return "module-$moduleCode"
-    }
 
-    override fun put(key: Int, value: ThreadInitContainer<IInitObserver>) {
+    override fun put(key: Int, value: CommThreadArrayList) {
         (getData() as TreeMap)[key] = value
-    }
-
-    override fun get(key: Int): ThreadInitContainer<IInitObserver>? {
-        return (getData() as TreeMap)[key]
     }
 
     override fun doInit(
         context: InitContext,
         key: Int,
-        value: ThreadInitContainer<IInitObserver>?,
+        value: CommThreadArrayList?,
         observer: IInitObserver
     ) {
         value?.initialize(context, observer)
+    }
+
+
+    override fun getAliasName(): String {
+        return "Module-$moduleCode"
     }
 
     override fun addInit(init: LibInit) {
@@ -52,7 +48,7 @@ constructor(
         addLib(init, threadList)
     }
 
-    override fun addThreadList(list: ThreadInitContainer<IInitObserver>) {
+    override fun addThreadList(list: CommThreadArrayList) {
         put(list.getCurrentThreadCode(), list)
     }
 
@@ -63,7 +59,7 @@ constructor(
         val threadCode = init.libThreadCode
         var container = threadInitContainer ?: let {
             val list = LibInitArrayList()
-            ThreadInitContainer(threadCode, list).also {
+            CommThreadArrayList(threadCode, list).also {
                 addThreadList(it)
             }
         }
