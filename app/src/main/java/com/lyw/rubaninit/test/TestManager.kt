@@ -23,10 +23,10 @@ import com.lyw.rubaninit.test.depend.TestExternalDependLibCopy
  */
 object TestManager {
     fun test() {
-//        testWithoutDepend()
-//        testThreadDependWithoutAlias()
-//        testThreadDependWithAlias()
-//        testModuleDependWithAlias()
+//        testWithoutDepend() //LibCopy->Lib
+//        testThreadDependWithoutAlias()  //Lib->LibCopy,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
+//        testThreadDependWithAlias() //LibCopy-Lib>,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
+//        testModuleDependWithAlias() //Lib->LibCopy
     }
 
     /**

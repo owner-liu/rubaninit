@@ -5,7 +5,7 @@ package com.lyw.ruban.core
  * Created by  lyw
  * Created for i abs init list~
  */
-interface IInitList<T, U : IInitObserver> : IInitGroup,
+interface IInitList<T : AbsInit, U : IInitObserver> : IInitGroup,
     IInit<U> {
     var mData: List<T>
 

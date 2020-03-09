@@ -22,9 +22,9 @@ constructor(
     var libDependAlias: ArrayList<String> = arrayListOf()
 ) : AbsBaseInit<IInitObserver>() {
     final override fun initialize(context: InitContext, observer: IInitObserver) {
-//        val start = System.currentTimeMillis()
+        val start = System.currentTimeMillis()
         doInit(context, observer)
-//        Log.i("ruban_test", "cost:${System.currentTimeMillis() - start}")
+        Log.i("ruban_test", "cost:${System.currentTimeMillis() - start}")
         observer.onCompleted(context, getAliasName())
     }
 
