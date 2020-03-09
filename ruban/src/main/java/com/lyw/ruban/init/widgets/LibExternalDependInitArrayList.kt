@@ -9,19 +9,23 @@ import com.lyw.ruban.init.lib.LibInit
 /**
  * Created on  2020-03-08
  * Created by  lyw
- * Created for 集合内的lib库初始化 依赖于 另一个集合内的lib初始化～
+ * Created for 集合内部相关依赖和完成不进行处理~ 直接外抛~
  */
 class LibExternalDependInitArrayList :
-    AbsInitArrayList<LibInit, IDependInitObserver<IInitObserver>>() {
+    AbsInitArrayList<DependLibInit, IDependInitObserver<IInitObserver>>() {
 
-    override var mData: List<LibInit> = arrayListOf()
+    override var mData: List<DependLibInit> = arrayListOf()
+
+    private val mObserverProxy =
+        LibExternalDependInitArrayListObserver<IInitObserver>()
 
     override fun doInit(
         context: InitContext,
-        init: LibInit,
+        init: DependLibInit,
         observer: IDependInitObserver<IInitObserver>
     ) {
-        init.initialize(context, observer)
+        mObserverProxy.mObserver = observer
+        init.initialize(context, mObserverProxy)
     }
 
     override fun getAliasName(): String {
