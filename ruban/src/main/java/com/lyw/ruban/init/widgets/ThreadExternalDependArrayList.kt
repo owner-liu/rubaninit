@@ -1,7 +1,6 @@
 package com.lyw.ruban.init.widgets
 
 import com.lyw.ruban.core.IDependInitObserver
-import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.thread.ThreadInitContainer
 
 /**
