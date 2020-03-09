@@ -14,4 +14,6 @@ interface IDepend {
     fun hasDepend(): Boolean
 
     fun getFirstDependAlias(): String
+
+    fun addAliasList(list: ArrayList<String>)
 }

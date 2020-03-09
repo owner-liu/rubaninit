@@ -26,7 +26,7 @@ object TestManager {
 //        testThreadDependWithoutAlias()  //Lib->LibCopy,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
 //        testThreadDependWithAlias() //LibCopy-Lib>,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
 //        testModuleDependWithAlias() //Lib->LibCopy
-        testAppDependInit()
+//        testAppDependInit() //3->2->1
     }
 
     private val mDependObserver = object : IDependInitObserver {
@@ -106,11 +106,14 @@ object TestManager {
         AppDependInit().apply {
             addDependLibInit(
                 DependLibInit(
-                    arrayListOf("ThreadListExternalDependModuleInit-2"),
+                    arrayListOf(),
                     TestModuleADependLibCopy()
                 )
             )
             addLibInit(TestModuleBDependLibCopy())
+            addLibInit(TestModuleCDependLibCopy())
+            addModuleDependAlias(1, arrayListOf("ThreadListExternalDependModuleInit-2"))
+            addModuleDependAlias(2, arrayListOf("ThreadListExternalDependModuleInit-3"))
         }.initialize(initContext, mDependObserver)
     }
 }

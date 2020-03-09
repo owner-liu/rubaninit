@@ -9,4 +9,6 @@ import com.lyw.ruban.init.widgets.DependLibInit
  */
 interface IDependLibOperation : ILibOperation {
     fun addDependLibInit(init: DependLibInit)
+
+    fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>)
 }

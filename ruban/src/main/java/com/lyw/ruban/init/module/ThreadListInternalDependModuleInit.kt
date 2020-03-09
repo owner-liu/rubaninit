@@ -16,12 +16,19 @@ class ThreadListInternalDependModuleInit
 constructor(
     private var moduleCode: Int
 ) : IInitMap<Int, ThreadInternalDependArrayList, IInitObserver>,
-    AbsModuleInit<ThreadInternalDependArrayList, DependLibInit, IInitObserver>() {
+    AbsDependModuleInit<ThreadInternalDependArrayList, DependLibInit, IInitObserver>() {
+
+    private val mObserver by lazy { ModuleDependManagerObserver<IInitObserver>(getAliasName()) }
 
     override var mData: Map<Int, ThreadInternalDependArrayList> = TreeMap()
 
     override fun put(key: Int, value: ThreadInternalDependArrayList) {
         (mData as TreeMap)[key] = value
+    }
+
+    override fun initialize(context: InitContext, observer: IInitObserver) {
+        mObserver.libCount = libCount
+        super.initialize(context, observer)
     }
 
     override fun doInit(
@@ -30,7 +37,8 @@ constructor(
         value: ThreadInternalDependArrayList?,
         observer: IInitObserver
     ) {
-        value?.initialize(context, observer)
+        mObserver.mObserver = observer
+        value?.initialize(context, mObserver)
     }
 
     override fun getAliasName(): String {
@@ -57,6 +65,7 @@ constructor(
                 addThreadList(it)
             }
         }
+        libCount++
         container.commThreadArrayList.add(init)
     }
 
