@@ -1,6 +1,5 @@
 package com.lyw.ruban.init.widgets
 
-import android.util.Log
 import com.lyw.ruban.core.BaseDependObserverProxy
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver

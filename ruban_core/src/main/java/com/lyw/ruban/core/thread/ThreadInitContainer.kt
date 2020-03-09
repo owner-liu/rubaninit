@@ -1,10 +1,8 @@
 package com.lyw.ruban.core.thread
 
 import android.os.Looper
-import android.util.Log
 import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IInit
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.CommStatusObserverInvokeHandler
