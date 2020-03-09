@@ -1,11 +1,7 @@
 package com.lyw.ruban.core.thread
 
 import android.os.Looper
-import com.lyw.ruban.core.ConstantsForCore
-import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.IInit
-import com.lyw.ruban.core.IInitObserver
-import com.lyw.ruban.core.CommStatusObserverInvokeHandler
+import com.lyw.ruban.core.*
 import java.lang.reflect.Proxy
 
 /**
@@ -16,14 +12,14 @@ import java.lang.reflect.Proxy
 open class ThreadInitContainer<T : IInitObserver>
 constructor(
     threadCode: Int,
-    var init: IInit<T>
+    var init: AbsBaseInit<T>
 ) : AbsThreadInit<T>(threadCode), IInit<T> {
 
     private val mContainerObserver =
         ThreadInitContainerObserver<T>(getCurrentThreadCode())
 
     override fun getAliasName(): String {
-        return javaClass.simpleName
+        return init.getAliasName()
     }
 
     override fun initialize(context: InitContext, observer: T) {

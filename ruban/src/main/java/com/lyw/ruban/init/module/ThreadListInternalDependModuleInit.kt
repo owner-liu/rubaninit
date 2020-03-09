@@ -34,7 +34,7 @@ constructor(
     }
 
     override fun getAliasName(): String {
-        return "ThreadInternalDependModuleInit-$moduleCode"
+        return "${javaClass.simpleName}-$moduleCode"
     }
 
     override fun addInit(init: DependLibInit) {

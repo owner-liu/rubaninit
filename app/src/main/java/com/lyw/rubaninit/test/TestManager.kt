@@ -4,17 +4,16 @@ import android.util.Log
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
+import com.lyw.ruban.core.comm.DependManagerObserver
 import com.lyw.ruban.core.depend.AbsDependInit
+import com.lyw.ruban.init.app.AppDependInit
 import com.lyw.ruban.init.module.ModuleInit
 import com.lyw.ruban.init.module.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.module.ThreadListInternalDependModuleInit
 import com.lyw.ruban.init.widgets.DependLibInit
 import com.lyw.rubaninit.test.comm.TestLib
 import com.lyw.rubaninit.test.comm.TestLibCopy
-import com.lyw.rubaninit.test.depend.TestDependLib
-import com.lyw.rubaninit.test.depend.TestDependLibCopy
-import com.lyw.rubaninit.test.depend.TestExternalDependLib
-import com.lyw.rubaninit.test.depend.TestExternalDependLibCopy
+import com.lyw.rubaninit.test.depend.*
 
 /**
  * Created on  2020-03-08
@@ -27,6 +26,7 @@ object TestManager {
 //        testThreadDependWithoutAlias()  //Lib->LibCopy,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
 //        testThreadDependWithAlias() //LibCopy-Lib>,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
 //        testModuleDependWithAlias() //Lib->LibCopy
+        testAppDependInit()
     }
 
     private val mDependObserver = object : IDependInitObserver {
@@ -98,6 +98,19 @@ object TestManager {
                 )
             )
             addInit(DependLibInit(arrayListOf(), TestExternalDependLib()))
+        }.initialize(initContext, mDependObserver)
+    }
+
+    private fun testAppDependInit() {
+        var initContext = InitContext(null, true)
+        AppDependInit().apply {
+            addDependLibInit(
+                DependLibInit(
+                    arrayListOf("ThreadListExternalDependModuleInit-2"),
+                    TestModuleADependLibCopy()
+                )
+            )
+            addLibInit(TestModuleBDependLibCopy())
         }.initialize(initContext, mDependObserver)
     }
 }

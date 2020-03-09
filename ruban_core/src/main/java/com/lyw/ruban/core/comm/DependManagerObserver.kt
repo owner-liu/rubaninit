@@ -1,5 +1,6 @@
-package com.lyw.ruban.init.widgets
+package com.lyw.ruban.core.comm
 
+import android.util.Log
 import com.lyw.ruban.core.BaseDependObserverProxy
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
@@ -18,6 +19,7 @@ class DependManagerObserver<T : IInitObserver>
     override fun onCompleted(context: InitContext, aliasName: String) {
         synchronized(lock)
         {
+            Log.i("ruban_test", "aliasName:$aliasName")
             mInitCompletedAliases.add(aliasName)
             mObserver?.onCompleted(context, aliasName)
             val waitToInitList = mWaitToInitMap.remove(aliasName)
@@ -35,6 +37,7 @@ class DependManagerObserver<T : IInitObserver>
     ) {
         synchronized(lock)
         {
+            Log.i("ruban_test", "dependAliasName:$dependAliasName")
             if (mInitCompletedAliases.contains(dependAliasName)) {
                 init.refreshDependComplete(dependAliasName)
                 init.initialize(context, this)

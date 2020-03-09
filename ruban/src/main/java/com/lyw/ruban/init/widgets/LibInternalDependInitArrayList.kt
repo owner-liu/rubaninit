@@ -3,6 +3,7 @@ package com.lyw.ruban.init.widgets
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.comm.AbsInitArrayList
+import com.lyw.ruban.core.comm.DependManagerObserver
 
 /**
  * Created on  2020-03-08

@@ -11,7 +11,7 @@ import com.lyw.ruban.init.lib.LibInit
  * Created by  lyw
  * Created for
  */
-class TestDependLibCopy : LibInit(1, ConstantsForCore.THREAD_ASYNC, arrayListOf()) {
+class TestModuleADependLibCopy : LibInit(1, ConstantsForCore.THREAD_SYNC, arrayListOf()) {
     override fun getAliasName(): String {
         return "${javaClass.simpleName}-$libModuleCode-$libThreadCode"
     }

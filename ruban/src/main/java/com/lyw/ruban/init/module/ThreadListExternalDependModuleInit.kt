@@ -2,7 +2,7 @@ package com.lyw.ruban.init.module
 
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.widgets.DependLibInit
-import com.lyw.ruban.init.widgets.DependManagerObserver
+import com.lyw.ruban.core.comm.DependManagerObserver
 import com.lyw.ruban.init.widgets.ThreadExternalDependArrayList
 import java.util.*
 
@@ -37,7 +37,7 @@ constructor(
     }
 
     override fun getAliasName(): String {
-        return "ThreadInternalDependModuleInit-$moduleCode"
+        return "${javaClass.simpleName}-$moduleCode"
     }
 
     override fun addInit(init: DependLibInit) {
