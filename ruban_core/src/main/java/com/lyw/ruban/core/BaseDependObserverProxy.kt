@@ -10,5 +10,7 @@ import com.lyw.ruban.core.depend.AbsDependInit
 open class BaseDependObserverProxy<T : IInitObserver>
     : BaseObserverProxy<T>() {
 
+    var lock = Any()
+
     var mWaitToInitMap = hashMapOf<String, ArrayList<AbsDependInit<T>>>()
 }
