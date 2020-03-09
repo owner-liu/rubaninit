@@ -1,17 +1,18 @@
 package com.lyw.ruban.init.widgets
 
-import android.util.Log
-import com.lyw.ruban.core.*
+import com.lyw.ruban.core.BaseObserverProxy
+import com.lyw.ruban.core.IDependInitObserver
+import com.lyw.ruban.core.IInitObserver
+import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
 
 /**
  * Created on  2020-03-09
  * Created by  lyw
- * Created for  LibInternalDependInitArrayList observer～
- * 相关状态， 直接外抛~
+ * Created for depend proxy observer~
  */
-class LibExternalDependInitArrayListObserver<T : IInitObserver>
-    : BaseDependObserverProxy<IDependInitObserver<T>>(),
+class DependProxyObserver<T : IInitObserver>
+    : BaseObserverProxy<IDependInitObserver<T>>(),
     IDependInitObserver<T> {
 
     override fun onCompleted(context: InitContext, aliasName: String) {

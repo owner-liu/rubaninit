@@ -18,7 +18,7 @@ class LibInternalDependInitArrayList :
     override var mData: List<DependLibInit> = arrayListOf()
 
     private val mObserverPoxy by lazy {
-        LibInternalDependInitArrayListObserver<IInitObserver>()
+        DependManagerObserver<IInitObserver>()
     }
 
     override fun doInit(context: InitContext, init: DependLibInit, observer: IInitObserver) {

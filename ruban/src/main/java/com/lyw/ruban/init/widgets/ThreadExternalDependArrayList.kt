@@ -12,5 +12,5 @@ import com.lyw.ruban.core.thread.ThreadInitContainer
 class ThreadExternalDependArrayList
 constructor(
     threadCode: Int,
-    private var commThreadArrayList: LibExternalDependInitArrayList = LibExternalDependInitArrayList()
+    var commThreadArrayList: LibExternalDependInitArrayList = LibExternalDependInitArrayList()
 ) : ThreadInitContainer<IDependInitObserver<IInitObserver>>(threadCode, commThreadArrayList)

@@ -17,7 +17,7 @@ class LibExternalDependInitArrayList :
     override var mData: List<DependLibInit> = arrayListOf()
 
     private val mObserverProxy =
-        LibExternalDependInitArrayListObserver<IInitObserver>()
+        DependProxyObserver<IInitObserver>()
 
     override fun doInit(
         context: InitContext,

@@ -11,14 +11,13 @@ import java.util.*
 /**
  * Created on  2020-03-08
  * Created by  lyw
- * Created for module 内，线程列表间无依赖～ 内部库的依赖
+ * Created for internal module init ~
  */
-class ThreadExternalDependModuleInit
+class ThreadListInternalDependModuleInit
 constructor(
-    var moduleCode: Int
+    private var moduleCode: Int
 ) : IInitMap<Int, ThreadInternalDependArrayList, IInitObserver>,
-    AbsBaseInit<IInitObserver>(),
-    IModule<ThreadInternalDependArrayList, DependLibInit> {
+    AbsModuleInit<ThreadInternalDependArrayList, DependLibInit, IInitObserver>() {
 
     override var mData: Map<Int, ThreadInternalDependArrayList> = TreeMap()
 
@@ -32,7 +31,6 @@ constructor(
         value: ThreadInternalDependArrayList?,
         observer: IInitObserver
     ) {
-        // TODO by LYW: 2020-03-09 需要有个通用管理器~
         value?.initialize(context, observer)
     }
 
