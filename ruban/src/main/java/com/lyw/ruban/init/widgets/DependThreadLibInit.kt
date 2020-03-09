@@ -10,12 +10,12 @@ import com.lyw.ruban.init.lib.LibInit
  * Created for depend lib init
  */
 class DependThreadLibInit
-//constructor(
-//    aliasList: ArrayList<String>,
-//    var dependLibInit: ThreadLibInit
-//) : DependInitContainer<IInitObserver>(aliasList, dependLibInit) {
-//
-//    override fun getAliasName(): String {
-//        return dependLibInit.getAliasName()
-//    }
-//}
+constructor(
+    aliasList: ArrayList<String>,
+    var dependLibInit: ThreadLibInit
+) : DependInitContainer<IInitObserver>(aliasList, dependLibInit) {
+
+    override fun getAliasName(): String {
+        return dependLibInit.getAliasName()
+    }
+}

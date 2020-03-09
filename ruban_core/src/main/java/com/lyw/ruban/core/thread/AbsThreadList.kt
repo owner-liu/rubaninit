@@ -10,5 +10,5 @@ import com.lyw.ruban.core.IInitObserver
  */
 abstract class AbsThreadList<T, U : IInitObserver>
 constructor(threadCode: Int) :
-    AbsThreadInit(threadCode), IInitList<T, U> {
+    AbsThreadInit<U>(threadCode), IInitList<T, U> {
 }
