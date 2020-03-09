@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.widgets
+package com.lyw.ruban.core.comm
 
 import com.lyw.ruban.core.BaseObserverProxy
 import com.lyw.ruban.core.IDependInitObserver

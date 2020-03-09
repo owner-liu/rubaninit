@@ -13,7 +13,7 @@ import com.lyw.ruban.init.lib.LibInit
  */
 class TestExternalDependLibCopy : LibInit(1, ConstantsForCore.THREAD_SYNC, arrayListOf()) {
     override fun getAliasName(): String {
-        return "TestExternalDependLibCopy-$libModuleCode-$libThreadCode"
+        return "${javaClass.simpleName}-$libModuleCode-$libThreadCode"
     }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
