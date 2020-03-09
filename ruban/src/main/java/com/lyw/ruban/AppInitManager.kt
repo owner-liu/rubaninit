@@ -8,12 +8,16 @@ package com.lyw.ruban
  * 思考个问题：
  * 1.相关库初始化成功后，相关类 是否还有存在的必要？
  *
- * 待实现功能：
- * 1。延迟初始化功能～
- * 2。获取指定module 是否初始化完成，BaseObserver 中添加回调管理～
+ * 注：
+ * 1。库之间的依赖提供跨线程，不提供跨Module依赖
+ * 2。Module延迟初始化，其依赖库不允许设置为延迟初始化～
  *
- * 注：库之间的依赖关系只允许 到module级别～，
  * 提供的功能：
+ * App级别：
+ * 1。提供Module间依赖～
+ * 2。提供Module初始化查询～ //待实现～
+ * 3。提供Module延迟初始化，初始化设置为延迟的Module～ //待实现～
+ * Module级别：
  * 1。提供线程切换，不提供依赖功能：ModuleInit
  * 2。提供线程切换功能，提供线程集合内的依赖：ThreadListInternalDependModuleInit
  * 2。提供线程切换功能，提供module内的依赖：ThreadListExternalDependModuleInit
