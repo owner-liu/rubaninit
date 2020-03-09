@@ -14,7 +14,7 @@ import com.lyw.ruban.core.depend.AbsDependInit
  */
 class DependManagerObserver<T : IInitObserver>
     : BaseDependObserverProxy<T>(),
-    IDependInitObserver<T> {
+    IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
         synchronized(lock)
@@ -24,24 +24,24 @@ class DependManagerObserver<T : IInitObserver>
             val waitToInitList = mWaitToInitMap.remove(aliasName)
             waitToInitList?.forEach {
                 it.refreshDependComplete(aliasName)
-                it.initialize(context, this as T)
+                it.initialize(context, this)
             }
         }
     }
 
     override fun onWaitToInit(
         context: InitContext,
-        init: AbsDependInit<T>,
+        init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
         synchronized(lock)
         {
             if (mInitCompletedAliases.contains(dependAliasName)) {
                 init.refreshDependComplete(dependAliasName)
-                init.initialize(context, this as T)
+                init.initialize(context, this)
             } else {
                 var list = mWaitToInitMap.get(dependAliasName) ?: let {
-                    arrayListOf<AbsDependInit<T>>().also {
+                    arrayListOf<AbsDependInit<IDependInitObserver>>().also {
                         mWaitToInitMap[dependAliasName] = it
                     }
                 }

@@ -11,6 +11,4 @@ import com.lyw.ruban.core.IInitObserver
 interface IModule<T, U> {
 
     fun addInit(init: U)
-
-    fun addThreadList(list: T)
 }

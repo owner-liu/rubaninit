@@ -12,8 +12,8 @@ import com.lyw.ruban.core.depend.AbsDependInit
  * Created for depend proxy observer~
  */
 class DependProxyObserver<T : IInitObserver>
-    : BaseObserverProxy<IDependInitObserver<T>>(),
-    IDependInitObserver<T> {
+    : BaseObserverProxy<IDependInitObserver>(),
+    IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
         mObserver?.onCompleted(context, aliasName)
@@ -21,7 +21,7 @@ class DependProxyObserver<T : IInitObserver>
 
     override fun onWaitToInit(
         context: InitContext,
-        init: AbsDependInit<T>,
+        init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
         mObserver?.onWaitToInit(context, init, dependAliasName)

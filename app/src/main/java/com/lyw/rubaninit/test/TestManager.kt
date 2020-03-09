@@ -29,6 +29,29 @@ object TestManager {
 //        testModuleDependWithAlias() //Lib->LibCopy
     }
 
+    private val mDependObserver = object : IDependInitObserver {
+        override fun onCompleted(context: InitContext, aliasName: String) {
+            Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
+        }
+
+        override fun onWaitToInit(
+            context: InitContext,
+            init: AbsDependInit<IDependInitObserver>,
+            dependAliasName: String
+        ) {
+            Log.i("ruban_test", "onWaitToInit-$dependAliasName-${System.currentTimeMillis()}")
+        }
+
+    }
+
+
+    private val mObserver = object : IInitObserver {
+        override fun onCompleted(context: InitContext, aliasName: String) {
+            Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
+        }
+
+    }
+
     /**
      * 无任何依赖关系～
      */
@@ -37,11 +60,7 @@ object TestManager {
         ModuleInit(1).apply {
             addInit(TestLibCopy())
             addInit(TestLib())
-        }.initialize(initContext, object : IInitObserver {
-            override fun onCompleted(context: InitContext, aliasName: String) {
-                Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
-            }
-        })
+        }.initialize(initContext, mObserver)
     }
 
     /**
@@ -52,19 +71,7 @@ object TestManager {
         ThreadListInternalDependModuleInit(2).apply {
             addInit(DependLibInit(arrayListOf(), TestDependLibCopy()))
             addInit(DependLibInit(arrayListOf(), TestDependLib()))
-        }.initialize(initContext, object : IDependInitObserver<IInitObserver> {
-            override fun onCompleted(context: InitContext, aliasName: String) {
-                Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
-            }
-
-            override fun onWaitToInit(
-                context: InitContext,
-                init: AbsDependInit<IInitObserver>,
-                dependAliasName: String
-            ) {
-                Log.i("ruban_test", "onWaitToInit-$dependAliasName-${System.currentTimeMillis()}")
-            }
-        })
+        }.initialize(initContext, mDependObserver)
     }
 
     /**
@@ -75,19 +82,7 @@ object TestManager {
         ThreadListInternalDependModuleInit(2).apply {
             addInit(DependLibInit(arrayListOf("TestDependLib-1-0"), TestDependLibCopy()))
             addInit(DependLibInit(arrayListOf(), TestDependLib()))
-        }.initialize(initContext, object : IDependInitObserver<IInitObserver> {
-            override fun onCompleted(context: InitContext, aliasName: String) {
-                Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
-            }
-
-            override fun onWaitToInit(
-                context: InitContext,
-                init: AbsDependInit<IInitObserver>,
-                dependAliasName: String
-            ) {
-                Log.i("ruban_test", "onWaitToInit-$dependAliasName-${System.currentTimeMillis()}")
-            }
-        })
+        }.initialize(initContext, mDependObserver)
     }
 
     /**
@@ -103,18 +98,6 @@ object TestManager {
                 )
             )
             addInit(DependLibInit(arrayListOf(), TestExternalDependLib()))
-        }.initialize(initContext, object : IDependInitObserver<IInitObserver> {
-            override fun onCompleted(context: InitContext, aliasName: String) {
-                Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
-            }
-
-            override fun onWaitToInit(
-                context: InitContext,
-                init: AbsDependInit<IInitObserver>,
-                dependAliasName: String
-            ) {
-                Log.i("ruban_test", "onWaitToInit-$dependAliasName-${System.currentTimeMillis()}")
-            }
-        })
+        }.initialize(initContext, mDependObserver)
     }
 }

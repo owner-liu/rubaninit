@@ -12,11 +12,11 @@ open class DependInitContainer<T : IInitObserver>
 constructor(
     aliasList: ArrayList<String>,
     var init: AbsBaseInit<T>
-) : AbsDependInit<IDependInitObserver<T>>(aliasList) {
+) : AbsDependInit<IDependInitObserver>(aliasList) {
 
     private val mContainerObserver = DependInitContainerObserver<T>()
 
-    override fun initialize(context: InitContext, observer: IDependInitObserver<T>) {
+    override fun initialize(context: InitContext, observer: IDependInitObserver) {
         if (hasInit) {
             return
         }
@@ -29,13 +29,13 @@ constructor(
                 //抛出自己～
                 mContainerObserver.mObserver?.onWaitToInit(
                     context,
-                    this as AbsDependInit<T>,
+                    this,
                     getFirstDependAlias()
                 )
                 return
             }
 
-            val handler: DependStatusObserverInvokeHandler<T> =
+            val handler =
                 DependStatusObserverInvokeHandler(
                     observer,
                     mContainerObserver

@@ -9,14 +9,18 @@ import com.lyw.ruban.core.*
  * Created for depend container observer~
  */
 class DependInitContainerObserver<T : IInitObserver>
-    : BaseObserverProxy<IDependInitObserver<T>>(),
-    IDependInitObserver<T> {
+    : BaseObserverProxy<IDependInitObserver>(),
+    IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
         mObserver?.onCompleted(context, aliasName)
     }
 
-    override fun onWaitToInit(context: InitContext, init: AbsDependInit<T>, dependAliasName: String) {
+    override fun onWaitToInit(
+        context: InitContext,
+        init: AbsDependInit<IDependInitObserver>,
+        dependAliasName: String
+    ) {
         mObserver?.onWaitToInit(context, init, dependAliasName)
     }
 }

@@ -46,7 +46,7 @@ constructor(
         addLib(init, threadList)
     }
 
-    override fun addThreadList(list: CommThreadArrayList) {
+    fun addThreadList(list: CommThreadArrayList) {
         put(list.getCurrentThreadCode(), list)
     }
 

@@ -16,12 +16,12 @@ import java.util.*
 class ThreadListExternalDependModuleInit
 constructor(
     var moduleCode: Int
-) : IInitMap<Int, ThreadExternalDependArrayList, IDependInitObserver<IInitObserver>>,
-    AbsBaseInit<IDependInitObserver<IInitObserver>>(),
+) : IInitMap<Int, ThreadExternalDependArrayList, IDependInitObserver>,
+    AbsBaseInit<IDependInitObserver>(),
     IModule<ThreadExternalDependArrayList, DependLibInit> {
 
 
-    private val mObserver by lazy { DependManagerObserver<IDependInitObserver<IInitObserver>>() }
+    private val mObserver by lazy { DependManagerObserver<IDependInitObserver>() }
 
     override var mData: Map<Int, ThreadExternalDependArrayList> = TreeMap()
 
@@ -33,10 +33,10 @@ constructor(
         context: InitContext,
         key: Int,
         value: ThreadExternalDependArrayList?,
-        observer: IDependInitObserver<IInitObserver>
+        observer: IDependInitObserver
     ) {
         mObserver.mObserver = observer
-        value?.initialize(context, mObserver as IDependInitObserver<IInitObserver>)
+        value?.initialize(context, mObserver)
     }
 
     override fun getAliasName(): String {
@@ -49,7 +49,7 @@ constructor(
         addLib(init, threadList)
     }
 
-    override fun addThreadList(list: ThreadExternalDependArrayList) {
+    private fun addThreadList(list: ThreadExternalDependArrayList) {
         put(list.getCurrentThreadCode(), list)
     }
 
