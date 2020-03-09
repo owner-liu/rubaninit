@@ -5,10 +5,10 @@ import com.lyw.ruban.core.depend.AbsDependInit
 /**
  * Created on  2020-03-09
  * Created by  lyw
- * Created for
+ * Created for base depend observer proxy~
  */
-class BaseDependObserverProxy<T : IInitObserver>
+open class BaseDependObserverProxy<T : IInitObserver>
     : BaseObserverProxy<T>() {
 
-    var mWaitToInits = hashMapOf<String, ArrayList<AbsDependInit<T>>>()
+    var mWaitToInitMap = hashMapOf<String, ArrayList<AbsDependInit<T>>>()
 }

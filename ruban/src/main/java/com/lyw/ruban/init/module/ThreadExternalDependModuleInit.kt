@@ -11,9 +11,9 @@ import java.util.*
 /**
  * Created on  2020-03-08
  * Created by  lyw
- * Created for module 内，线程列表间无依赖～ 库之间存在依赖，并且依赖是线程内部依赖～
+ * Created for module 内，线程列表间无依赖～ 内部库的依赖
  */
-class ThreadInternalDependModuleInit
+class ThreadExternalDependModuleInit
 constructor(
     var moduleCode: Int
 ) : IInitMap<Int, ThreadInternalDependArrayList, IInitObserver>,
@@ -32,6 +32,7 @@ constructor(
         value: ThreadInternalDependArrayList?,
         observer: IInitObserver
     ) {
+        // TODO by LYW: 2020-03-09 需要有个通用管理器~
         value?.initialize(context, observer)
     }
 
