@@ -14,12 +14,9 @@ package com.lyw.ruban
  *
  * 注：库之间的依赖关系只允许 到module级别～，
  * 提供的功能：
- * 1。module之间存在依赖：？？？？？+DependInitContainer+ModuleInit
- * 2。module不存在依赖：AppInit+ModuleInit
- * 3。线程列表之间存在依赖：DependInitContainer+AbsThreadDependList
- * 4。线程列表之间不存在依赖：AbsThreadDependLis
- * 5。跨线程之间存在依赖：？？？+AbsThreadExternalDependList
- * 6。线程内存在依赖：ModuleInit+AbsThreadInternalDependList
+ * 1。提供线程切换，不提供依赖功能：ModuleInit
+ * 2。提供线程切换功能，提供线程集合内的依赖：ThreadListInternalDependModuleInit
+ * 2。提供线程切换功能，提供module内的依赖：ThreadListExternalDependModuleInit
  */
 class AppInitManager {
 }
