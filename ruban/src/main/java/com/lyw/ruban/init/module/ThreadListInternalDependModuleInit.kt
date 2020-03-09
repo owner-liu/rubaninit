@@ -1,6 +1,5 @@
 package com.lyw.ruban.init.module
 
-import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
