@@ -17,8 +17,7 @@ class ThreadListExternalDependModuleInit
 constructor(
     var moduleCode: Int
 ) : IInitMap<Int, ThreadExternalDependArrayList, IDependInitObserver>,
-    AbsBaseInit<IDependInitObserver>(),
-    IModule<ThreadExternalDependArrayList, DependLibInit> {
+    AbsModuleInit<ThreadExternalDependArrayList, DependLibInit, IDependInitObserver>() {
 
 
     private val mObserver by lazy { DependManagerObserver<IDependInitObserver>() }
