@@ -1,11 +1,9 @@
 package com.lyw.ruban.init.module
 
 import com.lyw.ruban.core.*
-import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.init.widgets.DependLibInit
 import com.lyw.ruban.init.widgets.DependManagerObserver
 import com.lyw.ruban.init.widgets.ThreadExternalDependArrayList
-import com.lyw.ruban.init.widgets.ThreadInternalDependArrayList
 import java.util.*
 
 /**

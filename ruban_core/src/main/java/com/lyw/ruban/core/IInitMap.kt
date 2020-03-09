@@ -1,7 +1,5 @@
 package com.lyw.ruban.core
 
-import android.util.Log
-
 /**
  * Created on  2020-03-08
  * Created by  lyw

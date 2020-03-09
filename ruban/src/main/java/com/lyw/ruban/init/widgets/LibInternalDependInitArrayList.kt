@@ -1,11 +1,8 @@
 package com.lyw.ruban.init.widgets
 
-import android.util.Log
-import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.comm.AbsInitArrayList
-import com.lyw.ruban.core.depend.AbsDependInit
 
 /**
  * Created on  2020-03-08
