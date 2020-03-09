@@ -11,6 +11,7 @@ import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.DependLibInit
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created on  2020-03-06
@@ -46,7 +47,7 @@ class AppDependInit
 
     override fun addDependLibInit(init: DependLibInit) {
         val moduleCode = init.dependLibInit.libModuleCode
-        val module = mData[moduleCode] ?: let {
+        val module = get(moduleCode) ?: let {
             DependInitContainer(
                 arrayListOf(),
                 ThreadListExternalDependModuleInit(moduleCode)
@@ -62,5 +63,17 @@ class AppDependInit
         val dependAliases = libInit.libDependAlias
         val dependContainer = DependLibInit(dependAliases, libInit)
         addDependLibInit(dependContainer)
+    }
+
+    override fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>) {
+        val module = get(moduleCode) ?: let {
+            DependInitContainer(
+                arrayListOf(),
+                ThreadListExternalDependModuleInit(moduleCode)
+            ).also {
+                put(moduleCode, it)
+            }
+        }
+        module.addAliasList(list)
     }
 }

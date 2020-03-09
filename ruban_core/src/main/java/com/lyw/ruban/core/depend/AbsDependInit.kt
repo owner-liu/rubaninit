@@ -28,4 +28,8 @@ constructor(private var aliasList: ArrayList<String>) :
     final override fun getFirstDependAlias(): String {
         return aliasList.first()
     }
+
+    final override fun addAliasList(list: ArrayList<String>) {
+        aliasList.addAll(list)
+    }
 }

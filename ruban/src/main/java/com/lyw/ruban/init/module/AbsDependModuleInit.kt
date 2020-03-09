@@ -1,7 +1,9 @@
 package com.lyw.ruban.init.module
 
 import com.lyw.ruban.core.AbsBaseInit
+import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
+import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.core.thread.AbsThreadInit
 
 /**
@@ -9,8 +11,8 @@ import com.lyw.ruban.core.thread.AbsThreadInit
  * Created by  lyw
  * Created for abs module init~
  */
-abstract class AbsModuleInit<T : AbsThreadInit<Z>,
-        U : AbsBaseInit<IInitObserver>,
+abstract class AbsDependModuleInit<T : AbsThreadInit<Z>,
+        U : AbsDependInit<IDependInitObserver>,
         Z : IInitObserver> :
     AbsBaseInit<Z>(), IModule<T, U> {
     var libCount: Int = 0

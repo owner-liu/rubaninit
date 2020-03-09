@@ -15,15 +15,19 @@ class ThreadListExternalDependModuleInit
 constructor(
     var moduleCode: Int
 ) : IInitMap<Int, ThreadExternalDependArrayList, IDependInitObserver>,
-    AbsModuleInit<ThreadExternalDependArrayList, DependLibInit, IDependInitObserver>() {
+    AbsDependModuleInit<ThreadExternalDependArrayList, DependLibInit, IDependInitObserver>() {
 
-
-    private val mObserver by lazy { DependManagerObserver<IDependInitObserver>() }
+    private val mObserver by lazy { ModuleDependManagerObserver<IDependInitObserver>(getAliasName()) }
 
     override var mData: Map<Int, ThreadExternalDependArrayList> = TreeMap()
 
     override fun put(key: Int, value: ThreadExternalDependArrayList) {
         (mData as TreeMap)[key] = value
+    }
+
+    override fun initialize(context: InitContext, observer: IDependInitObserver) {
+        mObserver.libCount = libCount
+        super.initialize(context, observer)
     }
 
     override fun doInit(
@@ -60,6 +64,7 @@ constructor(
                 addThreadList(it)
             }
         }
+        libCount++
         container.commThreadArrayList.add(init)
     }
 
