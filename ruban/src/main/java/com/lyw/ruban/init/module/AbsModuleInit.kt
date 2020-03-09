@@ -12,6 +12,6 @@ import com.lyw.ruban.core.thread.AbsThreadInit
  * Created for abs module init~
  */
 abstract class AbsModuleInit<T : AbsThreadInit<Z>,
-        U : AbsDependInit<IDependInitObserver<IInitObserver>>,
+        U : AbsDependInit<IDependInitObserver>,
         Z : IInitObserver> :
     AbsBaseInit<Z>(), IModule<T, U>

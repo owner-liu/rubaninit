@@ -12,5 +12,5 @@ open class BaseDependObserverProxy<T : IInitObserver>
 
     var lock = Any()
 
-    var mWaitToInitMap = hashMapOf<String, ArrayList<AbsDependInit<T>>>()
+    var mWaitToInitMap = hashMapOf<String, ArrayList<AbsDependInit<IDependInitObserver>>>()
 }

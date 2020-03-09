@@ -13,8 +13,12 @@ interface IInitObserver {
     fun onCompleted(context: InitContext, aliasName: String)
 }
 
-interface IDependInitObserver<T : IInitObserver> :
+interface IDependInitObserver :
     IInitObserver {
 
-    fun onWaitToInit(context: InitContext, init: AbsDependInit<T>, dependAliasName: String)
+    fun onWaitToInit(
+        context: InitContext,
+        init: AbsDependInit<IDependInitObserver>,
+        dependAliasName: String
+    )
 }

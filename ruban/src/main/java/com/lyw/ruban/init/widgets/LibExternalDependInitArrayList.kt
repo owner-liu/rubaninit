@@ -12,7 +12,7 @@ import com.lyw.ruban.init.lib.LibInit
  * Created for 集合内部相关依赖和完成不进行处理~ 直接外抛~
  */
 class LibExternalDependInitArrayList :
-    AbsInitArrayList<DependLibInit, IDependInitObserver<IInitObserver>>() {
+    AbsInitArrayList<DependLibInit, IDependInitObserver>() {
 
     override var mData: List<DependLibInit> = arrayListOf()
 
@@ -22,7 +22,7 @@ class LibExternalDependInitArrayList :
     override fun doInit(
         context: InitContext,
         init: DependLibInit,
-        observer: IDependInitObserver<IInitObserver>
+        observer: IDependInitObserver
     ) {
         mObserverProxy.mObserver = observer
         init.initialize(context, mObserverProxy)

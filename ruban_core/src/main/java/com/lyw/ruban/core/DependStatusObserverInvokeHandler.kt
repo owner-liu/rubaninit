@@ -8,10 +8,10 @@ import java.lang.reflect.Method
  * Created by  lyw
  * Created for simple status observer invoke handler~
  */
-class DependStatusObserverInvokeHandler<T : IInitObserver>
+class DependStatusObserverInvokeHandler
 constructor(
-    var sourceObserver: IDependInitObserver<T>,
-    var statusObserver: IDependInitObserver<T>
+    var sourceObserver: IDependInitObserver,
+    var statusObserver: IDependInitObserver
 ) : InvocationHandler {
 
     override fun invoke(p0: Any?, p1: Method, p2: Array<out Any>?): Any? {

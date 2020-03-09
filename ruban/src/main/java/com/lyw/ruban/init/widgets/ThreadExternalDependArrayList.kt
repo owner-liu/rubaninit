@@ -13,4 +13,4 @@ class ThreadExternalDependArrayList
 constructor(
     threadCode: Int,
     var commThreadArrayList: LibExternalDependInitArrayList = LibExternalDependInitArrayList()
-) : ThreadInitContainer<IDependInitObserver<IInitObserver>>(threadCode, commThreadArrayList)
+) : ThreadInitContainer<IDependInitObserver>(threadCode, commThreadArrayList)
