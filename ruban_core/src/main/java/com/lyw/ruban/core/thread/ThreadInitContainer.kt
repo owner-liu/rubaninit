@@ -19,7 +19,7 @@ open class ThreadInitContainer<T : IInitObserver>
 constructor(
     threadCode: Int,
     var init: IInit<T>
-) : AbsThreadInit(threadCode), IInit<T> {
+) : AbsThreadInit<T>(threadCode), IInit<T> {
 
     private val mContainerObserver =
         ThreadInitContainerObserver<T>(getCurrentThreadCode())

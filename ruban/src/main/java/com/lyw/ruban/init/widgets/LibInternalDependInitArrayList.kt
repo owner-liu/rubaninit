@@ -17,45 +17,12 @@ class LibInternalDependInitArrayList :
 
     override var mData: List<DependLibInit> = arrayListOf()
 
-    private var mObserver: IInitObserver? = null
-
-
-    private var mInitCompletedAliases = arrayListOf<String>()
-    private var mWaitToInits = hashMapOf<String, ArrayList<AbsDependInit<IInitObserver>>>()
-
     private val mObserverPoxy by lazy {
-        object : IDependInitObserver<IInitObserver> {
-            override fun onCompleted(context: InitContext, aliasName: String) {
-                Log.i("ruban_test", "aliasName:$aliasName")
-                mInitCompletedAliases.add(aliasName)
-                // TODO by LYW: 2020-03-08 外抛～
-                mObserver?.onCompleted(context, aliasName)
-                // TODO by LYW: 2020-03-08 筛选出 依赖与 aliasName 的 ，进行处理～
-                val waitToInits = mWaitToInits.remove(aliasName)
-                waitToInits?.forEach {
-                    it.refreshDependComplete(aliasName)
-                    it.initialize(context, this)
-                }
-            }
-
-            override fun onWaitToInit(
-                context: InitContext,
-                init: AbsDependInit<IInitObserver>,
-                dependAliasName: String
-            ) {
-                Log.i("ruban_test", "waitToInit:${init.getAliasName()}-depend:$dependAliasName")
-                var list = mWaitToInits.get(dependAliasName) ?: let {
-                    arrayListOf<AbsDependInit<IInitObserver>>().also {
-                        mWaitToInits[dependAliasName] = it
-                    }
-                }
-                list.add(init)
-            }
-        }
+        LibInternalDependInitArrayListObserver<IInitObserver>()
     }
 
     override fun doInit(context: InitContext, init: DependLibInit, observer: IInitObserver) {
-        mObserver = observer
+        mObserverPoxy.mObserver = observer
         init.initialize(context, mObserverPoxy)
     }
 
