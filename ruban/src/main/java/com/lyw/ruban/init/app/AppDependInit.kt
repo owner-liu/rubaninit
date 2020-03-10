@@ -45,7 +45,13 @@ class AppDependInit
         return javaClass.simpleName
     }
 
-    override fun addDependLibInit(init: DependLibInit) {
+    override fun addLibInit(libInit: LibInit) {
+        val dependAliases = libInit.libDependAlias
+        val dependContainer = DependLibInit(dependAliases, libInit)
+        addDependLibInit(dependContainer)
+    }
+
+    private fun addDependLibInit(init: DependLibInit) {
         val moduleCode = init.dependLibInit.libModuleCode
         val module = get(moduleCode) ?: let {
             DependInitContainer(
@@ -57,12 +63,6 @@ class AppDependInit
         }
 
         (module.init as ThreadListExternalDependModuleInit).addInit(init)
-    }
-
-    override fun addLibInit(libInit: LibInit) {
-        val dependAliases = libInit.libDependAlias
-        val dependContainer = DependLibInit(dependAliases, libInit)
-        addDependLibInit(dependContainer)
     }
 
     override fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>) {
