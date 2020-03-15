@@ -7,6 +7,7 @@ import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.comm.DependManagerObserver
 import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.init.app.AppDependInit
+import com.lyw.ruban.init.app.IModulesInitCompleteListener
 import com.lyw.ruban.init.module.ModuleInit
 import com.lyw.ruban.init.module.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.module.ThreadListInternalDependModuleInit
@@ -103,17 +104,21 @@ object TestManager {
 
     private fun testAppDependInit() {
         var initContext = InitContext(null, true)
-        AppDependInit().apply {
-            addDependLibInit(
-                DependLibInit(
-                    arrayListOf(),
-                    TestModuleADependLibCopy()
-                )
-            )
+        val appDependInit = AppDependInit().apply {
+            addLibInit(TestModuleADependLibCopy())
             addLibInit(TestModuleBDependLibCopy())
             addLibInit(TestModuleCDependLibCopy())
-            addModuleDependAlias(1, arrayListOf("ThreadListExternalDependModuleInit-2"))
-            addModuleDependAlias(2, arrayListOf("ThreadListExternalDependModuleInit-3"))
-        }.initialize(initContext, mDependObserver)
+            addModuleDependAlias(1, arrayListOf("2"))
+            addModuleDependAlias(2, arrayListOf("3"))
+        }
+        appDependInit.addCompletedListener(
+            hashSetOf(1),
+            object : IModulesInitCompleteListener {
+                override fun onCompleted() {
+                    Log.i("ruban_test", "监听到相关module 已完成～")
+                }
+
+            })
+        appDependInit.initialize(initContext, mDependObserver)
     }
 }

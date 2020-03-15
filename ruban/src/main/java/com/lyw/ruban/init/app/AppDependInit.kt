@@ -4,7 +4,6 @@ import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.comm.DependManagerObserver
 import com.lyw.ruban.core.depend.DependInitContainer
 import com.lyw.ruban.init.lib.IDependLibOperation
 import com.lyw.ruban.init.lib.LibInit
@@ -12,6 +11,7 @@ import com.lyw.ruban.init.module.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.DependLibInit
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 /**
  * Created on  2020-03-06
@@ -21,9 +21,10 @@ import kotlin.collections.ArrayList
 class AppDependInit
     : IInitMap<Int, DependInitContainer<IDependInitObserver>, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
-    IDependLibOperation {
+    IDependLibOperation,
+    IAppManagerObserver {
 
-    private var mManagerObserver = DependManagerObserver<IDependInitObserver>()
+    private var mManagerObserver = AppManagerObserver<IDependInitObserver>()
 
     override var mData: Map<Int, DependInitContainer<IDependInitObserver>> = TreeMap()
 
@@ -75,5 +76,12 @@ class AppDependInit
             }
         }
         module.addAliasList(list)
+    }
+
+    override fun addCompletedListener(
+        moduleAliases: HashSet<Int>,
+        listener: IModulesInitCompleteListener
+    ) {
+        mManagerObserver.addCompletedListener(moduleAliases, listener)
     }
 }

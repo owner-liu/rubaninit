@@ -48,9 +48,9 @@ constructor(
             val proxyObserver = Proxy.newProxyInstance(
                 handler.javaClass.classLoader,
                 observer.javaClass.interfaces, handler
-            ) as T
+            )
 
-            it.initialize(context, proxyObserver)
+            it.initialize(context, proxyObserver as T)
         }
     }
 }

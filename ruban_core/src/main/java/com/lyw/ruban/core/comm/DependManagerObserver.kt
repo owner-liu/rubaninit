@@ -12,7 +12,7 @@ import com.lyw.ruban.core.depend.AbsDependInit
  * Created by  lyw
  * Created for depend manager observer~
  */
-class DependManagerObserver<T : IInitObserver>
+open class DependManagerObserver<T : IInitObserver>
     : BaseDependObserverProxy<T>(),
     IDependInitObserver {
 
