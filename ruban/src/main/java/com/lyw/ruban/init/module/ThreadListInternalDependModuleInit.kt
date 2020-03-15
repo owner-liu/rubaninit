@@ -42,7 +42,7 @@ constructor(
     }
 
     override fun getAliasName(): String {
-        return "${javaClass.simpleName}-$moduleCode"
+        return "$moduleCode"
     }
 
     override fun addInit(init: DependLibInit) {
