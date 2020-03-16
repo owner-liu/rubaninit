@@ -13,23 +13,20 @@ import java.lang.IllegalArgumentException
  */
 class AppManagerObserver<T : IInitObserver>
     : DependManagerObserver<T>(),
-    IAppManagerObserver,
+    IModuleCompleteObserverOperate,
     IDependInitObserver {
+    // module 监测～
     private val mObserverList = arrayListOf<ModuleCompeteObserver>()
 
     private var mContext: InitContext? = null
 
-    override fun addCompletedListener(
+    override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
-        listener: IModulesInitCompleteListener
+        listener: IModulesCompleteListener
     ) {
         synchronized(lock)
         {
-            val moduleCompeteObserver =
-                ModuleCompeteObserver(
-                    moduleAliases,
-                    listener
-                )
+            val moduleCompeteObserver = ModuleCompeteObserver(moduleAliases, listener)
 
             mContext?.let { context ->
                 mInitCompletedAliases.forEach { moduleCompeteObserver.onCompleted(context, it) }
@@ -42,16 +39,16 @@ class AppManagerObserver<T : IInitObserver>
     override fun onCompleted(context: InitContext, aliasName: String) {
         synchronized(lock) {
             mContext = context
-            super.onCompleted(context, aliasName)
             mObserverList.forEach { it.onCompleted(context, aliasName) }
+            super.onCompleted(context, aliasName)
         }
     }
 }
 
 class ModuleCompeteObserver
 constructor(
-    var moduleAliases: HashSet<Int>,
-    var listener: IModulesInitCompleteListener
+    private var moduleAliases: HashSet<Int>,
+    private var listener: IModulesCompleteListener
 ) : IInitObserver {
 
     init {
@@ -74,10 +71,10 @@ constructor(
     }
 }
 
-interface IAppManagerObserver {
-    fun addCompletedListener(moduleAliases: HashSet<Int>, listener: IModulesInitCompleteListener)
+interface IModuleCompleteObserverOperate {
+    fun addModuleCompletedListener(moduleAliases: HashSet<Int>, listener: IModulesCompleteListener)
 }
 
-interface IModulesInitCompleteListener {
+interface IModulesCompleteListener {
     fun onCompleted()
 }

@@ -1,6 +1,7 @@
 package com.lyw.ruban.core.comm
 
 import android.util.Log
+import androidx.annotation.CallSuper
 import com.lyw.ruban.core.BaseDependObserverProxy
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
@@ -16,10 +17,10 @@ open class DependManagerObserver<T : IInitObserver>
     : BaseDependObserverProxy<T>(),
     IDependInitObserver {
 
+    @CallSuper
     override fun onCompleted(context: InitContext, aliasName: String) {
         synchronized(lock)
         {
-            Log.i("ruban_test", "aliasName:$aliasName")
             mInitCompletedAliases.add(aliasName)
             mObserver?.onCompleted(context, aliasName)
             val waitToInitList = mWaitToInitMap.remove(aliasName)
@@ -30,6 +31,7 @@ open class DependManagerObserver<T : IInitObserver>
         }
     }
 
+    @CallSuper
     override fun onWaitToInit(
         context: InitContext,
         init: AbsDependInit<IDependInitObserver>,

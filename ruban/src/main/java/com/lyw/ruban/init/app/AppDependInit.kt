@@ -22,7 +22,7 @@ class AppDependInit
     : IInitMap<Int, DependInitContainer<IDependInitObserver>, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
     IDependLibOperation,
-    IAppManagerObserver {
+    IModuleCompleteObserverOperate {
 
     private var mManagerObserver = AppManagerObserver<IDependInitObserver>()
 
@@ -78,10 +78,10 @@ class AppDependInit
         module.addAliasList(list)
     }
 
-    override fun addCompletedListener(
+    override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
-        listener: IModulesInitCompleteListener
+        listener: IModulesCompleteListener
     ) {
-        mManagerObserver.addCompletedListener(moduleAliases, listener)
+        mManagerObserver.addModuleCompletedListener(moduleAliases, listener)
     }
 }
