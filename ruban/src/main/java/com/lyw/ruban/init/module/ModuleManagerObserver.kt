@@ -19,7 +19,6 @@ constructor(var moduleAliasName: String) : BaseDependObserverProxy<T>(),
     override fun onCompleted(context: InitContext, aliasName: String) {
         synchronized(lock)
         {
-            Log.i("ruban_test", "aliasName:$aliasName")
             mInitCompletedAliases.add(aliasName)
             if (libCount == mInitCompletedAliases.size) {
                 // LABEL BY LYW: 全部完成，外抛状态～

@@ -5,7 +5,7 @@ package com.lyw.ruban.core
  * Created by  lyw
  * Created for init group interface~
  */
-interface IInitGroup {
+interface IInitGroup<T : IInitObserver> : IInit<T> {
     fun isEmpty(): Boolean
 
     fun isNotEmpty(): Boolean
