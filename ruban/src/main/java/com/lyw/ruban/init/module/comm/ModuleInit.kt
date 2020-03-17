@@ -1,8 +1,8 @@
-package com.lyw.ruban.init.module
+package com.lyw.ruban.init.module.comm
 
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.lib.LibInit
-import com.lyw.ruban.init.widgets.CommThreadArrayList
+import com.lyw.ruban.init.widgets.comm.CommThreadArrayList
 import java.util.*
 
 /**
@@ -19,7 +19,9 @@ constructor(
     AbsModuleInit<CommThreadArrayList, LibInit, IInitObserver>() {
 
     private val mObserver by lazy {
-        ModuleDependManagerObserver<IInitObserver>(getAliasName(), this)
+        ModuleManagerObserver<IInitObserver>(
+            getAliasName()
+        )
     }
 
     override var mData: Map<Int, CommThreadArrayList> = TreeMap()
@@ -54,7 +56,7 @@ constructor(
         addLib(init, threadList)
     }
 
-    fun addThreadList(list: CommThreadArrayList) {
+    private fun addThreadList(list: CommThreadArrayList) {
         put(list.getCurrentThreadCode(), list)
     }
 

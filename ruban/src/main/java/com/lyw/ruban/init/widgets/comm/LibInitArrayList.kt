@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.widgets
+package com.lyw.ruban.init.widgets.comm
 
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext

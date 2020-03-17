@@ -6,9 +6,9 @@ import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.lib.IDependLibOperation
 import com.lyw.ruban.init.lib.LibInit
-import com.lyw.ruban.init.module.ThreadListExternalDependModuleInit
-import com.lyw.ruban.init.widgets.DependLibInit
-import com.lyw.ruban.init.widgets.DependModule
+import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
+import com.lyw.ruban.init.widgets.depend.DependModule
+import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
@@ -18,6 +18,8 @@ import kotlin.collections.HashSet
  * Created by  lyw
  * Created for app module 存在依赖，初始化库存在module内的依赖～
  */
+
+// TODO by LYW: 2020-03-17
 class AppDependInit
     : IInitMap<Int, DependModule, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
@@ -53,13 +55,13 @@ class AppDependInit
     }
 
     override fun addLibInit(libInit: LibInit) {
-        val dependAliases = libInit.libDependAlias
-        val dependContainer = DependLibInit(dependAliases, libInit)
-        addDependLibInit(dependContainer)
+        val moduleCode = libInit.libModuleCode
+        val dependContainer =
+            DependThreadLibInit(libInit)
+        addDependLibInit(moduleCode, dependContainer)
     }
 
-    private fun addDependLibInit(init: DependLibInit) {
-        val moduleCode = init.dependLibInit.libModuleCode
+    private fun addDependLibInit(moduleCode: Int, init: DependThreadLibInit) {
         val module = get(moduleCode) ?: let {
             DependModule(moduleCode).also {
                 put(moduleCode, it)

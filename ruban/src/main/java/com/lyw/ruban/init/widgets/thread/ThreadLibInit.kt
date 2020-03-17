@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.widgets
+package com.lyw.ruban.init.widgets.thread
 
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.thread.ThreadInitContainer
@@ -11,11 +11,5 @@ import com.lyw.ruban.init.lib.LibInit
  */
 class ThreadLibInit
 constructor(
-    threadCode: Int,
-    var ThreadLibInit: LibInit
-) : ThreadInitContainer<IInitObserver>(threadCode, ThreadLibInit) {
-
-    override fun getAliasName(): String {
-        return ThreadLibInit.getAliasName()
-    }
-}
+    libInit: LibInit
+) : ThreadInitContainer<IInitObserver>(libInit.libThreadCode, libInit)

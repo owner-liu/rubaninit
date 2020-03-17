@@ -7,10 +7,10 @@ import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.init.app.AppDependInit
 import com.lyw.ruban.init.app.ICompleteListener
-import com.lyw.ruban.init.module.ModuleInit
-import com.lyw.ruban.init.module.ThreadListExternalDependModuleInit
-import com.lyw.ruban.init.module.ThreadListInternalDependModuleInit
-import com.lyw.ruban.init.widgets.DependLibInit
+import com.lyw.ruban.init.module.comm.ModuleInit
+import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
+import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
+//import com.lyw.ruban.init.module.depend.ThreadListInternalDependModuleInit
 import com.lyw.rubaninit.test.comm.TestLib
 import com.lyw.rubaninit.test.comm.TestLibCopy
 import com.lyw.rubaninit.test.depend.*
@@ -23,8 +23,6 @@ import com.lyw.rubaninit.test.depend.*
 object TestManager {
     fun test() {
 //        testWithoutDepend() //LibCopy->Lib
-//        testThreadDependWithoutAlias()  //Lib->LibCopy,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
-//        testThreadDependWithAlias() //LibCopy-Lib>,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
 //        testModuleDependWithAlias() //Lib->LibCopy
         testAppDependInit() //3->2->1
     }
@@ -64,40 +62,17 @@ object TestManager {
     }
 
     /**
-     * 依赖数据类型，但不存在相关依赖～
-     */
-    private fun testThreadDependWithoutAlias() {
-        var initContext = InitContext(null, true)
-        ThreadListInternalDependModuleInit(2).apply {
-            addInit(DependLibInit(arrayListOf(), TestDependLibCopy()))
-            addInit(DependLibInit(arrayListOf(), TestDependLib()))
-        }.initialize(initContext, mDependObserver)
-    }
-
-    /**
-     * 线程集合内部存在依赖～
-     */
-    private fun testThreadDependWithAlias() {
-        var initContext = InitContext(null, true)
-        ThreadListInternalDependModuleInit(2).apply {
-            addInit(DependLibInit(arrayListOf("TestDependLib-1-0"), TestDependLibCopy()))
-            addInit(DependLibInit(arrayListOf(), TestDependLib()))
-        }.initialize(initContext, mDependObserver)
-    }
-
-    /**
      * module内，线程集合间存在依赖～
      */
     private fun testModuleDependWithAlias() {
         var initContext = InitContext(null, true)
         ThreadListExternalDependModuleInit(2).apply {
             addInit(
-                DependLibInit(
-                    arrayListOf("TestExternalDependLib-1-0"),
+                DependThreadLibInit(
                     TestExternalDependLibCopy()
                 )
             )
-            addInit(DependLibInit(arrayListOf(), TestExternalDependLib()))
+            addInit(DependThreadLibInit(TestExternalDependLib()))
         }.initialize(initContext, mDependObserver)
     }
 
