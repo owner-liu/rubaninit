@@ -4,7 +4,6 @@ import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.init.lib.IDependLibOperation
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.depend.DependModule
@@ -23,9 +22,10 @@ import kotlin.collections.HashSet
 class LazyAppDependInit
     : IInitMap<Int, LazyDependModule, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
-    IDependLibOperation,
+    IAppDependOperate,
     IModuleCompleteObserverOperate,
-    IAppCompleteObserverOperate {
+    IAppCompleteObserverOperate,
+    IAppLazyOperate {
 
     private var mManagerObserver = AppManagerObserver()
 
@@ -89,5 +89,10 @@ class LazyAppDependInit
 
     override fun addAppCompletedListener(listener: ICompleteListener) {
         mManagerObserver.addAppCompletedListener(listener)
+    }
+
+    override fun initializeLazy(context: InitContext, moduleCode: Int) {
+        // TODO by LYW: 2020-03-17 针对于 延迟初始化的，存在依赖的～ 需要甄别，后续会不会再执行，比如，depend触发的再执行，未轮训到的再执行～ 需要考虑是否需要锁～
+        get(moduleCode)?.initializeLazy(context, mManagerObserver)
     }
 }
