@@ -1,7 +1,9 @@
 package com.lyw.ruban.init.module.depend
 
 import android.util.Log
-import com.lyw.ruban.core.*
+import com.lyw.ruban.core.BaseDependObserverProxy
+import com.lyw.ruban.core.IDependInitObserver
+import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
 
 /**
@@ -9,25 +11,24 @@ import com.lyw.ruban.core.depend.AbsDependInit
  * Created by  lyw
  * Created for depend manager observer~
  */
-class ModuleDependManagerObserver<T : IInitObserver>
-constructor(
-    var moduleAliasName: String,
-    var module: AbsInit
-) : BaseDependObserverProxy<T>(),
+class ModuleDependManagerObserver
+constructor(var moduleAliasName: String) : BaseDependObserverProxy(),
     IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
         mInitCompletedAliases.add(aliasName)
         if (initCount == mInitCompletedAliases.size) {
             // LABEL BY LYW: 全部完成，外抛状态～
-            module.hasInitComplete = true
             mObserver?.onCompleted(context, moduleAliasName)
         }
         val waitToInitList = mWaitToInitMap.remove(aliasName)
         waitToInitList?.forEach {
-            it.refreshDependComplete(aliasName)
-            it.initialize(context, this)
+            context.syncHandle.postAtFrontOfQueue {
+                it.refreshDependComplete(aliasName)
+                it.initialize(context, this)
+            }
         }
+
     }
 
     override fun onWaitToInit(
@@ -46,7 +47,6 @@ constructor(
                 }
             }
             list.add(init)
-
         }
     }
 }

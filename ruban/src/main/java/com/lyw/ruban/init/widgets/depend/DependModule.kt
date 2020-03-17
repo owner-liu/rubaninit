@@ -15,7 +15,5 @@ constructor(
     aliasList: ArrayList<String> = arrayListOf()
 ) : DependInitContainer<IDependInitObserver>(
     aliasList,
-    ThreadListExternalDependModuleInit(
-        moduleCode
-    )
+    ThreadListExternalDependModuleInit(moduleCode)
 )

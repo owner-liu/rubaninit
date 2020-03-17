@@ -4,11 +4,13 @@ import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
+import com.lyw.ruban.core.depend.DependInitContainer
 import com.lyw.ruban.init.lib.IDependLibOperation
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.depend.DependModule
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
+import com.lyw.ruban.init.widgets.lazy.LazyDependModule
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
@@ -21,17 +23,17 @@ import kotlin.collections.HashSet
 
 // TODO by LYW: 2020-03-17
 class AppDependInit
-    : IInitMap<Int, DependModule, IDependInitObserver>,
+    : IInitMap<Int, LazyDependModule, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
     IDependLibOperation,
     IModuleCompleteObserverOperate,
     IAppCompleteObserverOperate {
 
-    private var mManagerObserver = AppManagerObserver<IDependInitObserver>()
+    private var mManagerObserver = AppManagerObserver()
 
-    override var mData: Map<Int, DependModule> = TreeMap()
+    override var mData: Map<Int, LazyDependModule> = TreeMap()
 
-    override fun put(key: Int, value: DependModule) {
+    override fun put(key: Int, value: LazyDependModule) {
         (mData as TreeMap).put(key, value)
     }
 
@@ -43,7 +45,7 @@ class AppDependInit
     override fun doInit(
         context: InitContext,
         key: Int,
-        value: DependModule?,
+        value: LazyDependModule?,
         observer: IDependInitObserver
     ) {
         mManagerObserver.mObserver = observer
@@ -63,7 +65,7 @@ class AppDependInit
 
     private fun addDependLibInit(moduleCode: Int, init: DependThreadLibInit) {
         val module = get(moduleCode) ?: let {
-            DependModule(moduleCode).also {
+            LazyDependModule(moduleCode).also {
                 put(moduleCode, it)
             }
         }
@@ -73,11 +75,11 @@ class AppDependInit
 
     override fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>) {
         val module = get(moduleCode) ?: let {
-            DependModule(moduleCode).also {
+            LazyDependModule(moduleCode).also {
                 put(moduleCode, it)
             }
         }
-        module.addAliasList(list)
+        (module.init as DependModule).addAliasList(list)
     }
 
     override fun addModuleCompletedListener(

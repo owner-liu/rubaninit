@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.annotation.CallSuper
 import com.lyw.ruban.core.BaseDependObserverProxy
 import com.lyw.ruban.core.IDependInitObserver
-import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
 
@@ -13,8 +12,8 @@ import com.lyw.ruban.core.depend.AbsDependInit
  * Created by  lyw
  * Created for depend manager observer~
  */
-open class DependManagerObserver<T : IInitObserver>
-    : BaseDependObserverProxy<T>(),
+open class DependManagerObserver
+    : BaseDependObserverProxy(),
     IDependInitObserver {
 
     @CallSuper

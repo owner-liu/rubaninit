@@ -11,8 +11,8 @@ import java.lang.IllegalArgumentException
  * Created by  lyw
  * Created for module init complete manager~
  */
-class AppManagerObserver<T : IInitObserver>
-    : DependManagerObserver<T>(),
+class AppManagerObserver
+    : DependManagerObserver(),
     IModuleCompleteObserverOperate,
     IAppCompleteObserverOperate,
     IDependInitObserver {

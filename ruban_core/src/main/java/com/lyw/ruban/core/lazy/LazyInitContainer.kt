@@ -9,7 +9,7 @@ import com.lyw.ruban.core.*
  */
 open class LazyInitContainer<T : IInitObserver>
 constructor(
-    lazy: Boolean,
+    lazy: Boolean = false,
     var init: AbsBaseInit<T>
 ) : AbsLazyInit<T>(lazy) {
 

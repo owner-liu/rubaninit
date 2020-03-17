@@ -7,8 +7,8 @@ import com.lyw.ruban.core.depend.AbsDependInit
  * Created by  lyw
  * Created for base depend observer proxy~
  */
-open class BaseDependObserverProxy<T : IInitObserver>
-    : BaseObserverProxy<T>() {
+open class BaseDependObserverProxy
+    : BaseObserverProxy<IDependInitObserver>() {
 
     var mWaitToInitMap = hashMapOf<String, ArrayList<AbsDependInit<IDependInitObserver>>>()
 }
