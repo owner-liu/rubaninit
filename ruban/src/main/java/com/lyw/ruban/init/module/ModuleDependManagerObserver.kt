@@ -1,10 +1,7 @@
 package com.lyw.ruban.init.module
 
 import android.util.Log
-import com.lyw.ruban.core.BaseDependObserverProxy
-import com.lyw.ruban.core.IDependInitObserver
-import com.lyw.ruban.core.IInitObserver
-import com.lyw.ruban.core.InitContext
+import com.lyw.ruban.core.*
 import com.lyw.ruban.core.depend.AbsDependInit
 
 /**
@@ -13,22 +10,23 @@ import com.lyw.ruban.core.depend.AbsDependInit
  * Created for depend manager observer~
  */
 class ModuleDependManagerObserver<T : IInitObserver>
-constructor(var moduleAliasName: String) : BaseDependObserverProxy<T>(),
+constructor(
+    var moduleAliasName: String,
+    var module: AbsInit
+) : BaseDependObserverProxy<T>(),
     IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        synchronized(lock)
-        {
-            mInitCompletedAliases.add(aliasName)
-            if (libCount == mInitCompletedAliases.size) {
-                // LABEL BY LYW: 全部完成，外抛状态～
-                mObserver?.onCompleted(context, moduleAliasName)
-            }
-            val waitToInitList = mWaitToInitMap.remove(aliasName)
-            waitToInitList?.forEach {
-                it.refreshDependComplete(aliasName)
-                it.initialize(context, this)
-            }
+        mInitCompletedAliases.add(aliasName)
+        if (initCount == mInitCompletedAliases.size) {
+            // LABEL BY LYW: 全部完成，外抛状态～
+            module.hasInit = true
+            mObserver?.onCompleted(context, moduleAliasName)
+        }
+        val waitToInitList = mWaitToInitMap.remove(aliasName)
+        waitToInitList?.forEach {
+            it.refreshDependComplete(aliasName)
+            it.initialize(context, this)
         }
     }
 
@@ -37,20 +35,18 @@ constructor(var moduleAliasName: String) : BaseDependObserverProxy<T>(),
         init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
-        synchronized(lock)
-        {
-            Log.i("ruban_test", "dependAliasName:$dependAliasName")
-            if (mInitCompletedAliases.contains(dependAliasName)) {
-                init.refreshDependComplete(dependAliasName)
-                init.initialize(context, this)
-            } else {
-                var list = mWaitToInitMap.get(dependAliasName) ?: let {
-                    arrayListOf<AbsDependInit<IDependInitObserver>>().also {
-                        mWaitToInitMap[dependAliasName] = it
-                    }
+        Log.i("ruban_test", "dependAliasName:$dependAliasName")
+        if (mInitCompletedAliases.contains(dependAliasName)) {
+            init.refreshDependComplete(dependAliasName)
+            init.initialize(context, this)
+        } else {
+            var list = mWaitToInitMap.get(dependAliasName) ?: let {
+                arrayListOf<AbsDependInit<IDependInitObserver>>().also {
+                    mWaitToInitMap[dependAliasName] = it
                 }
-                list.add(init)
             }
+            list.add(init)
+
         }
     }
 }

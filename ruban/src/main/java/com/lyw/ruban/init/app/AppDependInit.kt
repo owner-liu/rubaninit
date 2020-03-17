@@ -22,7 +22,8 @@ class AppDependInit
     : IInitMap<Int, DependInitContainer<IDependInitObserver>, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
     IDependLibOperation,
-    IModuleCompleteObserverOperate {
+    IModuleCompleteObserverOperate,
+    IAppCompleteObserverOperate {
 
     private var mManagerObserver = AppManagerObserver<IDependInitObserver>()
 
@@ -30,6 +31,11 @@ class AppDependInit
 
     override fun put(key: Int, value: DependInitContainer<IDependInitObserver>) {
         (mData as TreeMap).put(key, value)
+    }
+
+    override fun initialize(context: InitContext, observer: IDependInitObserver) {
+        mManagerObserver.mModuleCount = mData.size
+        super.initialize(context, observer)
     }
 
     override fun doInit(
@@ -80,8 +86,12 @@ class AppDependInit
 
     override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
-        listener: IModulesCompleteListener
+        listener: ICompleteListener
     ) {
         mManagerObserver.addModuleCompletedListener(moduleAliases, listener)
+    }
+
+    override fun addAppCompletedListener(listener: ICompleteListener) {
+        mManagerObserver.addAppCompletedListener(listener)
     }
 }

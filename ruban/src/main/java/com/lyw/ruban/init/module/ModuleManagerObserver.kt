@@ -17,19 +17,17 @@ constructor(var moduleAliasName: String) : BaseDependObserverProxy<T>(),
     IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        synchronized(lock)
-        {
-            mInitCompletedAliases.add(aliasName)
-            if (libCount == mInitCompletedAliases.size) {
-                // LABEL BY LYW: 全部完成，外抛状态～
-                mObserver?.onCompleted(context, moduleAliasName)
-            }
-            val waitToInitList = mWaitToInitMap.remove(aliasName)
-            waitToInitList?.forEach {
-                it.refreshDependComplete(aliasName)
-                it.initialize(context, this)
-            }
+        mInitCompletedAliases.add(aliasName)
+        if (initCount == mInitCompletedAliases.size) {
+            // LABEL BY LYW: 全部完成，外抛状态～
+            mObserver?.onCompleted(context, moduleAliasName)
         }
+        val waitToInitList = mWaitToInitMap.remove(aliasName)
+        waitToInitList?.forEach {
+            it.refreshDependComplete(aliasName)
+            it.initialize(context, this)
+        }
+
     }
 
     override fun onWaitToInit(
@@ -37,20 +35,17 @@ constructor(var moduleAliasName: String) : BaseDependObserverProxy<T>(),
         init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
-        synchronized(lock)
-        {
-            Log.i("ruban_test", "dependAliasName:$dependAliasName")
-            if (mInitCompletedAliases.contains(dependAliasName)) {
-                init.refreshDependComplete(dependAliasName)
-                init.initialize(context, this)
-            } else {
-                var list = mWaitToInitMap.get(dependAliasName) ?: let {
-                    arrayListOf<AbsDependInit<IDependInitObserver>>().also {
-                        mWaitToInitMap[dependAliasName] = it
-                    }
+        Log.i("ruban_test", "dependAliasName:$dependAliasName")
+        if (mInitCompletedAliases.contains(dependAliasName)) {
+            init.refreshDependComplete(dependAliasName)
+            init.initialize(context, this)
+        } else {
+            var list = mWaitToInitMap.get(dependAliasName) ?: let {
+                arrayListOf<AbsDependInit<IDependInitObserver>>().also {
+                    mWaitToInitMap[dependAliasName] = it
                 }
-                list.add(init)
             }
+            list.add(init)
         }
     }
 }

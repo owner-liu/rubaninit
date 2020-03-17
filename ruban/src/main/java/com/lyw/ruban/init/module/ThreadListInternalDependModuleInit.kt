@@ -18,7 +18,9 @@ constructor(
 ) : IInitMap<Int, ThreadInternalDependArrayList, IInitObserver>,
     AbsDependModuleInit<ThreadInternalDependArrayList, DependLibInit, IInitObserver>() {
 
-    private val mObserver by lazy { ModuleDependManagerObserver<IInitObserver>(getAliasName()) }
+    private val mObserver by lazy {
+        ModuleDependManagerObserver<IInitObserver>(getAliasName(), this)
+    }
 
     override var mData: Map<Int, ThreadInternalDependArrayList> = TreeMap()
 
@@ -27,7 +29,7 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IInitObserver) {
-        mObserver.libCount = libCount
+        mObserver.initCount = libCount
         super.initialize(context, observer)
     }
 
