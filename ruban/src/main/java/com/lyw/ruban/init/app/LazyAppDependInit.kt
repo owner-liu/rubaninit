@@ -91,8 +91,22 @@ class LazyAppDependInit
         mManagerObserver.addAppCompletedListener(listener)
     }
 
-    override fun initializeLazy(context: InitContext, moduleCode: Int) {
+    override fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>) {
         // TODO by LYW: 2020-03-17 针对于 延迟初始化的，存在依赖的～ 需要甄别，后续会不会再执行，比如，depend触发的再执行，未轮训到的再执行～ 需要考虑是否需要锁～
-        get(moduleCode)?.initializeLazy(context, mManagerObserver)
+
+        /**
+         * 1.判断是否执行过～
+         *      a.添加锁（变更字段值和执行添加锁～）
+         *          判断是否执行过～
+         */
+        moduleCodes.forEach {
+            get(it)?.initializeLazy(context, mManagerObserver)
+        }
+    }
+
+    override fun initializeLazyAll(context: InitContext) {
+        getData().filter { it.value.checkLazy() }.forEach {
+            it.value.initializeLazy(context, mManagerObserver)
+        }
     }
 }
