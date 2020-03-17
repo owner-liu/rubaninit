@@ -4,10 +4,9 @@ import android.util.Log
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.comm.DependManagerObserver
 import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.init.app.AppDependInit
-import com.lyw.ruban.init.app.IModulesInitCompleteListener
+import com.lyw.ruban.init.app.ICompleteListener
 import com.lyw.ruban.init.module.ModuleInit
 import com.lyw.ruban.init.module.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.module.ThreadListInternalDependModuleInit
@@ -27,7 +26,7 @@ object TestManager {
 //        testThreadDependWithoutAlias()  //Lib->LibCopy,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
 //        testThreadDependWithAlias() //LibCopy-Lib>,由于完成通知的回调都是插入队首的，故异步队列中的onComplete会有先后顺序～
 //        testModuleDependWithAlias() //Lib->LibCopy
-//        testAppDependInit() //3->2->1
+        testAppDependInit() //3->2->1
     }
 
     private val mDependObserver = object : IDependInitObserver {
@@ -111,14 +110,25 @@ object TestManager {
             addModuleDependAlias(1, arrayListOf("2"))
             addModuleDependAlias(2, arrayListOf("3"))
         }
-        appDependInit.addCompletedListener(
-            hashSetOf(1),
-            object : IModulesInitCompleteListener {
+        appDependInit.addModuleCompletedListener(
+            hashSetOf(3),
+            object : ICompleteListener {
                 override fun onCompleted() {
                     Log.i("ruban_test", "监听到相关module 已完成～")
                 }
 
             })
+        appDependInit.addAppCompletedListener(object : ICompleteListener {
+            override fun onCompleted() {
+                Log.i("ruban_test", "全部初始化完毕！")
+            }
+        })
         appDependInit.initialize(initContext, mDependObserver)
+
+        appDependInit.addAppCompletedListener(object : ICompleteListener {
+            override fun onCompleted() {
+                Log.i("ruban_test", "全部初始化完毕～")
+            }
+        })
     }
 }

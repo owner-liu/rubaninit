@@ -19,12 +19,11 @@ open class DependManagerObserver<T : IInitObserver>
 
     @CallSuper
     override fun onCompleted(context: InitContext, aliasName: String) {
-        synchronized(lock)
-        {
-            mInitCompletedAliases.add(aliasName)
-            mObserver?.onCompleted(context, aliasName)
-            val waitToInitList = mWaitToInitMap.remove(aliasName)
-            waitToInitList?.forEach {
+        mInitCompletedAliases.add(aliasName)
+        mObserver?.onCompleted(context, aliasName)
+        val waitToInitList = mWaitToInitMap.remove(aliasName)
+        waitToInitList?.forEach {
+            context.syncHandle.postAtFrontOfQueue {
                 it.refreshDependComplete(aliasName)
                 it.initialize(context, this)
             }
@@ -37,20 +36,17 @@ open class DependManagerObserver<T : IInitObserver>
         init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
-        synchronized(lock)
-        {
-            Log.i("ruban_test", "dependAliasName:$dependAliasName")
-            if (mInitCompletedAliases.contains(dependAliasName)) {
-                init.refreshDependComplete(dependAliasName)
-                init.initialize(context, this)
-            } else {
-                var list = mWaitToInitMap.get(dependAliasName) ?: let {
-                    arrayListOf<AbsDependInit<IDependInitObserver>>().also {
-                        mWaitToInitMap[dependAliasName] = it
-                    }
+        Log.i("ruban_test", "dependAliasName:$dependAliasName")
+        if (mInitCompletedAliases.contains(dependAliasName)) {
+            init.refreshDependComplete(dependAliasName)
+            init.initialize(context, this)
+        } else {
+            var list = mWaitToInitMap.get(dependAliasName) ?: let {
+                arrayListOf<AbsDependInit<IDependInitObserver>>().also {
+                    mWaitToInitMap[dependAliasName] = it
                 }
-                list.add(init)
             }
+            list.add(init)
         }
     }
 }

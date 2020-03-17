@@ -13,5 +13,5 @@ abstract class AbsModuleInit<T : AbsThreadInit<Z>,
         U : AbsBaseInit<IInitObserver>,
         Z : IInitObserver> :
     AbsBaseInit<Z>(), IModule<T, U> {
-    var libCount: Int = 0
+    var initCount: Int = 0
 }

@@ -3,8 +3,6 @@ package com.lyw.ruban.init.module
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.widgets.CommThreadArrayList
-import com.lyw.ruban.init.widgets.DependLibInit
-import com.lyw.ruban.init.widgets.ThreadExternalDependArrayList
 import java.util.*
 
 /**
@@ -20,7 +18,9 @@ constructor(
 ) : IInitMap<Int, CommThreadArrayList, IInitObserver>,
     AbsModuleInit<CommThreadArrayList, LibInit, IInitObserver>() {
 
-    private val mObserver by lazy { ModuleDependManagerObserver<IInitObserver>(getAliasName()) }
+    private val mObserver by lazy {
+        ModuleDependManagerObserver<IInitObserver>(getAliasName(), this)
+    }
 
     override var mData: Map<Int, CommThreadArrayList> = TreeMap()
 
@@ -29,7 +29,7 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IInitObserver) {
-        mObserver.libCount = libCount
+        mObserver.initCount = initCount
         super.initialize(context, observer)
     }
 

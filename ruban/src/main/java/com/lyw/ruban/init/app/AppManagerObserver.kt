@@ -14,33 +14,52 @@ import java.lang.IllegalArgumentException
 class AppManagerObserver<T : IInitObserver>
     : DependManagerObserver<T>(),
     IModuleCompleteObserverOperate,
+    IAppCompleteObserverOperate,
     IDependInitObserver {
     // module 监测～
     private val mObserverList = arrayListOf<ModuleCompeteObserver>()
+    private val mAppObserverList = arrayListOf<ICompleteListener>()
 
     private var mContext: InitContext? = null
 
+    //module 数量～
+    var mModuleCount: Int = 0
+    //是否完成全部初始化～
+    private var mAppInitComplete = false
+
     override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
-        listener: IModulesCompleteListener
+        listener: ICompleteListener
     ) {
-        synchronized(lock)
-        {
-            val moduleCompeteObserver = ModuleCompeteObserver(moduleAliases, listener)
-
-            mContext?.let { context ->
-                mInitCompletedAliases.forEach { moduleCompeteObserver.onCompleted(context, it) }
-            }
-
-            mObserverList.add(moduleCompeteObserver)
+        val moduleCompeteObserver = ModuleCompeteObserver(moduleAliases, listener)
+        mContext?.let { context ->
+            mInitCompletedAliases.forEach { moduleCompeteObserver.onCompleted(context, it) }
         }
+        mObserverList.add(moduleCompeteObserver)
+
+    }
+
+    override fun addAppCompletedListener(listener: ICompleteListener) {
+        if (mAppInitComplete) {
+            listener.onCompleted()
+            return
+        }
+        mAppObserverList.add(listener)
     }
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        synchronized(lock) {
-            mContext = context
-            mObserverList.forEach { it.onCompleted(context, aliasName) }
-            super.onCompleted(context, aliasName)
+        mContext = context
+        mObserverList.forEach { it.onCompleted(context, aliasName) }
+
+        super.onCompleted(context, aliasName)
+
+
+        // TODO by LYW: 2020-03-16 判断逻辑需要优化～ 因为内部会继续去初始化相关的数据～
+
+        if (mModuleCount == mInitCompletedAliases.size) {
+            mAppInitComplete = true
+            mAppObserverList.forEach { it.onCompleted() }
+
         }
     }
 }
@@ -48,7 +67,7 @@ class AppManagerObserver<T : IInitObserver>
 class ModuleCompeteObserver
 constructor(
     private var moduleAliases: HashSet<Int>,
-    private var listener: IModulesCompleteListener
+    private var listener: ICompleteListener
 ) : IInitObserver {
 
     init {
@@ -72,9 +91,14 @@ constructor(
 }
 
 interface IModuleCompleteObserverOperate {
-    fun addModuleCompletedListener(moduleAliases: HashSet<Int>, listener: IModulesCompleteListener)
+    fun addModuleCompletedListener(moduleAliases: HashSet<Int>, listener: ICompleteListener)
 }
 
-interface IModulesCompleteListener {
+interface IAppCompleteObserverOperate {
+    fun addAppCompletedListener(listener: ICompleteListener)
+}
+
+
+interface ICompleteListener {
     fun onCompleted()
 }
