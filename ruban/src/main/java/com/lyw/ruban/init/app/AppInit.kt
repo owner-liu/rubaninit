@@ -4,7 +4,6 @@ import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.init.lib.ILibOperation
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.comm.ModuleInit
 import java.util.*
@@ -17,7 +16,7 @@ import java.util.*
 class AppInit
     : IInitMap<Int, ModuleInit, IInitObserver>,
     AbsBaseInit<IInitObserver>(),
-    ILibOperation {
+    IAppOperate {
 
     override var mData: Map<Int, ModuleInit> = TreeMap()
 

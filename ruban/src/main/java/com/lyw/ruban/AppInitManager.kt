@@ -26,6 +26,10 @@ package com.lyw.ruban
  * 针对于 延迟上报～
  * 1。初始化时，如果时延迟上报，则忽略该库～
  * 2。如果时因为depend 触发延迟上报～，则忽略 延迟上报的 标记位～
+ *
+ * 说明：
+ * 1。指定线程，无相关依赖，可延迟初始化 module～
+ * 2。指定线程，存在依赖（module内，module间），可延迟初始化（延迟初始化module不允许依赖延迟初始化的module～）。
  */
 class AppInitManager {
 }

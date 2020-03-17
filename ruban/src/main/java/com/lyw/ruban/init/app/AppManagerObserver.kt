@@ -36,7 +36,6 @@ class AppManagerObserver
             mInitCompletedAliases.forEach { moduleCompeteObserver.onCompleted(context, it) }
         }
         mObserverList.add(moduleCompeteObserver)
-
     }
 
     override fun addAppCompletedListener(listener: ICompleteListener) {
