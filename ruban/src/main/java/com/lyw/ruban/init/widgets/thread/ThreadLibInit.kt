@@ -12,4 +12,7 @@ import com.lyw.ruban.init.lib.LibInit
 class ThreadLibInit
 constructor(
     libInit: LibInit
-) : ThreadInitContainer<IInitObserver>(libInit.libThreadCode, libInit)
+) : ThreadInitContainer<IInitObserver>(
+    libInit.libThreadCode,
+    libInit
+)

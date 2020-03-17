@@ -11,7 +11,7 @@ import java.lang.reflect.Proxy
  */
 open class DependInitContainer<T : IInitObserver>
 constructor(
-    aliasList: ArrayList<String>,
+    aliasList: ArrayList<String> = arrayListOf(),
     var init: AbsBaseInit<T>
 ) : AbsDependInit<IDependInitObserver>(aliasList) {
 

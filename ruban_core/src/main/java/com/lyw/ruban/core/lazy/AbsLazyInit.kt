@@ -10,7 +10,7 @@ import com.lyw.ruban.core.InitContext
  * Created for abs base depend init~
  */
 abstract class AbsLazyInit<T : IInitObserver>
-constructor(private var lazy: Boolean) :
+constructor(private var lazy: Boolean = false) :
     AbsBaseInit<T>(),
     ILazyInit<T> {
 

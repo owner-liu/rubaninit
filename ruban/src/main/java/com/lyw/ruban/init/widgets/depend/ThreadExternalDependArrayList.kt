@@ -2,7 +2,6 @@ package com.lyw.ruban.init.widgets.depend
 
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.thread.ThreadInitContainer
-import com.lyw.ruban.init.widgets.depend.LibExternalDependInitArrayList
 
 /**
  * Created on  2020-03-07
@@ -13,4 +12,7 @@ class ThreadExternalDependArrayList
 constructor(
     threadCode: Int,
     var commThreadArrayList: LibExternalDependInitArrayList = LibExternalDependInitArrayList()
-) : ThreadInitContainer<IDependInitObserver>(threadCode, commThreadArrayList)
+) : ThreadInitContainer<IDependInitObserver>(
+    threadCode,
+    commThreadArrayList
+)

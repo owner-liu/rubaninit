@@ -11,7 +11,7 @@ import java.lang.reflect.Proxy
  */
 open class ThreadInitContainer<T : IInitObserver>
 constructor(
-    threadCode: Int,
+    threadCode: Int = ConstantsForCore.THREAD_ASYNC,
     var init: AbsBaseInit<T>
 ) : AbsThreadInit<T>(threadCode), IInit<T> {
 

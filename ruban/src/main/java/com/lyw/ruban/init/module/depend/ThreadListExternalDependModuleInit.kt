@@ -18,10 +18,7 @@ constructor(
     AbsDependModuleInit<ThreadExternalDependArrayList, DependThreadLibInit, IDependInitObserver>() {
 
     private val mObserver by lazy {
-        ModuleDependManagerObserver<IDependInitObserver>(
-            getAliasName(),
-            this
-        )
+        ModuleDependManagerObserver(getAliasName())
     }
 
     override var mData: Map<Int, ThreadExternalDependArrayList> = TreeMap()

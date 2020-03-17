@@ -10,7 +10,7 @@ import com.lyw.ruban.core.*
  */
 class ThreadInitContainerObserver<T : IInitObserver>
 constructor(
-    private var observerThreadCode: Int
+    private var observerThreadCode: Int = ConstantsForCore.THREAD_ASYNC
 ) : BaseObserverProxy<T>(),
     IInitObserver {
 
