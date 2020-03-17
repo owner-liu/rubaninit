@@ -2,6 +2,7 @@ package com.lyw.ruban.core.thread
 
 import android.os.Looper
 import com.lyw.ruban.core.*
+import com.lyw.ruban.core.comm.CommStatusObserverInvokeHandler
 import java.lang.reflect.Proxy
 
 /**

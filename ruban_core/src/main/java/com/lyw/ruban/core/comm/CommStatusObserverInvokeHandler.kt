@@ -1,5 +1,6 @@
-package com.lyw.ruban.core
+package com.lyw.ruban.core.comm
 
+import com.lyw.ruban.core.IInitObserver
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 

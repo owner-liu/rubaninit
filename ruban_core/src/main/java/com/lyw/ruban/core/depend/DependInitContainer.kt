@@ -1,7 +1,6 @@
 package com.lyw.ruban.core.depend
 
 import com.lyw.ruban.core.*
-import com.lyw.ruban.core.comm.DependProxyObserver
 import java.lang.reflect.Proxy
 
 /**
@@ -15,7 +14,8 @@ constructor(
     var init: AbsBaseInit<T>
 ) : AbsDependInit<IDependInitObserver>(aliasList) {
 
-    private val mContainerObserver = DependProxyObserver<T>()
+    private val mContainerObserver =
+        DependProxyObserver<T>()
 
     override fun getAliasName(): String {
         return init.getAliasName()

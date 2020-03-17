@@ -1,7 +1,7 @@
 package com.lyw.ruban.init.module.depend
 
 import android.util.Log
-import com.lyw.ruban.core.BaseDependObserverProxy
+import com.lyw.ruban.core.depend.BaseDependObserverProxy
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit

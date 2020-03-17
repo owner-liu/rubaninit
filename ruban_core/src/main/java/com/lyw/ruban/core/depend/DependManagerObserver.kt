@@ -1,11 +1,9 @@
-package com.lyw.ruban.core.comm
+package com.lyw.ruban.core.depend
 
 import android.util.Log
 import androidx.annotation.CallSuper
-import com.lyw.ruban.core.BaseDependObserverProxy
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.depend.AbsDependInit
 
 /**
  * Created on  2020-03-09

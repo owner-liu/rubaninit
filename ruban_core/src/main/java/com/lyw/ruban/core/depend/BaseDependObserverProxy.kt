@@ -1,6 +1,7 @@
-package com.lyw.ruban.core
+package com.lyw.ruban.core.depend
 
-import com.lyw.ruban.core.depend.AbsDependInit
+import com.lyw.ruban.core.BaseObserverProxy
+import com.lyw.ruban.core.IDependInitObserver
 
 /**
  * Created on  2020-03-09

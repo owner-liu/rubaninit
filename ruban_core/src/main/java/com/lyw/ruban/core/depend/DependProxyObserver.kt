@@ -1,4 +1,4 @@
-package com.lyw.ruban.core.comm
+package com.lyw.ruban.core.depend
 
 import com.lyw.ruban.core.BaseObserverProxy
 import com.lyw.ruban.core.IDependInitObserver

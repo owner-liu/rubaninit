@@ -3,7 +3,7 @@ package com.lyw.ruban.init.app
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.comm.DependManagerObserver
+import com.lyw.ruban.core.depend.DependManagerObserver
 import java.lang.IllegalArgumentException
 
 /**
