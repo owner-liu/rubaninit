@@ -15,5 +15,10 @@ abstract class AbsDependModuleInit<T : AbsThreadInit<Z>,
         U : AbsDependInit<IDependInitObserver>,
         Z : IInitObserver> :
     AbsBaseInit<Z>(), IModule<T, U> {
+
+    //统计 添加的lib 数量～
     var libCount: Int = 0
+
+    //是否是懒加载～
+    var lazy: Boolean = false
 }
