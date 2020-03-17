@@ -21,6 +21,11 @@ package com.lyw.ruban
  * 1。提供线程切换，不提供依赖功能：ModuleInit
  * 2。提供线程切换功能，提供线程集合内的依赖：ThreadListInternalDependModuleInit
  * 2。提供线程切换功能，提供module内的依赖：ThreadListExternalDependModuleInit
+ *
+ *
+ * 针对于 延迟上报～
+ * 1。初始化时，如果时延迟上报，则忽略该库～
+ * 2。如果时因为depend 触发延迟上报～，则忽略 延迟上报的 标记位～
  */
 class AppInitManager {
 }

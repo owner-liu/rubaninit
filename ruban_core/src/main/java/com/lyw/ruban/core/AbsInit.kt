@@ -9,7 +9,7 @@ abstract class AbsInit {
     /**
      *init completed or not
      */
-    var hasInit: Boolean = false
+    var hasInitComplete: Boolean = false
 
     abstract fun getAliasName(): String
 }

@@ -22,7 +22,7 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        if (hasInit) {
+        if (hasInitComplete) {
             return
         }
 

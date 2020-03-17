@@ -20,7 +20,7 @@ constructor(
         mInitCompletedAliases.add(aliasName)
         if (initCount == mInitCompletedAliases.size) {
             // LABEL BY LYW: 全部完成，外抛状态～
-            module.hasInit = true
+            module.hasInitComplete = true
             mObserver?.onCompleted(context, moduleAliasName)
         }
         val waitToInitList = mWaitToInitMap.remove(aliasName)

@@ -2,7 +2,6 @@ package com.lyw.ruban.init.module
 
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.widgets.DependLibInit
-import com.lyw.ruban.core.comm.DependManagerObserver
 import com.lyw.ruban.init.widgets.ThreadExternalDependArrayList
 import java.util.*
 
@@ -28,6 +27,9 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
+        if (hasInitComplete) {
+            return
+        }
         mObserver.initCount = libCount
         super.initialize(context, observer)
     }
@@ -47,6 +49,7 @@ constructor(
     }
 
     override fun addInit(init: DependLibInit) {
+        hasInitComplete = false
         val threadCode = init.dependLibInit.libThreadCode
         val threadList = get(threadCode)
         addLib(init, threadList)
