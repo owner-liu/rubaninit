@@ -5,12 +5,11 @@ import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
-import com.lyw.ruban.init.app.AppDependInit
 import com.lyw.ruban.init.app.ICompleteListener
+import com.lyw.ruban.init.app.LazyAppDependInit
 import com.lyw.ruban.init.module.comm.ModuleInit
 import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
-//import com.lyw.ruban.init.module.depend.ThreadListInternalDependModuleInit
 import com.lyw.rubaninit.test.comm.TestLib
 import com.lyw.rubaninit.test.comm.TestLibCopy
 import com.lyw.rubaninit.test.depend.*
@@ -78,7 +77,7 @@ object TestManager {
 
     private fun testAppDependInit() {
         var initContext = InitContext(null, true)
-        val appDependInit = AppDependInit().apply {
+        val appDependInit = LazyAppDependInit().apply {
             addLibInit(TestModuleADependLibCopy())
             addLibInit(TestModuleBDependLibCopy())
             addLibInit(TestModuleCDependLibCopy())

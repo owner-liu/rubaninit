@@ -4,7 +4,6 @@ import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.depend.DependInitContainer
 import com.lyw.ruban.init.lib.IDependLibOperation
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
@@ -21,8 +20,7 @@ import kotlin.collections.HashSet
  * Created for app module 存在依赖，初始化库存在module内的依赖～
  */
 
-// TODO by LYW: 2020-03-17
-class AppDependInit
+class LazyAppDependInit
     : IInitMap<Int, LazyDependModule, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
     IDependLibOperation,
