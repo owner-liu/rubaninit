@@ -1,5 +1,6 @@
-package com.lyw.ruban.core
+package com.lyw.ruban.core.depend
 
+import com.lyw.ruban.core.IDependInitObserver
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 
