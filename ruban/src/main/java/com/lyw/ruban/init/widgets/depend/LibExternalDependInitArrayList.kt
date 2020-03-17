@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.widgets
+package com.lyw.ruban.init.widgets.depend
 
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
@@ -12,16 +12,16 @@ import com.lyw.ruban.core.comm.DependProxyObserver
  * Created for 集合内部相关依赖和完成不进行处理~ 直接外抛~
  */
 class LibExternalDependInitArrayList :
-    AbsInitArrayList<DependLibInit, IDependInitObserver>() {
+    AbsInitArrayList<DependThreadLibInit, IDependInitObserver>() {
 
-    override var mData: List<DependLibInit> = arrayListOf()
+    override var mData: List<DependThreadLibInit> = arrayListOf()
 
     private val mObserverProxy =
         DependProxyObserver<IInitObserver>()
 
     override fun doInit(
         context: InitContext,
-        init: DependLibInit,
+        init: DependThreadLibInit,
         observer: IDependInitObserver
     ) {
         mObserverProxy.mObserver = observer

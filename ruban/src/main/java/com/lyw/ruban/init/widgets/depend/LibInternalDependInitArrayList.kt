@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.widgets
+package com.lyw.ruban.init.widgets.depend
 
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
@@ -11,15 +11,15 @@ import com.lyw.ruban.core.comm.DependManagerObserver
  * Created for 集合内部 存在依赖～
  */
 class LibInternalDependInitArrayList :
-    AbsInitArrayList<DependLibInit, IInitObserver>() {
+    AbsInitArrayList<DependThreadLibInit, IInitObserver>() {
 
-    override var mData: List<DependLibInit> = arrayListOf()
+    override var mData: List<DependThreadLibInit> = arrayListOf()
 
     private val mObserverPoxy by lazy {
         DependManagerObserver<IInitObserver>()
     }
 
-    override fun doInit(context: InitContext, init: DependLibInit, observer: IInitObserver) {
+    override fun doInit(context: InitContext, init: DependThreadLibInit, observer: IInitObserver) {
         mObserverPoxy.mObserver = observer
         init.initialize(context, mObserverPoxy)
     }

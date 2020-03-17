@@ -11,12 +11,8 @@ import com.lyw.ruban.core.InitContext
  */
 abstract class AbsLazyInit<T : IInitObserver>
 constructor(private var lazy: Boolean) :
-    AbsBaseInit<T>() {
-
-    /**
-     * 初始化 lazy module～
-     */
-    abstract fun initializeLazy(context: InitContext, observer: T)
+    AbsBaseInit<T>(),
+    ILazyInit<T> {
 
     fun checkLazy(): Boolean {
         return lazy

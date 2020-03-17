@@ -53,13 +53,9 @@ class AppManagerObserver<T : IInitObserver>
 
         super.onCompleted(context, aliasName)
 
-
-        // TODO by LYW: 2020-03-16 判断逻辑需要优化～ 因为内部会继续去初始化相关的数据～
-
         if (mModuleCount == mInitCompletedAliases.size) {
             mAppInitComplete = true
             mAppObserverList.forEach { it.onCompleted() }
-
         }
     }
 }

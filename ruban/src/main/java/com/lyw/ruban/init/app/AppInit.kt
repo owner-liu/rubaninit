@@ -6,8 +6,7 @@ import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.lib.ILibOperation
 import com.lyw.ruban.init.lib.LibInit
-import com.lyw.ruban.init.module.ModuleInit
-import com.lyw.ruban.init.widgets.CommThreadArrayList
+import com.lyw.ruban.init.module.comm.ModuleInit
 import java.util.*
 
 /**
