@@ -1,43 +1,85 @@
 package com.lyw.ruban
 
+import android.app.Application
 import com.lyw.ruban.core.InitContext
+import com.lyw.ruban.init.app.LazyAppDependInit
+import com.lyw.ruban.init.lib.LibInit
+import java.lang.IllegalArgumentException
 
 /**
  * Created on  2020-03-06
  * Created by  lyw
  * Created for app 管理～
  *
- * 思考个问题：
- * 1.相关库初始化成功后，相关类 是否还有存在的必要？
- *
- * 注：
- * 1。库之间的依赖提供跨线程，不提供跨Module依赖
- * 2。Module延迟初始化，其依赖库不允许设置为延迟初始化～
- *
- * 提供的功能：
- * App级别：
- * 1。提供Module间依赖～
- * 2。提供Module初始化查询～ //待实现～
- * 3。提供Module延迟初始化，初始化设置为延迟的Module～ //待实现～
- * Module级别：
- * 1。提供线程切换，不提供依赖功能：ModuleInit
- * 2。提供线程切换功能，提供线程集合内的依赖：ThreadListInternalDependModuleInit
- * 2。提供线程切换功能，提供module内的依赖：ThreadListExternalDependModuleInit
- *
- *
- * 针对于 延迟上报～
- * 1。初始化时，如果时延迟上报，则忽略该库～
- * 2。如果时因为depend 触发延迟上报～，则忽略 延迟上报的 标记位～
- *
  * 说明：
- * 1。指定线程，无相关依赖，可延迟初始化 module～
- * 2。指定线程，存在依赖（module内，module间），可延迟初始化（延迟初始化module不允许依赖延迟初始化的module～）。
+ * 1。初始化
+ *      1。module～
+ *              1。库的初始化以module为界
+ *              2。module 可以设置延迟加载～
+ *              3。module 之间可以存在依赖关系～
+ *      2。lib
+ *              1。lib 可以设置指定线程执行～
+ *              2。lib 之间可以存在 module内的依赖关系
+ *
+ * 2。监听
+ *      1。可以设置单个或者多个module的初始化完成监听～
+ *      2。可以设置所有的module初始化完成监听（包含延迟初始化的module）～
+ *
+ * 3。针对于延迟初始化～
+ *      1。延迟初始化的库之间禁止存在依赖关系～
+ *
+ *
  */
-class AppInitManager {
+object AppInitManager
+    : IAppOperate,
+    IAppDependOperate,
+    IModuleCompleteObserverOperate,
+    IAppCompleteObserverOperate {
 
     private var mContext: InitContext? = null
 
+    private val mLazyAppDependInit by lazy { LazyAppDependInit() }
 
+    fun setModuleLazy(moduleCode: Int) {
+        mLazyAppDependInit.setModuleLazy(moduleCode)
+    }
 
+    fun initialize(application: Application, isDebug: Boolean) {
+        mContext = InitContext(application, isDebug)
+    }
 
+    fun initializeLazy(moduleCodes: ArrayList<Int>) {
+        mContext?.let {
+            mLazyAppDependInit.initializeLazy(it, moduleCodes)
+        } ?: let {
+            throw IllegalArgumentException("please invoke initialize(application: Application, isDebug: Boolean)～")
+        }
+    }
+
+    fun initializeLazyAll() {
+        mContext?.let {
+            mLazyAppDependInit.initializeLazyAll(it)
+        } ?: let {
+            throw IllegalArgumentException("please invoke initialize(application: Application, isDebug: Boolean)～")
+        }
+    }
+
+    override fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>) {
+        mLazyAppDependInit.addModuleDependAlias(moduleCode, list)
+    }
+
+    override fun addLibInit(libInit: LibInit) {
+        mLazyAppDependInit.addLibInit(libInit)
+    }
+
+    override fun addModuleCompletedListener(
+        moduleAliases: HashSet<Int>,
+        listener: ICompleteListener
+    ) {
+        mLazyAppDependInit.addModuleCompletedListener(moduleAliases, listener)
+    }
+
+    override fun addAppCompletedListener(listener: ICompleteListener) {
+        mLazyAppDependInit.addAppCompletedListener(listener)
+    }
 }
