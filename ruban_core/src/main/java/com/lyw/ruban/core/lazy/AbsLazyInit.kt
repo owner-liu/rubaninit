@@ -14,11 +14,16 @@ constructor(private var lazy: Boolean = false) :
     AbsBaseInit<T>(),
     ILazyInit<T> {
 
+    val mLock = Any()
+
+    //是否已经触发过 lazy 检测～ 主要涉及 初始化 lazy module， 是否需要主动调用 initialize～
+    var hasCheckLazy = false
+
     fun checkLazy(): Boolean {
         return lazy
     }
 
-    fun resetLazy() {
-        lazy = false
+    fun setLazy(lazy: Boolean) {
+        this.lazy = lazy
     }
 }
