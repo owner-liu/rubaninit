@@ -5,7 +5,7 @@ import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
-import com.lyw.ruban.init.app.ICompleteListener
+import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.init.app.LazyAppDependInit
 import com.lyw.ruban.init.module.comm.ModuleInit
 import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
@@ -101,14 +101,16 @@ object TestManager {
                 }
 
             })
-        appDependInit.addAppCompletedListener(object : ICompleteListener {
+        appDependInit.addAppCompletedListener(object :
+            ICompleteListener {
             override fun onCompleted() {
                 Log.i("ruban_test", "全部初始化完毕！")
             }
         })
         appDependInit.initialize(initContext, mDependObserver)
 
-        appDependInit.addAppCompletedListener(object : ICompleteListener {
+        appDependInit.addAppCompletedListener(object :
+            ICompleteListener {
             override fun onCompleted() {
                 Log.i("ruban_test", "全部初始化完毕～")
             }
