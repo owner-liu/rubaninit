@@ -38,13 +38,13 @@ class AppInit
         return javaClass.simpleName
     }
 
-    override fun addLibInit(init: LibInit) {
-        val moduleCode = init.libModuleCode
+    override fun addLibInit(libInit: LibInit) {
+        val moduleCode = libInit.libModuleCode
         val module = mData.get(moduleCode) ?: let {
             ModuleInit(moduleCode).also {
                 put(moduleCode, it)
             }
         }
-        module.addInit(init)
+        module.addInit(libInit)
     }
 }

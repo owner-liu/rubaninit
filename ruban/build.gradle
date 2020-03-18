@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
+version = version_name
+
 android {
     compileSdkVersion Integer.valueOf(version_compile_sdk)
 
@@ -19,7 +22,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
