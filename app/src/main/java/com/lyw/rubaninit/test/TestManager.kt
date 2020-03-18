@@ -1,6 +1,8 @@
 package com.lyw.rubaninit.test
 
+import android.app.Application
 import android.util.Log
+import com.lyw.ruban.AppInitManager
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
@@ -17,15 +19,15 @@ import com.lyw.rubaninit.test.depend.*
 /**
  * Created on  2020-03-08
  * Created by  lyw
- * Created for
+ * Created for test manager~
  */
 object TestManager {
-    fun test() {
+    fun test(application: Application, isDebug: Boolean) {
 //        testWithoutDepend() //LibCopy->Lib
 //        testModuleDependWithAlias() //Lib->LibCopy
 //        testAppDependInit()
 //        testAppLazyDependInit()
-        testAppLazyDependThreadInit()
+        testAppLazyDependThreadInit(application, isDebug)
     }
 
     private val mDependObserver = object : IDependInitObserver {
@@ -40,7 +42,6 @@ object TestManager {
         ) {
             Log.i("ruban_test", "onWaitToInit-$dependAliasName-${System.currentTimeMillis()}")
         }
-
     }
 
 
@@ -61,7 +62,7 @@ object TestManager {
     /**
      * 无任何依赖关系～
      */
-    private fun testWithoutDepend() {
+    private fun testWithoutDepend(application: Application, isDebug: Boolean) {
         var initContext = InitContext(null, true)
         ModuleInit(1).apply {
             addInit(TestLibCopy())
@@ -72,7 +73,7 @@ object TestManager {
     /**
      * module内，线程集合间存在依赖～
      */
-    private fun testModuleDependWithAlias() {
+    private fun testModuleDependWithAlias(application: Application, isDebug: Boolean) {
         var initContext = InitContext(null, true)
         ThreadListExternalDependModuleInit(2).apply {
             addInit(
@@ -84,86 +85,81 @@ object TestManager {
         }.initialize(initContext, mDependObserver)
     }
 
-    private fun testAppDependInit() {
-        var initContext = InitContext(null, true)
-        val appDependInit = LazyAppDependInit().apply {
+    private fun testAppDependInit(application: Application, isDebug: Boolean) {
+        AppInitManager.apply {
             addLibInit(TestModuleADependLibCopy())
             addLibInit(TestModuleBDependLibCopy())
             addLibInit(TestModuleCDependLibCopy())
             addModuleDependAlias(1, arrayListOf("2"))
             addModuleDependAlias(2, arrayListOf("3"))
-        }
-        appDependInit.addModuleCompletedListener(
-            hashSetOf(3),
-            object : ICompleteListener {
+            addModuleCompletedListener(
+                hashSetOf(3),
+                object : ICompleteListener {
+                    override fun onCompleted() {
+                        Log.i("ruban_test", "监听到相关module 已完成～")
+                    }
+
+                })
+            addAppCompletedListener(object :
+                ICompleteListener {
                 override fun onCompleted() {
-                    Log.i("ruban_test", "监听到相关module 已完成～")
+                    Log.i("ruban_test", "全部初始化完毕！")
                 }
-
             })
-        appDependInit.addAppCompletedListener(object :
-            ICompleteListener {
-            override fun onCompleted() {
-                Log.i("ruban_test", "全部初始化完毕！")
-            }
-        })
-        appDependInit.initialize(initContext, mDependObserver)
+            initialize(application, isDebug)
 
-        appDependInit.addAppCompletedListener(object :
-            ICompleteListener {
-            override fun onCompleted() {
-                Log.i("ruban_test", "全部初始化完毕～")
-            }
-        })
+            addAppCompletedListener(object :
+                ICompleteListener {
+                override fun onCompleted() {
+                    Log.i("ruban_test", "全部初始化完毕～")
+                }
+            })
+        }
     }
 
-    private fun testAppLazyDependInit() {
-        var initContext = InitContext(null, true)
-        val appDependInit = LazyAppDependInit().apply {
+    private fun testAppLazyDependInit(application: Application, isDebug: Boolean) {
+        AppInitManager.apply {
             addLibInit(TestModuleADependLibCopy())
             addLibInit(TestModuleBDependLibCopy())
             addLibInit(TestModuleCDependLibCopy())
             addModuleDependAlias(1, arrayListOf("2"))
             addModuleDependAlias(2, arrayListOf("3"))
             setModuleLazy(2)
+            addModuleCompletedListener(
+                hashSetOf(3),
+                object : ICompleteListener {
+                    override fun onCompleted() {
+                        Log.i("ruban_test", "监听到相关module 已完成～")
+
+                        initializeLazyAll()
+                    }
+                })
+
+            addAppCompletedListener(mCompleteObserver)
+            initialize(application, isDebug);
+            addAppCompletedListener(mCompleteObserver)
         }
-        appDependInit.addModuleCompletedListener(
-            hashSetOf(3),
-            object : ICompleteListener {
-                override fun onCompleted() {
-                    Log.i("ruban_test", "监听到相关module 已完成～")
-
-                    appDependInit.initializeLazyAll(initContext)
-                }
-            })
-        appDependInit.addAppCompletedListener(mCompleteObserver)
-
-        appDependInit.initialize(initContext, mDependObserver)
-
-        appDependInit.addAppCompletedListener(mCompleteObserver)
     }
 
-    private fun testAppLazyDependThreadInit() {
-        var initContext = InitContext(null, true)
-        val appDependInit = LazyAppDependInit().apply {
+    private fun testAppLazyDependThreadInit(application: Application, isDebug: Boolean) {
+        AppInitManager.apply {
             addLibInit(TestThreadALib())
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
             addModuleDependAlias(1, arrayListOf("2"))
+            addModuleCompletedListener(
+                hashSetOf(1),
+                object : ICompleteListener {
+                    override fun onCompleted() {
+                        Log.i("ruban_test", "监听到相关module 已完成～")
+
+                        initializeLazyAll()
+                    }
+                })
+
+            addAppCompletedListener(mCompleteObserver)
+
+            initialize(application, isDebug);
         }
-
-        appDependInit.addModuleCompletedListener(
-            hashSetOf(1),
-            object : ICompleteListener {
-                override fun onCompleted() {
-                    Log.i("ruban_test", "监听到相关module 已完成～")
-
-                    appDependInit.initializeLazyAll(initContext)
-                }
-            })
-
-        appDependInit.addAppCompletedListener(mCompleteObserver)
-
-        appDependInit.initialize(initContext, mDependObserver)
     }
 }
