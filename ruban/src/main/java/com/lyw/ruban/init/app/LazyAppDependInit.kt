@@ -67,8 +67,7 @@ class LazyAppDependInit
                 put(moduleCode, it)
             }
         }
-
-        (module.init as ThreadListExternalDependModuleInit).addInit(init)
+        ((module.init as DependModule).init as ThreadListExternalDependModuleInit).addInit(init)
     }
 
     override fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>) {
@@ -91,14 +90,16 @@ class LazyAppDependInit
         mManagerObserver.addAppCompletedListener(listener)
     }
 
-    override fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>) {
-        // TODO by LYW: 2020-03-17 针对于 延迟初始化的，存在依赖的～ 需要甄别，后续会不会再执行，比如，depend触发的再执行，未轮训到的再执行～ 需要考虑是否需要锁～
+    override fun setModuleLazy(moduleCode: Int) {
+        val module = get(moduleCode) ?: let {
+            LazyDependModule(moduleCode).also {
+                put(moduleCode, it)
+            }
+        }
+        module.setLazy(true)
+    }
 
-        /**
-         * 1.判断是否执行过～
-         *      a.添加锁（变更字段值和执行添加锁～）
-         *          判断是否执行过～
-         */
+    override fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>) {
         moduleCodes.forEach {
             get(it)?.initializeLazy(context, mManagerObserver)
         }

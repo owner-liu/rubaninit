@@ -17,6 +17,9 @@ interface IAppDependOperate : IAppOperate {
 }
 
 interface IAppLazyOperate : IAppOperate, IAppDependOperate {
+
+    fun setModuleLazy(moduleCode: Int)
+
     fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>)
 
     fun initializeLazyAll(context: InitContext)
