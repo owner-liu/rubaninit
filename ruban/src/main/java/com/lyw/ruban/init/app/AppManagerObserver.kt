@@ -1,5 +1,8 @@
 package com.lyw.ruban.init.app
 
+import com.lyw.ruban.IAppCompleteObserverOperate
+import com.lyw.ruban.ICompleteListener
+import com.lyw.ruban.IModuleCompleteObserverOperate
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
@@ -83,17 +86,4 @@ constructor(
             }
         }
     }
-}
-
-interface IModuleCompleteObserverOperate {
-    fun addModuleCompletedListener(moduleAliases: HashSet<Int>, listener: ICompleteListener)
-}
-
-interface IAppCompleteObserverOperate {
-    fun addAppCompletedListener(listener: ICompleteListener)
-}
-
-
-interface ICompleteListener {
-    fun onCompleted()
 }

@@ -1,5 +1,7 @@
 package com.lyw.ruban
 
+import com.lyw.ruban.core.InitContext
+
 /**
  * Created on  2020-03-06
  * Created by  lyw
@@ -32,4 +34,10 @@ package com.lyw.ruban
  * 2。指定线程，存在依赖（module内，module间），可延迟初始化（延迟初始化module不允许依赖延迟初始化的module～）。
  */
 class AppInitManager {
+
+    private var mContext: InitContext? = null
+
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.lyw.ruban.init.app
 
+import com.lyw.ruban.*
 import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
@@ -22,10 +23,11 @@ import kotlin.collections.HashSet
 class LazyAppDependInit
     : IInitMap<Int, LazyDependModule, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
+    IAppOperate,
     IAppDependOperate,
+    IAppLazyOperate,
     IModuleCompleteObserverOperate,
-    IAppCompleteObserverOperate,
-    IAppLazyOperate {
+    IAppCompleteObserverOperate {
 
     private var mManagerObserver = AppManagerObserver()
 
