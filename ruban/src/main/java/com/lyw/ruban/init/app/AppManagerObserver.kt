@@ -2,6 +2,7 @@ package com.lyw.ruban.init.app
 
 import com.lyw.ruban.IAppCompleteObserverOperate
 import com.lyw.ruban.ICompleteListener
+import com.lyw.ruban.IModuleCompleteListener
 import com.lyw.ruban.IModuleCompleteObserverOperate
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
@@ -23,8 +24,6 @@ class AppManagerObserver
     private val mObserverList = arrayListOf<ModuleCompeteObserver>()
     private val mAppObserverList = arrayListOf<ICompleteListener>()
 
-    private var mContext: InitContext? = null
-
     //module 数量～
     var mModuleCount: Int = 0
     //是否完成全部初始化～
@@ -35,9 +34,7 @@ class AppManagerObserver
         listener: ICompleteListener
     ) {
         val moduleCompeteObserver = ModuleCompeteObserver(moduleAliases, listener)
-        mContext?.let { context ->
-            mInitCompletedAliases.forEach { moduleCompeteObserver.onCompleted(context, it) }
-        }
+        mInitCompletedAliases.forEach { moduleCompeteObserver.onCompleted(it) }
         mObserverList.add(moduleCompeteObserver)
     }
 
@@ -50,8 +47,7 @@ class AppManagerObserver
     }
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        mContext = context
-        mObserverList.forEach { it.onCompleted(context, aliasName) }
+        mObserverList.forEach { it.onCompleted(aliasName) }
 
         super.onCompleted(context, aliasName)
 
@@ -66,7 +62,7 @@ class ModuleCompeteObserver
 constructor(
     private var moduleAliases: HashSet<Int>,
     private var listener: ICompleteListener
-) : IInitObserver {
+) : IModuleCompleteListener {
 
     init {
         if (moduleAliases.isEmpty()) {
@@ -74,7 +70,7 @@ constructor(
         }
     }
 
-    override fun onCompleted(context: InitContext, aliasName: String) {
+    override fun onCompleted(aliasName: String) {
         if (moduleAliases.isEmpty()) {
             return
         }
