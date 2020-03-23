@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.annotation.CallSuper
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created on  2020-03-09
@@ -20,9 +23,12 @@ open class DependManagerObserver
         mObserver?.onCompleted(context, aliasName)
         val waitToInitList = mWaitToInitMap.remove(aliasName)
         waitToInitList?.forEach {
-            context.syncHandle.postAtFrontOfQueue {
-                it.refreshDependComplete(aliasName)
-                it.initialize(context, this)
+            context.mInitScope.launch {
+                withContext(Dispatchers.Main)
+                {
+                    it.refreshDependComplete(aliasName)
+                    it.initialize(context, this@DependManagerObserver)
+                }
             }
         }
     }

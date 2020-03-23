@@ -19,7 +19,7 @@ class TestThreadCLib :
     }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
-        if (Looper.myLooper() != context.asyncHandle.looper) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
             Log.i("ruban_test", "线程异常～ alias:${getAliasName()}")
         }
     }

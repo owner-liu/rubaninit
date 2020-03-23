@@ -1,9 +1,8 @@
 package com.lyw.ruban.core
 
 import android.app.Application
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 /**
  * Created on  2020-03-05
@@ -13,15 +12,7 @@ import android.os.Looper
 open class InitContext
 constructor(
     var application: Application? = null,
-    var isDebug: Boolean = false,
-    private var initLoop: Looper? = null
+    var isDebug: Boolean = false
 ) {
-    init {
-        val handler = HandlerThread("lib_init")
-        handler.start()
-        this.initLoop = handler.looper
-    }
-
-    val syncHandle: Handler by lazy { Handler(Looper.getMainLooper()) }
-    val asyncHandle: Handler by lazy { Handler(initLoop) }
+    val mInitScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.Main) }
 }
