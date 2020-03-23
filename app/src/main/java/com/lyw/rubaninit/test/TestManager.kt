@@ -8,7 +8,7 @@ import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.ICompleteListener
-import com.lyw.ruban.init.app.LazyAppDependInit
+import com.lyw.ruban.init.module.ModuleConfig
 import com.lyw.ruban.init.module.comm.ModuleInit
 import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
@@ -90,8 +90,10 @@ object TestManager {
             addLibInit(TestModuleADependLibCopy())
             addLibInit(TestModuleBDependLibCopy())
             addLibInit(TestModuleCDependLibCopy())
-            addModuleDependAlias(1, arrayListOf("2"))
-            addModuleDependAlias(2, arrayListOf("3"))
+
+            configModule(ModuleConfig(1, false, arrayListOf("2")))
+            configModule(ModuleConfig(2, false, arrayListOf("3")))
+
             addModuleCompletedListener(
                 hashSetOf(3),
                 object : ICompleteListener {
@@ -122,9 +124,10 @@ object TestManager {
             addLibInit(TestModuleADependLibCopy())
             addLibInit(TestModuleBDependLibCopy())
             addLibInit(TestModuleCDependLibCopy())
-            addModuleDependAlias(1, arrayListOf("2"))
-            addModuleDependAlias(2, arrayListOf("3"))
-            setModuleLazy(2)
+
+            configModule(ModuleConfig(1, false, arrayListOf("2")))
+            configModule(ModuleConfig(2, true, arrayListOf("3")))
+
             addModuleCompletedListener(
                 hashSetOf(3),
                 object : ICompleteListener {
@@ -146,7 +149,7 @@ object TestManager {
             addLibInit(TestThreadALib())
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
-            addModuleDependAlias(1, arrayListOf("2"))
+            configModule(ModuleConfig(1, false, arrayListOf("2")))
             addModuleCompletedListener(
                 hashSetOf(1),
                 object : ICompleteListener {

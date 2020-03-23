@@ -4,6 +4,9 @@ import android.app.Application
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.app.LazyAppDependInit
 import com.lyw.ruban.init.lib.LibInit
+import com.lyw.ruban.init.module.ModuleConfig
+import com.lyw.ruban.init.widgets.depend.DependModule
+import com.lyw.ruban.init.widgets.lazy.LazyDependModule
 import java.lang.IllegalArgumentException
 
 /**
@@ -32,20 +35,17 @@ import java.lang.IllegalArgumentException
  */
 object AppInitManager
     : IAppOperate,
-    IAppDependOperate,
-    IModuleCompleteObserverOperate,
-    IAppCompleteObserverOperate {
+    IAppCompleteObserverOperate,
+    IModuleConfig {
 
     private var mContext: InitContext? = null
 
     private val mLazyAppDependInit by lazy { LazyAppDependInit() }
 
-    fun setModuleLazy(moduleCode: Int) {
-        mLazyAppDependInit.setModuleLazy(moduleCode)
-    }
-
     fun initialize(application: Application, isDebug: Boolean) {
-        mContext = InitContext(application, isDebug)
+        val context = InitContext(application, isDebug)
+        mContext = context
+        mLazyAppDependInit.initialize(context)
     }
 
     fun initializeLazy(moduleCodes: ArrayList<Int>) {
@@ -64,15 +64,15 @@ object AppInitManager
         }
     }
 
-    override fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>) {
-        mLazyAppDependInit.addModuleDependAlias(moduleCode, list)
+    override fun configModule(config: ModuleConfig) {
+        mLazyAppDependInit.configModule(config)
     }
 
     override fun addLibInit(libInit: LibInit) {
         mLazyAppDependInit.addLibInit(libInit)
     }
 
-    override fun addModuleCompletedListener(
+    fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
         listener: ICompleteListener
     ) {

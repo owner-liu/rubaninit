@@ -6,6 +6,7 @@ import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.lib.LibInit
+import com.lyw.ruban.init.module.ModuleConfig
 import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.depend.DependModule
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
@@ -24,7 +25,7 @@ class LazyAppDependInit
     : IInitMap<Int, LazyDependModule, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
     IAppOperate,
-    IAppDependOperate,
+    IModuleConfig,
     IAppLazyOperate,
     IModuleCompleteObserverOperate,
     IAppCompleteObserverOperate {
@@ -37,9 +38,15 @@ class LazyAppDependInit
         (mData as TreeMap).put(key, value)
     }
 
+    fun initialize(context: InitContext) {
+        mManagerObserver.mModuleCount = mData.size
+        super.initialize(context, mManagerObserver)
+    }
+
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
         mManagerObserver.mModuleCount = mData.size
-        super.initialize(context, observer)
+        mManagerObserver.mObserver = observer
+        super.initialize(context, mManagerObserver)
     }
 
     override fun doInit(
@@ -48,8 +55,7 @@ class LazyAppDependInit
         value: LazyDependModule?,
         observer: IDependInitObserver
     ) {
-        mManagerObserver.mObserver = observer
-        value?.initialize(context, mManagerObserver)
+        value?.initialize(context, observer)
     }
 
     override fun getAliasName(): String {
@@ -72,15 +78,6 @@ class LazyAppDependInit
         ((module.init as DependModule).init as ThreadListExternalDependModuleInit).addInit(init)
     }
 
-    override fun addModuleDependAlias(moduleCode: Int, list: ArrayList<String>) {
-        val module = get(moduleCode) ?: let {
-            LazyDependModule(moduleCode).also {
-                put(moduleCode, it)
-            }
-        }
-        (module.init as DependModule).addAliasList(list)
-    }
-
     override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
         listener: ICompleteListener
@@ -92,13 +89,16 @@ class LazyAppDependInit
         mManagerObserver.addAppCompletedListener(listener)
     }
 
-    override fun setModuleLazy(moduleCode: Int) {
+    override fun configModule(config: ModuleConfig) {
+        val moduleCode = config.moduleCode
         val module = get(moduleCode) ?: let {
             LazyDependModule(moduleCode).also {
                 put(moduleCode, it)
             }
         }
-        module.setLazy(true)
+        module.setLazy(config.lazy)
+        val aliasList = config.dependAlias ?: return
+        (module.init as DependModule).addAliasList(aliasList)
     }
 
     override fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>) {
