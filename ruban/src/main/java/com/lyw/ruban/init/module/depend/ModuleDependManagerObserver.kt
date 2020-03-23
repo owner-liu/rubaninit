@@ -5,6 +5,9 @@ import com.lyw.ruban.core.depend.BaseDependObserverProxy
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created on  2020-03-09
@@ -27,9 +30,11 @@ constructor(var moduleAliasName: String) : BaseDependObserverProxy(),
         }
         val waitToInitList = mWaitToInitMap.remove(aliasName)
         waitToInitList?.forEach {
-            context.syncHandle.postAtFrontOfQueue {
-                it.refreshDependComplete(aliasName)
-                it.initialize(context, this)
+            context.mInitScope.launch {
+                withContext(Dispatchers.Main) {
+                    it.refreshDependComplete(aliasName)
+                    it.initialize(context, this@ModuleDependManagerObserver)
+                }
             }
         }
 

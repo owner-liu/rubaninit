@@ -26,7 +26,7 @@ object TestManager {
 //        testWithoutDepend() //LibCopy->Lib
 //        testModuleDependWithAlias() //Lib->LibCopy
 //        testAppDependInit()
-//        testAppLazyDependInit()
+//        testAppLazyDependInit(application,isDebug)
         testAppLazyDependThreadInit(application, isDebug)
     }
 

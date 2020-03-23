@@ -3,6 +3,9 @@ package com.lyw.ruban.core.thread
 import android.os.Looper
 import com.lyw.ruban.core.*
 import com.lyw.ruban.core.comm.CommStatusObserverInvokeHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.reflect.Proxy
 
 /**
@@ -42,21 +45,25 @@ constructor(
 
             when (getCurrentThreadCode()) {
                 ConstantsForCore.THREAD_ASYNC -> {
-                    if (context.asyncHandle.looper == Looper.myLooper()) {
+                    if (Looper.myLooper() != Looper.getMainLooper()) {
                         it.initialize(context, proxyObserver)
                     } else {
-                        context.asyncHandle.postAtFrontOfQueue {
-                            it.initialize(context, proxyObserver)
+                        context.mInitScope.launch {
+                            withContext(Dispatchers.IO) {
+                                it.initialize(context, proxyObserver)
+                            }
                         }
                     }
                 }
 
                 ConstantsForCore.THREAD_SYNC -> {
-                    if (context.syncHandle.looper == Looper.myLooper()) {
-                        init?.initialize(context, proxyObserver)
+                    if (Looper.myLooper() == Looper.getMainLooper()) {
+                        it.initialize(context, proxyObserver)
                     } else {
-                        context.syncHandle.postAtFrontOfQueue {
-                            it.initialize(context, proxyObserver)
+                        context.mInitScope.launch {
+                            withContext(Dispatchers.Main) {
+                                it.initialize(context, proxyObserver)
+                            }
                         }
                     }
                 }
