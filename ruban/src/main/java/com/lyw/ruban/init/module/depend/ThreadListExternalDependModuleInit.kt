@@ -31,8 +31,9 @@ constructor(
         if (hasInitComplete) {
             return
         }
+        mObserver.mObserver = observer
         mObserver.initCount = initCount
-        super.initialize(context, observer)
+        super.initialize(context, mObserver)
     }
 
     override fun doInit(
@@ -41,8 +42,7 @@ constructor(
         value: ThreadExternalDependArrayList?,
         observer: IDependInitObserver
     ) {
-        mObserver.mObserver = observer
-        value?.initialize(context, mObserver)
+        value?.initialize(context, observer)
     }
 
     override fun getAliasName(): String {

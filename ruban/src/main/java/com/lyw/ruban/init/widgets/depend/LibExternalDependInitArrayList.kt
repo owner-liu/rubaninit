@@ -19,13 +19,17 @@ class LibExternalDependInitArrayList :
     private val mObserverProxy =
         DependProxyObserver<IInitObserver>()
 
+    override fun initialize(context: InitContext, observer: IDependInitObserver) {
+        mObserverProxy.mObserver = observer
+        super.initialize(context, mObserverProxy)
+    }
+
     override fun doInit(
         context: InitContext,
         init: DependThreadLibInit,
         observer: IDependInitObserver
     ) {
-        mObserverProxy.mObserver = observer
-        init.initialize(context, mObserverProxy)
+        init.initialize(context, observer)
     }
 
     override fun getAliasName(): String {
