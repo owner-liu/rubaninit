@@ -30,8 +30,9 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IInitObserver) {
+        mObserver.mObserver = observer
         mObserver.initCount = initCount
-        super.initialize(context, observer)
+        super.initialize(context, mObserver)
     }
 
     override fun doInit(
@@ -40,8 +41,7 @@ constructor(
         value: CommThreadArrayList?,
         observer: IInitObserver
     ) {
-        mObserver.mObserver = observer
-        value?.initialize(context, mObserver)
+        value?.initialize(context, observer)
     }
 
 
