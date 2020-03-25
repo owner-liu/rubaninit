@@ -28,7 +28,7 @@ constructor(
         val start = System.currentTimeMillis()
         doInit(context, observer)
         Log.i(
-            "ruban_test",
+            "ruban_test_cost",
             "${this.javaClass.simpleName}-cost:${System.currentTimeMillis() - start}"
         )
         hasInitComplete = true

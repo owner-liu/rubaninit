@@ -32,7 +32,7 @@ object TestManager {
 
     private val mDependObserver = object : IDependInitObserver {
         override fun onCompleted(context: InitContext, aliasName: String) {
-            Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
+            Log.i("ruban_test_complete", "onCompleted-$aliasName-${System.currentTimeMillis()}")
         }
 
         override fun onWaitToInit(
@@ -40,21 +40,21 @@ object TestManager {
             init: AbsDependInit<IDependInitObserver>,
             dependAliasName: String
         ) {
-            Log.i("ruban_test", "onWaitToInit-$dependAliasName-${System.currentTimeMillis()}")
+            Log.i("ruban_test_wait", "onWaitToInit-$dependAliasName-${System.currentTimeMillis()}")
         }
     }
 
 
     private val mObserver = object : IInitObserver {
         override fun onCompleted(context: InitContext, aliasName: String) {
-            Log.i("ruban_test", "onCompleted-$aliasName-${System.currentTimeMillis()}")
+            Log.i("ruban_test_complete", "onCompleted-$aliasName-${System.currentTimeMillis()}")
         }
 
     }
 
     private val mCompleteObserver = object : ICompleteListener {
         override fun onCompleted() {
-            Log.i("ruban_test", "全部初始化完毕！")
+            Log.i("ruban_test_complete", "全部初始化完毕！")
         }
     }
 
@@ -98,14 +98,14 @@ object TestManager {
                 hashSetOf(3),
                 object : ICompleteListener {
                     override fun onCompleted() {
-                        Log.i("ruban_test", "监听到相关module 已完成～")
+                        Log.i("ruban_test_complete", "监听到相关module 已完成～")
                     }
 
                 })
             addAppCompletedListener(object :
                 ICompleteListener {
                 override fun onCompleted() {
-                    Log.i("ruban_test", "全部初始化完毕！")
+                    Log.i("ruban_test_complete", "全部初始化完毕！")
                 }
             })
             initialize(application, isDebug)
@@ -113,7 +113,7 @@ object TestManager {
             addAppCompletedListener(object :
                 ICompleteListener {
                 override fun onCompleted() {
-                    Log.i("ruban_test", "全部初始化完毕～")
+                    Log.i("ruban_test_complete", "全部初始化完毕～")
                 }
             })
         }
@@ -132,7 +132,7 @@ object TestManager {
                 hashSetOf(3),
                 object : ICompleteListener {
                     override fun onCompleted() {
-                        Log.i("ruban_test", "监听到相关module 已完成～")
+                        Log.i("ruban_test_complete", "监听到相关module 已完成～")
 
                         initializeLazyAll()
                     }
@@ -154,7 +154,7 @@ object TestManager {
                 hashSetOf(1),
                 object : ICompleteListener {
                     override fun onCompleted() {
-                        Log.i("ruban_test", "监听到相关module 已完成～")
+                        Log.i("ruban_test_complete", "监听到相关module 已完成～")
 
                         initializeLazyAll()
                     }

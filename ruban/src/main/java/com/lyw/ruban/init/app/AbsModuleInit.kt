@@ -1,8 +1,7 @@
-package com.lyw.ruban.init.module.comm
+package com.lyw.ruban.init.app
 
 import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IInitObserver
-import com.lyw.ruban.core.thread.AbsThreadInit
 import com.lyw.ruban.init.module.IModule
 
 /**
@@ -10,7 +9,7 @@ import com.lyw.ruban.init.module.IModule
  * Created by  lyw
  * Created for abs module init~
  */
-abstract class AbsModuleInit<T : AbsThreadInit<Z>,
+abstract class AbsModuleInit<T : AbsBaseInit<Z>,
         U : AbsBaseInit<Z>,
         Z : IInitObserver>
     : AbsBaseInit<Z>()

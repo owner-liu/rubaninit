@@ -2,7 +2,7 @@ package com.lyw.ruban.init.module.depend
 
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
-import com.lyw.ruban.init.widgets.depend.ThreadExternalDependArrayList
+import com.lyw.ruban.init.widgets.depend.LibExternalDependInitArrayList
 import com.lyw.ruban.init.widgets.thread.ThreadLibInit
 import java.util.*
 
@@ -11,19 +11,19 @@ import java.util.*
  * Created by  lyw
  * Created external module init~
  */
-class ThreadListExternalDependModuleInit
+class ModuleLibExternalDependMap
 constructor(
     var moduleCode: Int
-) : IInitMap<Int, ThreadExternalDependArrayList, IDependInitObserver>,
-    AbsThreadDependModuleInit<ThreadExternalDependArrayList, DependThreadLibInit, IDependInitObserver>() {
+) : IInitMap<Int, LibExternalDependInitArrayList, IDependInitObserver>,
+    AbsDependModuleInit<LibExternalDependInitArrayList, DependThreadLibInit, IDependInitObserver>() {
 
     private val mObserver by lazy {
         ModuleDependManagerObserver(getAliasName())
     }
 
-    override var mData: Map<Int, ThreadExternalDependArrayList> = TreeMap()
+    override var mData: Map<Int, LibExternalDependInitArrayList> = TreeMap()
 
-    override fun put(key: Int, value: ThreadExternalDependArrayList) {
+    override fun put(key: Int, value: LibExternalDependInitArrayList) {
         (mData as TreeMap)[key] = value
     }
 
@@ -39,7 +39,7 @@ constructor(
     override fun doInit(
         context: InitContext,
         key: Int,
-        value: ThreadExternalDependArrayList?,
+        value: LibExternalDependInitArrayList?,
         observer: IDependInitObserver
     ) {
         value?.initialize(context, observer)
@@ -57,24 +57,24 @@ constructor(
         addLib(init, threadList)
     }
 
-    private fun addThreadList(list: ThreadExternalDependArrayList) {
-        put(list.getCurrentThreadCode(), list)
+    private fun addThreadList(threadCode: Int, list: LibExternalDependInitArrayList) {
+        put(threadCode, list)
     }
 
     private fun addLib(
         init: DependThreadLibInit,
-        threadInitContainer: ThreadExternalDependArrayList?
+        threadInitContainer: LibExternalDependInitArrayList?
     ) {
+        // TODO by LYW: 2020-03-25  lib 的优先级问题～
         val threadCode = (init.init as ThreadLibInit).getCurrentThreadCode()
         var container = threadInitContainer ?: let {
-            ThreadExternalDependArrayList(
-                threadCode
-            ).also {
-                addThreadList(it)
+            LibExternalDependInitArrayList().also {
+                addThreadList(threadCode, it)
             }
         }
         initCount++
-        container.commThreadArrayList.add(init)
+
+        container.add(init)
     }
 
 
