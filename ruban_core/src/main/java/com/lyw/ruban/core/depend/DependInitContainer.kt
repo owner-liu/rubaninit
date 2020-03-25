@@ -1,5 +1,6 @@
 package com.lyw.ruban.core.depend
 
+import android.util.Log
 import com.lyw.ruban.core.*
 import java.lang.reflect.Proxy
 
@@ -22,6 +23,7 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
+        Log.i("ruban_test_depend", "${init.getAliasName()},hasDepend:${hasDepend()}")
         if (hasInitComplete) {
             return
         }

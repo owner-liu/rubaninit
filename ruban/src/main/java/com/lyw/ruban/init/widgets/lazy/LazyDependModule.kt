@@ -1,9 +1,7 @@
 package com.lyw.ruban.init.widgets.lazy
 
 import com.lyw.ruban.core.IDependInitObserver
-import com.lyw.ruban.core.depend.DependInitContainer
 import com.lyw.ruban.core.lazy.LazyInitContainer
-import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.depend.DependModule
 
 /**

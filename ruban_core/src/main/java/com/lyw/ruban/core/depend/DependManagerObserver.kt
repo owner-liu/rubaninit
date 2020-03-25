@@ -39,7 +39,7 @@ open class DependManagerObserver
         init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
-        Log.i("ruban_test", "dependAliasName:$dependAliasName")
+        Log.i("ruban_test_alias", "dependAliasName:$dependAliasName")
         if (mInitCompletedAliases.contains(dependAliasName)) {
             init.refreshDependComplete(dependAliasName)
             init.initialize(context, this)

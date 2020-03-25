@@ -30,7 +30,7 @@ constructor(
 
     override fun initialize(context: InitContext, observer: T) {
         if (checkLazy()) {
-            Log.i("ruban_test", "延迟初始化～${getAliasName()}")
+            Log.i("ruban_test_lazy", "延迟初始化～${getAliasName()}")
             return
         }
         initializeLazy(context, observer)

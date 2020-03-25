@@ -7,7 +7,7 @@ import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.ModuleConfig
-import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
+import com.lyw.ruban.init.module.depend.ModuleLibExternalDependMap
 import com.lyw.ruban.init.widgets.depend.DependModule
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
 import com.lyw.ruban.init.widgets.lazy.LazyDependModule
@@ -75,7 +75,7 @@ class LazyAppDependInit
                 put(moduleCode, it)
             }
         }
-        ((module.init as DependModule).init as ThreadListExternalDependModuleInit).addInit(init)
+        ((module.init as DependModule).init as ModuleLibExternalDependMap).addInit(init)
     }
 
     override fun addModuleCompletedListener(

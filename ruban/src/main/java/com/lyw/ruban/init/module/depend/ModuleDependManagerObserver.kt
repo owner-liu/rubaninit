@@ -19,10 +19,13 @@ constructor(var moduleAliasName: String) : BaseDependObserverProxy(),
     IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        Log.i("ruban_test", "$moduleAliasName-onCompleted:$aliasName")
+        Log.i("ruban_test_complete", "$moduleAliasName-onCompleted:$aliasName")
         mInitCompletedAliases.add(aliasName)
-        Log.i("ruban_test", "$moduleAliasName-initCount:$initCount")
-        Log.i("ruban_test", "$moduleAliasName-mInitCompletedAliases:${mInitCompletedAliases.size}")
+        Log.i("ruban_test_count", "$moduleAliasName-initCount:$initCount")
+        Log.i(
+            "ruban_test_alias",
+            "$moduleAliasName-mInitCompletedAliases:${mInitCompletedAliases.size}"
+        )
         if (initCount == mInitCompletedAliases.size) {
             // LABEL BY LYW: 全部完成，外抛状态～
             // TODO by LYW: 2020-03-19 设置当前的hasComplete～
@@ -45,7 +48,7 @@ constructor(var moduleAliasName: String) : BaseDependObserverProxy(),
         init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
-        Log.i("ruban_test", "dependAliasName:$dependAliasName")
+        Log.i("ruban_test_alias", "dependAliasName:$dependAliasName")
         if (mInitCompletedAliases.contains(dependAliasName)) {
             init.refreshDependComplete(dependAliasName)
             init.initialize(context, this)

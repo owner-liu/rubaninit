@@ -2,7 +2,7 @@ package com.lyw.ruban.init.module.comm
 
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.lib.LibInit
-import com.lyw.ruban.init.module.depend.ModuleDependManagerObserver
+import com.lyw.ruban.init.module.thread.AbsThreadModuleInit
 import com.lyw.ruban.init.widgets.comm.CommThreadArrayList
 import java.util.*
 
@@ -17,7 +17,7 @@ class ModuleInit
 constructor(
     var moduleCode: Int
 ) : IInitMap<Int, CommThreadArrayList, IInitObserver>,
-    AbsModuleInit<CommThreadArrayList, LibInit, IInitObserver>() {
+    AbsThreadModuleInit<CommThreadArrayList, LibInit, IInitObserver>() {
 
     private val mObserver by lazy {
         ModuleManagerObserver(getAliasName())

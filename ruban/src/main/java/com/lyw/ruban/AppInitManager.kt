@@ -5,8 +5,6 @@ import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.app.LazyAppDependInit
 import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.ModuleConfig
-import com.lyw.ruban.init.widgets.depend.DependModule
-import com.lyw.ruban.init.widgets.lazy.LazyDependModule
 import java.lang.IllegalArgumentException
 
 /**
