@@ -19,33 +19,20 @@ constructor(
     }
 
     override fun initializeLazy(context: InitContext, observer: T) {
-        synchronized(mLock) {
+        if (hasInitComplete) {
+            return
+        }
 
-            if (!hasCheckLazy) {
-                //重置标记位～ 等待轮询触发～
-                setLazy(false)
-            } else {
-                if (hasInitComplete) {
-                    return
-                }
-
-                init.let {
-                    init.initialize(context, observer)
-                }
-            }
+        init.let {
+            init.initialize(context, observer)
         }
     }
 
     override fun initialize(context: InitContext, observer: T) {
-        synchronized(mLock)
-        {
-            hasCheckLazy = true
-
-            if (checkLazy()) {
-                Log.i("ruban_test", "延迟初始化～${getAliasName()}")
-                return
-            }
-            initializeLazy(context, observer)
+        if (checkLazy()) {
+            Log.i("ruban_test", "延迟初始化～${getAliasName()}")
+            return
         }
+        initializeLazy(context, observer)
     }
 }
