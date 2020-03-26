@@ -24,7 +24,8 @@ import java.lang.IllegalArgumentException
  *
  * 2。监听
  *      1。可以设置单个或者多个module的初始化完成监听～
- *      2。可以设置所有的module初始化完成监听（包含延迟初始化的module）～
+ *      2. 可以设置对应module内的指定Init的初始化完成监听～
+ *      3。可以设置所有的module初始化完成监听（包含延迟初始化的module）～
  *
  * 3。针对于延迟初始化～
  *      1。延迟初始化的库之间禁止存在依赖关系～
@@ -34,6 +35,7 @@ import java.lang.IllegalArgumentException
 object AppInitManager
     : IAppOperate,
     IAppCompleteObserverOperate,
+    IInitCompleteObserverOperate,
     IModuleConfig {
 
     private var mContext: InitContext? = null
@@ -79,5 +81,13 @@ object AppInitManager
 
     override fun addAppCompletedListener(listener: ICompleteListener) {
         mLazyAppDependInit.addAppCompletedListener(listener)
+    }
+
+    override fun addInitCompletedListener(
+        moduleCode: Int,
+        InitAliasName: String,
+        listener: ICompleteListener
+    ) {
+        mLazyAppDependInit.addInitCompletedListener(moduleCode, InitAliasName, listener)
     }
 }

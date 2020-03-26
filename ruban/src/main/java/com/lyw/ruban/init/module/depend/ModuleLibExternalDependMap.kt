@@ -1,5 +1,7 @@
 package com.lyw.ruban.init.module.depend
 
+import com.lyw.ruban.ICompleteListener
+import com.lyw.ruban.IInitCompleteObserverOperate
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
 import com.lyw.ruban.init.widgets.depend.LibExternalDependInitArrayList
@@ -15,7 +17,9 @@ class ModuleLibExternalDependMap
 constructor(
     var moduleCode: Int
 ) : IInitMap<Int, LibExternalDependInitArrayList, IDependInitObserver>,
-    AbsDependModuleInit<LibExternalDependInitArrayList, DependThreadLibInit, IDependInitObserver>() {
+    AbsDependModuleInit<LibExternalDependInitArrayList,
+            DependThreadLibInit, IDependInitObserver>(),
+    IInitCompleteObserverOperate {
 
     private val mObserver by lazy {
         ModuleDependManagerObserver(getAliasName())
@@ -77,5 +81,13 @@ constructor(
         container.add(init)
     }
 
+
+    override fun addInitCompletedListener(
+        moduleCode: Int,
+        InitAliasName: String,
+        listener: ICompleteListener
+    ) {
+        mObserver.addInitCompletedListener(moduleCode, InitAliasName, listener)
+    }
 
 }

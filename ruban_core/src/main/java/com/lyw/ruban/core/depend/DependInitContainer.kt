@@ -23,7 +23,7 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        Log.i("ruban_test_depend", "${init.getAliasName()},hasDepend:${hasDepend()}")
+        Log.i("ruban", "initialize-dependContainer-init:${init.getAliasName()},hasDepend:${hasDepend()}")
         if (hasInitComplete) {
             return
         }

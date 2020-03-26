@@ -27,6 +27,7 @@ class LazyAppDependInit
     IAppOperate,
     IModuleConfig,
     IAppLazyOperate,
+    IInitCompleteObserverOperate,
     IModuleCompleteObserverOperate,
     IAppCompleteObserverOperate {
 
@@ -111,5 +112,21 @@ class LazyAppDependInit
         getData().filter { it.value.checkLazy() }.forEach {
             it.value.initializeLazy(context, mManagerObserver)
         }
+    }
+
+    override fun addInitCompletedListener(
+        moduleCode: Int,
+        InitAliasName: String,
+        listener: ICompleteListener
+    ) {
+        val module = get(moduleCode) ?: let {
+            LazyDependModule(moduleCode).also {
+                put(moduleCode, it)
+            }
+        }
+        ((module.init as DependModule).init as ModuleLibExternalDependMap).addInitCompletedListener(
+            moduleCode, InitAliasName, listener
+        )
+
     }
 }
