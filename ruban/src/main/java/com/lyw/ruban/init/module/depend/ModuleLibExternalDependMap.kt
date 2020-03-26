@@ -69,7 +69,6 @@ constructor(
         init: DependThreadLibInit,
         threadInitContainer: LibExternalDependInitArrayList?
     ) {
-        // TODO by LYW: 2020-03-25  lib 的优先级问题～
         val threadCode = (init.init as ThreadLibInit).getCurrentThreadCode()
         var container = threadInitContainer ?: let {
             LibExternalDependInitArrayList().also {

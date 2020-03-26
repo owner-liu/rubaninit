@@ -1,11 +1,14 @@
 package com.lyw.ruban.core.depend
 
 import android.util.Log
+import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
+import com.lyw.ruban.core.thread.ThreadInitContainer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /**
  * Created on  2020-03-09
@@ -20,13 +23,11 @@ open class DependManagerObserver
         mInitCompletedAliases.add(aliasName)
         mObserver?.onCompleted(context, aliasName)
         val waitToInitList = mWaitToInitMap.remove(aliasName)
+
         waitToInitList?.forEach {
-            context.mInitScope.launch {
-                withContext(Dispatchers.Main)
-                {
-                    it.refreshDependComplete(aliasName)
-                    it.initialize(context, this@DependManagerObserver)
-                }
+            it.value.forEach {
+                it.refreshDependComplete(aliasName)
+                it.initialize(context, this@DependManagerObserver)
             }
         }
     }
@@ -37,13 +38,24 @@ open class DependManagerObserver
         dependAliasName: String
     ) {
         Log.i("ruban", "wait-dependAliasName:$dependAliasName")
+
+        val threadCode =
+            ((init as? DependInitContainer<*>)?.init as? ThreadInitContainer)?.getCurrentThreadCode()
+                ?: ConstantsForCore.THREAD_SYNC
+
         if (mInitCompletedAliases.contains(dependAliasName)) {
+            //直接执行～
             init.refreshDependComplete(dependAliasName)
             init.initialize(context, this)
         } else {
-            var list = mWaitToInitMap.get(dependAliasName) ?: let {
+            val treeMap = mWaitToInitMap.get(dependAliasName) ?: let {
+                TreeMap<Int, ArrayList<AbsDependInit<IDependInitObserver>>>().also {
+                    mWaitToInitMap.put(dependAliasName, it)
+                }
+            }
+            val list = treeMap.get(threadCode) ?: let {
                 arrayListOf<AbsDependInit<IDependInitObserver>>().also {
-                    mWaitToInitMap[dependAliasName] = it
+                    treeMap.put(threadCode, it)
                 }
             }
             list.add(init)

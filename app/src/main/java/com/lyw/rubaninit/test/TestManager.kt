@@ -51,6 +51,7 @@ object TestManager {
 
     private val mCompleteObserver = object : ICompleteListener {
         override fun onCompleted() {
+            Log.i("ruban", "监听到全部初始化完成～")
         }
     }
 

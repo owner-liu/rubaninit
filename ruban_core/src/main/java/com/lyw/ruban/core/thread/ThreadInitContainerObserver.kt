@@ -1,9 +1,6 @@
 package com.lyw.ruban.core.thread
 
 import com.lyw.ruban.core.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 /**
@@ -18,17 +15,12 @@ constructor(
     IInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        //保证在主线程回调～
         if (observerThreadCode == ConstantsForCore.THREAD_ASYNC) {
-            context.mInitScope.launch {
-                withContext(Dispatchers.Main)
-                {
-                    mObserver?.onCompleted(context, aliasName)
-                }
+            context.syncHandle.postAtFrontOfQueue {
+                mObserver?.onCompleted(context, aliasName)
             }
         } else {
             mObserver?.onCompleted(context, aliasName)
         }
-
     }
 }

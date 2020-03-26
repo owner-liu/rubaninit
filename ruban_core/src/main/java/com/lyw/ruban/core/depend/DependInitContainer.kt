@@ -23,7 +23,6 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        Log.i("ruban", "initialize-dependContainer-init:${init.getAliasName()},hasDepend:${hasDepend()}")
         if (hasInitComplete) {
             return
         }
@@ -33,6 +32,7 @@ constructor(
             mContainerObserver.mObserver = observer
 
             if (hasDepend()) {
+                Log.i("ruban", "initialize-dependContainer-hasDepend-init:${init.getAliasName()}")
                 //抛出自己～
                 mContainerObserver.mObserver?.onWaitToInit(
                     context,
@@ -42,6 +42,7 @@ constructor(
                 return
             }
 
+            Log.i("ruban", "initialize-dependContainer-init:${init.getAliasName()}")
             val handler =
                 DependStatusObserverInvokeHandler(
                     observer,
