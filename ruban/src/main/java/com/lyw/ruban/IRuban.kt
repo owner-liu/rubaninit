@@ -13,19 +13,27 @@ interface IAppOperate {
     fun addLibInit(libInit: LibInit)
 }
 
-interface IAppLazyOperate : IAppOperate{
+interface IAppLazyOperate : IAppOperate {
 
     fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>)
 
     fun initializeLazyAll(context: InitContext)
 }
 
-interface IModuleConfig{
-    fun configModule(config:ModuleConfig)
+interface IModuleConfig {
+    fun configModule(config: ModuleConfig)
 }
 
 interface ICompleteListener {
     fun onCompleted()
+}
+
+interface IInitCompleteObserverOperate {
+    fun addInitCompletedListener(
+        moduleCode: Int,
+        InitAliasName: String,
+        listener: ICompleteListener
+    )
 }
 
 interface IModuleCompleteListener {

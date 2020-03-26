@@ -28,7 +28,8 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: T) {
-        Log.i("ruban_test_thread", "${init.getAliasName()}")
+
+        Log.i("ruban", "threadContainer-init:${init.getAliasName()}")
         if (hasInitComplete) {
             return
         }
@@ -48,18 +49,10 @@ constructor(
             when (getCurrentThreadCode()) {
                 ConstantsForCore.THREAD_ASYNC -> {
                     if (Looper.myLooper() != Looper.getMainLooper()) {
-                        Log.i(
-                            "ruban_test_thread",
-                            "${it.getAliasName()},current:${Thread.currentThread().name}"
-                        )
                         it.initialize(context, proxyObserver)
                     } else {
                         context.mInitScope.launch {
                             withContext(Dispatchers.IO) {
-                                Log.i(
-                                    "ruban_test_thread",
-                                    "${it.getAliasName()},current:${Thread.currentThread().name}"
-                                )
                                 it.initialize(context, proxyObserver)
                             }
                         }
@@ -68,18 +61,10 @@ constructor(
 
                 ConstantsForCore.THREAD_SYNC -> {
                     if (Looper.myLooper() == Looper.getMainLooper()) {
-                        Log.i(
-                            "ruban_test_thread",
-                            "${it.getAliasName()},current:${Thread.currentThread().name}"
-                        )
                         it.initialize(context, proxyObserver)
                     } else {
                         context.mInitScope.launch {
                             withContext(Dispatchers.Main) {
-                                Log.i(
-                                    "ruban_test_thread",
-                                    "${it.getAliasName()},current:${Thread.currentThread().name}"
-                                )
                                 it.initialize(context, proxyObserver)
                             }
                         }

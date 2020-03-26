@@ -5,7 +5,6 @@ import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IModuleCompleteListener
 import com.lyw.ruban.IModuleCompleteObserverOperate
 import com.lyw.ruban.core.IDependInitObserver
-import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.DependManagerObserver
 import java.lang.IllegalArgumentException
