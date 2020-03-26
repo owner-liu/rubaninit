@@ -3,6 +3,7 @@ package com.lyw.ruban.init.module.depend
 import android.util.Log
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
+import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
@@ -31,8 +32,6 @@ constructor(var moduleAliasName: String) :
 
         //监听整个module完成～
         if (initCount == mInitCompletedAliases.size) {
-            // LABEL BY LYW: 全部完成，外抛状态～
-            // TODO by LYW: 2020-03-19 设置当前的hasComplete～
             Log.i("ruban", "complete-module:$moduleAliasName")
             mObserver?.onCompleted(context, moduleAliasName)
         }
@@ -44,11 +43,9 @@ constructor(var moduleAliasName: String) :
 
         val waitToInitList = mWaitToInitMap.remove(aliasName)
         waitToInitList?.forEach {
-            context.mInitScope.launch {
-                withContext(Dispatchers.Main) {
-                    it.refreshDependComplete(aliasName)
-                    it.initialize(context, this@ModuleDependManagerObserver)
-                }
+            it.value.forEach {
+                it.refreshDependComplete(aliasName)
+                it.initialize(context, this@ModuleDependManagerObserver)
             }
         }
     }

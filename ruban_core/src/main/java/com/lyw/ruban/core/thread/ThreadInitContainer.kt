@@ -52,9 +52,7 @@ constructor(
                         it.initialize(context, proxyObserver)
                     } else {
                         context.mInitScope.launch {
-                            withContext(Dispatchers.IO) {
-                                it.initialize(context, proxyObserver)
-                            }
+                            it.initialize(context, proxyObserver)
                         }
                     }
                 }
@@ -63,10 +61,8 @@ constructor(
                     if (Looper.myLooper() == Looper.getMainLooper()) {
                         it.initialize(context, proxyObserver)
                     } else {
-                        context.mInitScope.launch {
-                            withContext(Dispatchers.Main) {
-                                it.initialize(context, proxyObserver)
-                            }
+                        context.syncHandle.post {
+                            it.initialize(context, proxyObserver)
                         }
                     }
                 }

@@ -30,7 +30,9 @@ import java.lang.IllegalArgumentException
  * 3。针对于延迟初始化～
  *      1。延迟初始化的库之间禁止存在依赖关系～
  *
- *
+ * 优化：
+ * 1。插队策略
+ * 2。异步并发
  */
 object AppInitManager
     : IAppOperate,
