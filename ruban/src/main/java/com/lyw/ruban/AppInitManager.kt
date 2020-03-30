@@ -33,6 +33,7 @@ import java.lang.IllegalArgumentException
  * 优化：
  * 1。插队策略
  * 2。异步并发
+ * 3. 初始化（依赖结果的，通过addInitCompletedListener，初始化需要的，直接添加depend～）
  */
 object AppInitManager
     : IAppOperate,
