@@ -1,8 +1,8 @@
 package com.lyw.ruban.init.app
 
+import com.lyw.ruban.IModule
 import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IInitObserver
-import com.lyw.ruban.init.module.IModule
 
 /**
  * Created on  2020-03-09

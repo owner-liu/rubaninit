@@ -48,3 +48,8 @@ interface IAppCompleteObserverOperate {
     fun addAppCompletedListener(listener: ICompleteListener)
 }
 
+
+interface IModule<T, U> {
+
+    fun addInit(init: U)
+}

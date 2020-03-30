@@ -4,9 +4,7 @@ import android.os.Looper
 import android.util.Log
 import com.lyw.ruban.core.*
 import com.lyw.ruban.core.comm.CommStatusObserverInvokeHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.reflect.Proxy
 
 /**
