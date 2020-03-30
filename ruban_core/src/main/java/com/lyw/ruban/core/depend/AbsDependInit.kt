@@ -1,6 +1,7 @@
 package com.lyw.ruban.core.depend
 
 import com.lyw.ruban.core.AbsBaseInit
+import com.lyw.ruban.core.IDepend
 import com.lyw.ruban.core.IInitObserver
 
 /**

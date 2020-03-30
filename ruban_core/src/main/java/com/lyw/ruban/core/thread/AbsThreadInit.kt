@@ -3,6 +3,7 @@ package com.lyw.ruban.core.thread
 import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.IInitObserver
+import com.lyw.ruban.core.IThread
 
 /**
  * Created on  2020-03-08
