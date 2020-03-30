@@ -9,11 +9,7 @@ import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.init.module.ModuleConfig
-import com.lyw.ruban.init.module.comm.ModuleInit
-import com.lyw.ruban.init.module.depend.ThreadListExternalDependModuleInit
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
-import com.lyw.rubaninit.test.comm.TestLib
-import com.lyw.rubaninit.test.comm.TestLibCopy
 import com.lyw.rubaninit.test.depend.*
 
 /**
@@ -53,33 +49,6 @@ object TestManager {
         override fun onCompleted() {
             Log.i("ruban", "监听到全部初始化完成～")
         }
-    }
-
-
-    /**
-     * 无任何依赖关系～
-     */
-    private fun testWithoutDepend(application: Application, isDebug: Boolean) {
-        var initContext = InitContext(null, true)
-        ModuleInit(1).apply {
-            addInit(TestLibCopy())
-            addInit(TestLib())
-        }.initialize(initContext, mObserver)
-    }
-
-    /**
-     * module内，线程集合间存在依赖～
-     */
-    private fun testModuleDependWithAlias(application: Application, isDebug: Boolean) {
-        var initContext = InitContext(null, true)
-        ThreadListExternalDependModuleInit(2).apply {
-            addInit(
-                DependThreadLibInit(
-                    TestExternalDependLibCopy()
-                )
-            )
-            addInit(DependThreadLibInit(TestExternalDependLib()))
-        }.initialize(initContext, mDependObserver)
     }
 
     private fun testAppDependInit(application: Application, isDebug: Boolean) {

@@ -3,15 +3,9 @@ package com.lyw.ruban.init.module.depend
 import android.util.Log
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
-import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.depend.AbsDependInit
-import com.lyw.ruban.core.depend.BaseDependObserverProxy
 import com.lyw.ruban.core.depend.DependManagerObserver
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * Created on  2020-03-09
