@@ -12,7 +12,7 @@ import java.lang.reflect.Proxy
 /**
  * Created on  2020-03-08
  * Created by  lyw
- * Created for
+ * Created for thread container～
  */
 open class ThreadInitContainer<T : IInitObserver>
 constructor(
@@ -45,7 +45,6 @@ constructor(
                 handler.javaClass.classLoader,
                 observer.javaClass.interfaces, handler
             ) as T
-
             when (getCurrentThreadCode()) {
                 ConstantsForCore.THREAD_ASYNC -> {
                     if (Looper.myLooper() != Looper.getMainLooper()) {
