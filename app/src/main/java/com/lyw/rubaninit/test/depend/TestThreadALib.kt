@@ -14,7 +14,7 @@ import com.lyw.ruban.init.lib.LibInit
  */
 class TestThreadALib : LibInit(1, ConstantsForCore.THREAD_ASYNC, arrayListOf()) {
     override fun getAliasName(): String {
-        return "${javaClass.simpleName}-$libModuleCode-$libThreadCode"
+        return "TestThreadALib"
     }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
