@@ -3,13 +3,8 @@ package com.lyw.rubaninit.test
 import android.app.Application
 import android.util.Log
 import com.lyw.ruban.AppInitManager
-import com.lyw.ruban.core.IDependInitObserver
-import com.lyw.ruban.core.IInitObserver
-import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.core.depend.AbsDependInit
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.init.module.ModuleConfig
-import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
 import com.lyw.rubaninit.test.depend.*
 
 /**
