@@ -3,6 +3,35 @@ Android App 相关库的初始化管理
 
 [![](https://jitpack.io/v/owner-liu/RubanInit.svg)](https://jitpack.io/#owner-liu/RubanInit)
 
+#### 示例代码：
+```
+ AppInitManager.apply {
+            addLibInit(TestThreadALib())
+            addLibInit(TestThreadBLib())
+            addLibInit(TestThreadCLib())
+            configModule(ModuleConfig(1, false, arrayListOf("2")))
+            addModuleCompletedListener(
+                hashSetOf(1),
+                object : ICompleteListener {
+                    override fun onCompleted() {
+                        Log.i("ruban", "监听到相关module 已完成～")
+
+                        initializeLazyAll()
+                    }
+                })
+
+            addInitCompletedListener(1, "TestThreadALib", object : ICompleteListener {
+                override fun onCompleted() {
+                    Log.i("ruban", "监听指定module内的 指定init 已完成～")
+                }
+            })
+
+            addAppCompletedListener(mCompleteObserver)
+
+            initialize(application, isDebug);
+        }
+```
+
 #### 说明：
 ##### 1。初始化
       1。module～
