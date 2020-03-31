@@ -51,8 +51,8 @@ Android App 相关库的初始化管理
       1。延迟初始化的库之间禁止存在依赖关系～
 
  ##### 4.优化：
- 1。插队策略
- 2。异步并发
- 3. 初始化（依赖结果的，通过addInitCompletedListener，初始化需要的，直接添加depend～）
+      1。插队策略
+      2。异步并发
+      3. 初始化（依赖结果的，通过addInitCompletedListener，初始化需要的，直接添加depend～）
 
 ![](https://github.com/owner-liu/pic/blob/master/ruban_uml.jpg)
