@@ -23,10 +23,13 @@ Add the dependency
 #### 示例代码：
 ```
  AppInitManager.apply {
+            //添加相关初始化～
             addLibInit(TestThreadALib())
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
+            //配置module
             configModule(ModuleConfig(1, false, arrayListOf("2")))
+            //添加module完成回调
             addModuleCompletedListener(
                 hashSetOf(1),
                 object : ICompleteListener {
@@ -36,17 +39,31 @@ Add the dependency
                         initializeLazyAll()
                     }
                 })
-
+            //添加单个的init完成回调
             addInitCompletedListener(1, "TestThreadALib", object : ICompleteListener {
                 override fun onCompleted() {
                     Log.i("ruban", "监听指定module内的 指定init 已完成～")
                 }
             })
-
+            //添加所有初始化完成回调
             addAppCompletedListener(mCompleteObserver)
-
+            //开始初始化～
             initialize(application, isDebug);
         }
+```
+```
+class TestThreadALib : LibInit(1, ConstantsForCore.THREAD_ASYNC, arrayListOf()) {
+    //当前init别名，如果其他的库有依赖于当前库，需要填写，防止混淆时，无法找到对应的init～
+    override fun getAliasName(): String {
+        return "TestThreadALib"
+    }
+    //初始化逻辑编写地方
+    override fun doInit(context: InitContext, observer: IInitObserver) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            Log.i("ruban", "err-线程异常-init:${getAliasName()}")
+        }
+    }
+}
 ```
 
 #### 说明：
