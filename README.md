@@ -1,7 +1,24 @@
 # RubanInit
 Android App 相关库的初始化管理
 
-[![](https://jitpack.io/v/owner-liu/RubanInit.svg)](https://jitpack.io/#owner-liu/RubanInit)
+[![](https://jitpack.io/v/owner-liu/rubaninit.svg)](https://jitpack.io/#owner-liu/rubaninit)
+
+Add it in your root build.gradle at the end of repositories:
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+Add the dependency
+```
+	dependencies {
+	        implementation 'com.github.owner-liu:rubaninit:Tag'
+	}
+```
 
 #### 示例代码：
 ```
