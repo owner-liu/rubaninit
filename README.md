@@ -16,7 +16,7 @@ allprojects {
 Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.owner-liu:rubaninit:Tag'
+	        implementation 'com.github.owner-liu:rubaninit:v1.0.1-rc1'
 	}
 ```
 
