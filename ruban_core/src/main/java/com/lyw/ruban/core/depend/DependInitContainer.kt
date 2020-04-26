@@ -32,7 +32,7 @@ constructor(
             mContainerObserver.mObserver = observer
 
             if (hasDepend()) {
-                Log.i("ruban", "initialize-dependContainer-hasDepend-init:${init.getAliasName()}")
+                context.logger.i(msg = "initialize-dependContainer-hasDepend-init:${init.getAliasName()}")
                 //抛出自己～
                 mContainerObserver.mObserver?.onWaitToInit(
                     context,
@@ -42,7 +42,7 @@ constructor(
                 return
             }
 
-            Log.i("ruban", "initialize-dependContainer-init:${init.getAliasName()}")
+            context.logger.i(msg = "initialize-dependContainer-init:${init.getAliasName()}")
             val handler =
                 DependStatusObserverInvokeHandler(
                     observer,

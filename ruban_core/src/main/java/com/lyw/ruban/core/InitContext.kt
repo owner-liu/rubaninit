@@ -20,4 +20,6 @@ constructor(
     val mInitScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO) }
 
     val syncHandle: Handler by lazy { Handler(Looper.getMainLooper()) }
+
+    var logger: ILogger = Logger(this)
 }

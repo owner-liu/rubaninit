@@ -27,7 +27,7 @@ constructor(
         }
         val start = System.currentTimeMillis()
         doInit(context, observer)
-        Log.i(
+        context.logger.i(
             "ruban",
             "completeCost-init:${getAliasName()}-cost:${System.currentTimeMillis() - start}"
         )

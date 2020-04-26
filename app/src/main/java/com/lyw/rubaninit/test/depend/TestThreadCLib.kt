@@ -20,7 +20,7 @@ class TestThreadCLib :
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            Log.i("ruban", "err-线程异常-alias:${getAliasName()}")
+            context.logger.i(msg = "err-线程异常-alias:${getAliasName()}")
         }
     }
 }

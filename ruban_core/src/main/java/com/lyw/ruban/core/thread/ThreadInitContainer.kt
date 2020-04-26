@@ -26,8 +26,7 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: T) {
-
-        Log.i("ruban", "threadContainer-init:${init.getAliasName()}")
+        context.logger.i(msg = "threadContainer-init:${init.getAliasName()}")
         if (hasInitComplete) {
             return
         }

@@ -19,7 +19,7 @@ class TestThreadBLib : LibInit(2, ConstantsForCore.THREAD_SYNC, arrayListOf()) {
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
         if (Looper.myLooper() != Looper.getMainLooper()) {
-            Log.i("ruban", "err-线程异常-init:${getAliasName()}")
+            context.logger.i(msg = "err-线程异常-init:${getAliasName()}")
         }
     }
 }

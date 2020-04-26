@@ -1,6 +1,7 @@
 package com.lyw.ruban
 
 import android.app.Application
+import com.lyw.ruban.core.ILogger
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.app.LazyAppDependInit
 import com.lyw.ruban.init.lib.LibInit
@@ -39,15 +40,23 @@ object AppInitManager
     : IAppOperate,
     IAppCompleteObserverOperate,
     IInitCompleteObserverOperate,
-    IModuleConfig {
+    IModuleConfig,
+    ILoggerManager {
 
     private var mContext: InitContext? = null
 
     private val mLazyAppDependInit by lazy { LazyAppDependInit() }
 
+    private var mLogger: ILogger? = null
+
     fun initialize(application: Application, isDebug: Boolean) {
         val context = InitContext(application, isDebug)
         mContext = context
+
+        mLogger?.let {
+            mContext?.logger = it
+        }
+
         mLazyAppDependInit.initialize(context)
     }
 
@@ -55,7 +64,7 @@ object AppInitManager
         mContext?.let {
             mLazyAppDependInit.initializeLazy(it, moduleCodes)
         } ?: let {
-            throw IllegalArgumentException("please invoke initialize(application: Application, isDebug: Boolean)～")
+            throw IllegalArgumentException("please invoke initialize(application: Application, isDebug: Boolean) first～")
         }
     }
 
@@ -63,7 +72,7 @@ object AppInitManager
         mContext?.let {
             mLazyAppDependInit.initializeLazyAll(it)
         } ?: let {
-            throw IllegalArgumentException("please invoke initialize(application: Application, isDebug: Boolean)～")
+            throw IllegalArgumentException("please invoke initialize(application: Application, isDebug: Boolean) first～")
         }
     }
 
@@ -92,5 +101,9 @@ object AppInitManager
         listener: ICompleteListener
     ) {
         mLazyAppDependInit.addInitCompletedListener(moduleCode, InitAliasName, listener)
+    }
+
+    override fun addLogger(logger: ILogger) {
+        this.mLogger = logger
     }
 }

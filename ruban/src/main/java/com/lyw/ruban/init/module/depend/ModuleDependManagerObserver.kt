@@ -21,12 +21,12 @@ constructor(var moduleAliasName: String) :
     var mInitCompleteObserver = hashMapOf<String, ArrayList<ICompleteListener>>()
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        Log.i("ruban", "complete-module:$moduleAliasName,init:$aliasName")
+        context.logger.i(msg = "complete-module:$moduleAliasName,init:$aliasName")
         mInitCompletedAliases.add(aliasName)
 
         //监听整个module完成～
         if (initCount == mInitCompletedAliases.size) {
-            Log.i("ruban", "complete-module:$moduleAliasName")
+            context.logger.i(msg =  "complete-module:$moduleAliasName")
             mObserver?.onCompleted(context, moduleAliasName)
         }
 

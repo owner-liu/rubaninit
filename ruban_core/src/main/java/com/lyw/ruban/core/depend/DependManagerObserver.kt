@@ -34,7 +34,7 @@ open class DependManagerObserver
         init: AbsDependInit<IDependInitObserver>,
         dependAliasName: String
     ) {
-        Log.i("ruban", "wait-dependAliasName:$dependAliasName")
+        context.logger.i(msg = "wait-dependAliasName:$dependAliasName")
 
         val threadCode =
             ((init as? DependInitContainer<*>)?.init as? ThreadInitContainer)?.getCurrentThreadCode()
