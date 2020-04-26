@@ -103,7 +103,7 @@ object AppInitManager
         mLazyAppDependInit.addInitCompletedListener(moduleCode, InitAliasName, listener)
     }
 
-    override fun addLogger(logger: ILogger) {
+    override fun setLogger(logger: ILogger) {
         this.mLogger = logger
     }
 }

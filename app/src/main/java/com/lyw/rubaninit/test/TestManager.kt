@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import com.lyw.ruban.AppInitManager
 import com.lyw.ruban.ICompleteListener
+import com.lyw.ruban.core.ILogger
 import com.lyw.ruban.init.module.ModuleConfig
 import com.lyw.rubaninit.test.depend.*
 
@@ -48,7 +49,28 @@ object TestManager {
 
             })
 
+            setLogger(CustomizationLogger())
+
             initialize(application, isDebug);
         }
     }
+}
+
+class CustomizationLogger : ILogger {
+    override fun d(tag: String, msg: String) {
+
+    }
+
+    override fun e(tag: String, msg: String) {
+    }
+
+    override fun i(tag: String, msg: String) {
+    }
+
+    override fun v(tag: String, msg: String) {
+    }
+
+    override fun w(tag: String, msg: String) {
+    }
+
 }
