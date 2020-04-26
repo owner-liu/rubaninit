@@ -16,20 +16,19 @@ allprojects {
 Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.owner-liu:rubaninit:v1.0.1-rc1'
+	        implementation 'com.github.owner-liu:rubaninit:version'
 	}
 ```
 
 #### 示例代码：
 ```
  AppInitManager.apply {
-            //添加相关初始化～
             addLibInit(TestThreadALib())
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
-            //配置module
+
             configModule(ModuleConfig(1, false, arrayListOf("2")))
-            //添加module完成回调
+
             addModuleCompletedListener(
                 hashSetOf(1),
                 object : ICompleteListener {
@@ -39,15 +38,22 @@ Add the dependency
                         initializeLazyAll()
                     }
                 })
-            //添加单个的init完成回调
+
             addInitCompletedListener(1, "TestThreadALib", object : ICompleteListener {
                 override fun onCompleted() {
-                    Log.i("ruban", "监听指定module内的 指定init 已完成～")
+                    Log.i("ruban", "监听到指定lib初始化完成～")
                 }
             })
-            //添加所有初始化完成回调
-            addAppCompletedListener(mCompleteObserver)
-            //开始初始化～
+
+            addAppCompletedListener(object : ICompleteListener {
+                override fun onCompleted() {
+                    Log.i("ruban", "监听到全部初始化完成～")
+                }
+
+            })
+
+            setLogger(CustomizationLogger())
+
             initialize(application, isDebug);
         }
 ```
@@ -63,6 +69,26 @@ class TestThreadALib : LibInit(1, ConstantsForCore.THREAD_ASYNC, arrayListOf()) 
             Log.i("ruban", "err-线程异常-init:${getAliasName()}")
         }
     }
+}
+```
+```
+class CustomizationLogger : ILogger {
+    override fun d(tag: String, msg: String) {
+
+    }
+
+    override fun e(tag: String, msg: String) {
+    }
+
+    override fun i(tag: String, msg: String) {
+    }
+
+    override fun v(tag: String, msg: String) {
+    }
+
+    override fun w(tag: String, msg: String) {
+    }
+
 }
 ```
 
