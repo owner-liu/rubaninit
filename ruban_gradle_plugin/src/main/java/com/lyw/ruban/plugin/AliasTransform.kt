@@ -51,7 +51,6 @@ constructor(project: Project) : Transform() {
     }
 
     override fun transform(transformInvocation: TransformInvocation) {
-        println("RubanPlugin transform")
 
         val inputs = transformInvocation.inputs
         val outputProvider = transformInvocation.outputProvider
@@ -63,9 +62,7 @@ constructor(project: Project) : Transform() {
         }
 
         inputs.forEach {
-            println("RubanPlugin inputs")
             it.jarInputs.forEach {
-                println("RubanPlugin jarInputs")
                 // TODO by LYW: 2020/5/6  修改代码～
 
                 val dest = outputProvider.getContentLocation(
@@ -79,10 +76,8 @@ constructor(project: Project) : Transform() {
             }
 
             it.directoryInputs.forEach {
-                println("RubanPlugin directoryInputs")
                 // TODO by LYW: 2020/5/6  修改代码～
                 readClassWithFile(it.file)
-
 
                 val dest = outputProvider.getContentLocation(
                     it.name,
