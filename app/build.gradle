@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'ruban-plugin'
 
 android {
     compileSdkVersion Integer.valueOf(version_compile_sdk)

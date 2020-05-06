@@ -28,7 +28,7 @@ constructor(
             return
         }
 
-        init?.let {
+        init.let {
             mContainerObserver.mObserver = observer
             val proxyObserver = mContainerObserver as T
 

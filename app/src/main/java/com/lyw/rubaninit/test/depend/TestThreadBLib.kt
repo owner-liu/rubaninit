@@ -1,7 +1,6 @@
 package com.lyw.rubaninit.test.depend
 
 import android.os.Looper
-import android.util.Log
 import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
@@ -12,7 +11,7 @@ import com.lyw.ruban.init.lib.LibInit
  * Created by  lyw
  * Created for
  */
-class TestThreadBLib : LibInit(2, ConstantsForCore.THREAD_SYNC, arrayListOf()) {
+class TestThreadBLib : LibInit(2, ConstantsForCore.THREAD_SYNC) {
     override fun getAliasName(): String {
         return "TestThreadBLib"
     }

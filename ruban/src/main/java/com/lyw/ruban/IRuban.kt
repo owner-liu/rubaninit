@@ -56,5 +56,5 @@ interface IModule<T, U> {
 }
 
 interface ILoggerManager {
-    fun setLogger(iLogger: ILogger?)
+    fun setLogger(logger: ILogger)
 }
