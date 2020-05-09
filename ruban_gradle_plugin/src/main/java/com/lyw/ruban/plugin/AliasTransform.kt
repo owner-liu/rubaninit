@@ -3,8 +3,12 @@ package com.lyw.ruban.plugin
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
+import jdk.internal.org.objectweb.asm.ClassReader
+import jdk.internal.org.objectweb.asm.ClassWriter
+import jdk.internal.org.objectweb.asm.Opcodes
 import org.gradle.api.Project
 import java.io.File
+import java.io.FileInputStream
 
 /**
  * Created on  2020/4/30
@@ -63,51 +67,56 @@ constructor(project: Project) : Transform() {
 
         inputs.forEach {
             it.jarInputs.forEach {
-                // TODO by LYW: 2020/5/6  修改代码～
+                println("RubanPlugin jarInputs")
+                val file = it.file
 
+                val absolutePath = file.absolutePath
+                val contentTypes = it.contentTypes
+                val scopes = it.scopes
                 val dest = outputProvider.getContentLocation(
-                    it.file.absolutePath,
-                    it.contentTypes,
-                    it.scopes,
+                    absolutePath,
+                    contentTypes,
+                    scopes,
                     Format.JAR
                 )
-
-                FileUtils.copyFile(it.file, dest)
+                FileUtils.copyFile(file, dest)
             }
 
             it.directoryInputs.forEach {
-                // TODO by LYW: 2020/5/6  修改代码～
-                readClassWithFile(it.file)
+                println("RubanPlugin directoryInputs")
+                val file = it.file
+                file.listFiles().forEach {
+                    handleClass(file)
+                }
 
+                val name = it.name
+                val contentTypes = it.contentTypes
+                val scopes = it.scopes
                 val dest = outputProvider.getContentLocation(
-                    it.name,
-                    it.contentTypes,
-                    it.scopes,
+                    name,
+                    contentTypes,
+                    scopes,
                     Format.DIRECTORY
                 )
-                FileUtils.copyDirectory(it.file, dest)
+                FileUtils.copyDirectory(file, dest)
             }
         }
     }
 
-    private fun readClassWithFile(file: File) {
-        val root = file.absolutePath
-        println("RubanPlugin readClassWithFile root:$root")
-        if (file.isDirectory) {
-            file.listFiles()?.forEach {
-                val filePath = it.absolutePath
-                println("RubanPlugin readClassWithFile filePath:$filePath")
-                if (!filePath.endsWith(".class")) return
-                val className = getClassName(root, filePath)
-                println("RubanPlugin class name is:$className")
+    private fun handleClass(file: File) {
+        if (file.isFile) {
+            println("RubanPlugin handleClass file:{${file.name}}")
+            val fis = FileInputStream(file)
+            val cr = ClassReader(fis)
+            val cw = ClassWriter(cr, 0)
+            val scv = ScanClassVisitor(Opcodes.ASM5, cw)
+            cr.accept(scv, ClassReader.EXPAND_FRAMES)
+            fis.close()
+        } else if (file.isDirectory) {
+            println("RubanPlugin handleClass directory:{${file.name}}")
+            file.listFiles().forEach {
+                handleClass(it)
             }
-        } else {
-            println("RubanPlugin current file is not directory")
         }
-    }
-
-    private fun getClassName(root: String, classPath: String): String {
-        return classPath.substring(root.length + 1, classPath.length - 6)
-            .also { it.replace("/", ".") }
     }
 }
