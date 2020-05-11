@@ -46,7 +46,7 @@ interface IModuleCompleteObserverOperate {
 }
 
 interface IAppCompleteObserverOperate {
-    fun addAppCompletedListener(listener: ICompleteListener)
+    fun addAppInitiativeCompletedListener(listener: ICompleteListener)
 }
 
 
@@ -56,5 +56,5 @@ interface IModule<T, U> {
 }
 
 interface ILoggerManager {
-    fun setLogger(iLogger: ILogger)
+    fun setLogger(iLogger: ILogger?)
 }

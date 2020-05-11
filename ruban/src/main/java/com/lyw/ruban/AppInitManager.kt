@@ -91,8 +91,8 @@ object AppInitManager
         mLazyAppDependInit.addModuleCompletedListener(moduleAliases, listener)
     }
 
-    override fun addAppCompletedListener(listener: ICompleteListener) {
-        mLazyAppDependInit.addAppCompletedListener(listener)
+    override fun addAppInitiativeCompletedListener(listener: ICompleteListener) {
+        mLazyAppDependInit.addAppInitiativeCompletedListener(listener)
     }
 
     override fun addInitCompletedListener(
@@ -103,7 +103,7 @@ object AppInitManager
         mLazyAppDependInit.addInitCompletedListener(moduleCode, InitAliasName, listener)
     }
 
-    override fun setLogger(logger: ILogger) {
+    override fun setLogger(logger: ILogger?) {
         this.mLogger = logger
     }
 }

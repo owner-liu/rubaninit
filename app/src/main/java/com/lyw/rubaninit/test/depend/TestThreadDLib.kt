@@ -12,10 +12,10 @@ import com.lyw.ruban.init.lib.LibInit
  * Created by  lyw
  * Created for
  */
-class TestThreadCLib :
-    LibInit(2, ConstantsForCore.THREAD_ASYNC, arrayListOf("TestThreadBLib")) {
+class TestThreadDLib :
+    LibInit(3, ConstantsForCore.THREAD_ASYNC) {
     override fun getAliasName(): String {
-        return "TestThreadCLib"
+        return "TestThreadDLib"
     }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {

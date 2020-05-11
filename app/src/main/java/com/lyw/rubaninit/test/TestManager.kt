@@ -23,30 +23,42 @@ object TestManager {
             addLibInit(TestThreadALib())
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
+            addLibInit(TestThreadDLib())
 
             configModule(ModuleConfig(1, false, arrayListOf("2")))
+            configModule(ModuleConfig(3, true))
 
             addModuleCompletedListener(
                 hashSetOf(1),
                 object : ICompleteListener {
                     override fun onCompleted() {
-                        Log.i("ruban", "监听到相关module 已完成～")
-
-                        initializeLazyAll()
+                        Log.i("ruban", "监听到相关module 1已完成～")
+                    }
+                })
+            addModuleCompletedListener(
+                hashSetOf(2),
+                object : ICompleteListener {
+                    override fun onCompleted() {
+                        Log.i("ruban", "监听到相关module 2已完成～")
+                    }
+                })
+            addModuleCompletedListener(
+                hashSetOf(3),
+                object : ICompleteListener {
+                    override fun onCompleted() {
+                        Log.i("ruban", "监听到相关module 3已完成～")
                     }
                 })
 
-            addInitCompletedListener(1, "TestThreadALib", object : ICompleteListener {
+            addInitCompletedListener(2, "TestThreadBLib", object : ICompleteListener {
                 override fun onCompleted() {
-                    Log.i("ruban", "监听到指定lib初始化完成～")
+                    Log.i("ruban", "监听到指定libB初始化完成～")
                 }
             })
-
-            addAppCompletedListener(object : ICompleteListener {
+            addAppInitiativeCompletedListener(object : ICompleteListener {
                 override fun onCompleted() {
                     Log.i("ruban", "监听到全部初始化完成～")
                 }
-
             })
 
             setLogger(CustomizationLogger())

@@ -23,8 +23,13 @@ class AppManagerObserver
     private val mObserverList = arrayListOf<ModuleCompeteObserver>()
     private val mAppObserverList = arrayListOf<ICompleteListener>()
 
+    //主动初始化init 完成alias~
+    private val mInitiativeModuleCompletedAliases = arrayListOf<String>()
+    private val mLazyInitAliases = arrayListOf<String>()
+
     //module 数量～
-    var mModuleCount: Int = 0
+    private var mInitiativeModuleCount: Int = 0
+
     //是否完成全部初始化～
     private var mAppInitComplete = false
 
@@ -37,7 +42,7 @@ class AppManagerObserver
         mObserverList.add(moduleCompeteObserver)
     }
 
-    override fun addAppCompletedListener(listener: ICompleteListener) {
+    override fun addAppInitiativeCompletedListener(listener: ICompleteListener) {
         if (mAppInitComplete) {
             listener.onCompleted()
             return
@@ -46,13 +51,35 @@ class AppManagerObserver
     }
 
     override fun onCompleted(context: InitContext, aliasName: String) {
+        // 触发相关监听回调~
         mObserverList.forEach { it.onCompleted(aliasName) }
 
         super.onCompleted(context, aliasName)
 
-        if (mModuleCount == mInitCompletedAliases.size) {
-            mAppInitComplete = true
-            mAppObserverList.forEach { it.onCompleted() }
+        if (!mLazyInitAliases.contains(aliasName)) {
+            //非延迟初始化库初始化完成时触发校验检测~
+            mInitiativeModuleCompletedAliases.add(aliasName)
+            if (mInitiativeModuleCount == mInitiativeModuleCompletedAliases.size) {
+                mAppInitComplete = true
+                mAppObserverList.forEach { it.onCompleted() }
+            }
+        }
+    }
+
+    /**
+     * 新增module~
+     */
+    fun addModule(moduleCode: Int) {
+        mInitiativeModuleCount++
+    }
+
+    /**
+     * 配置 lazy~
+     */
+    fun configLazy(aliasName: String) {
+        if (!mLazyInitAliases.contains(aliasName)) {
+            mInitiativeModuleCount--
+            mLazyInitAliases.add(aliasName)
         }
     }
 }

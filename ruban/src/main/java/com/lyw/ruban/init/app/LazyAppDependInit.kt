@@ -41,7 +41,6 @@ class LazyAppDependInit
     }
 
     fun initialize(context: InitContext) {
-        mManagerObserver.mModuleCount = mData.size
         super.initialize(context, mManagerObserver)
     }
 
@@ -70,11 +69,7 @@ class LazyAppDependInit
     }
 
     private fun addDependLibInit(moduleCode: Int, init: DependThreadLibInit) {
-        val module = get(moduleCode) ?: let {
-            LazyDependModule(moduleCode).also {
-                put(moduleCode, it)
-            }
-        }
+        val module = getModule(moduleCode)
         ((module.init as DependModule).init as ModuleLibExternalDependMap).addInit(init)
     }
 
@@ -85,18 +80,17 @@ class LazyAppDependInit
         mManagerObserver.addModuleCompletedListener(moduleAliases, listener)
     }
 
-    override fun addAppCompletedListener(listener: ICompleteListener) {
-        mManagerObserver.addAppCompletedListener(listener)
+    override fun addAppInitiativeCompletedListener(listener: ICompleteListener) {
+        mManagerObserver.addAppInitiativeCompletedListener(listener)
     }
 
     override fun configModule(config: ModuleConfig) {
         val moduleCode = config.moduleCode
-        val module = get(moduleCode) ?: let {
-            LazyDependModule(moduleCode).also {
-                put(moduleCode, it)
-            }
+        val module = getModule(moduleCode)
+        if (config.lazy) {
+            mManagerObserver.configLazy(config.moduleCode.toString())
+            module.setLazy(config.lazy)
         }
-        module.setLazy(config.lazy)
         val aliasList = config.dependAlias ?: return
         (module.init as DependModule).addAliasList(aliasList)
     }
@@ -118,14 +112,19 @@ class LazyAppDependInit
         InitAliasName: String,
         listener: ICompleteListener
     ) {
-        val module = get(moduleCode) ?: let {
-            LazyDependModule(moduleCode).also {
-                put(moduleCode, it)
-            }
-        }
+        val module = getModule(moduleCode)
         ((module.init as DependModule).init as ModuleLibExternalDependMap).addInitCompletedListener(
             moduleCode, InitAliasName, listener
         )
+    }
 
+    /**
+     * 添加module~
+     */
+    private fun getModule(moduleCode: Int): LazyDependModule {
+        return get(moduleCode) ?: LazyDependModule(moduleCode).also {
+            mManagerObserver.addModule(moduleCode)
+            put(moduleCode, it)
+        }
     }
 }
