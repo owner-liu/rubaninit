@@ -11,6 +11,7 @@ import com.lyw.ruban.init.module.depend.ModuleLibExternalDependMap
 import com.lyw.ruban.init.widgets.depend.DependModule
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
 import com.lyw.ruban.init.widgets.lazy.LazyDependModule
+import java.lang.IllegalArgumentException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
@@ -45,9 +46,7 @@ class LazyAppDependInit
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        mManagerObserver.mModuleCount = mData.size
-        mManagerObserver.mObserver = observer
-        super.initialize(context, mManagerObserver)
+        throw IllegalArgumentException("err, please invoke initialize(context: InitContext)")
     }
 
     override fun doInit(

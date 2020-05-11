@@ -1,8 +1,6 @@
 package com.lyw.ruban.core.depend
 
-import android.util.Log
 import com.lyw.ruban.core.*
-import java.lang.reflect.Proxy
 
 /**
  * Created on  2020-03-08
@@ -28,9 +26,8 @@ constructor(
         }
 
         init.let {
-
             mContainerObserver.mObserver = observer
-
+            //判断是否还有 依赖~
             if (hasDepend()) {
                 context.logger.i(msg = "initialize-dependContainer-hasDepend-init:${init.getAliasName()}")
                 //抛出自己～
@@ -43,17 +40,8 @@ constructor(
             }
 
             context.logger.i(msg = "initialize-dependContainer-init:${init.getAliasName()}")
-            val handler =
-                DependStatusObserverInvokeHandler(
-                    observer,
-                    mContainerObserver
-                )
-            val proxyObserver = Proxy.newProxyInstance(
-                handler.javaClass.classLoader,
-                observer.javaClass.interfaces, handler
-            )
 
-            it.initialize(context, proxyObserver as T)
+            it.initialize(context, mContainerObserver as T)
         }
     }
 }

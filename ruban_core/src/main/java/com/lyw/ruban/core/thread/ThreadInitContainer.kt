@@ -1,11 +1,8 @@
 package com.lyw.ruban.core.thread
 
 import android.os.Looper
-import android.util.Log
 import com.lyw.ruban.core.*
-import com.lyw.ruban.core.comm.CommStatusObserverInvokeHandler
 import kotlinx.coroutines.launch
-import java.lang.reflect.Proxy
 
 /**
  * Created on  2020-03-08
@@ -33,15 +30,8 @@ constructor(
 
         init?.let {
             mContainerObserver.mObserver = observer
-            val handler: CommStatusObserverInvokeHandler<T, IInitObserver> =
-                CommStatusObserverInvokeHandler(
-                    observer,
-                    mContainerObserver
-                )
-            val proxyObserver: T = Proxy.newProxyInstance(
-                handler.javaClass.classLoader,
-                observer.javaClass.interfaces, handler
-            ) as T
+            val proxyObserver = mContainerObserver as T
+
             when (getCurrentThreadCode()) {
                 ConstantsForCore.THREAD_ASYNC -> {
                     if (Looper.myLooper() != Looper.getMainLooper()) {
