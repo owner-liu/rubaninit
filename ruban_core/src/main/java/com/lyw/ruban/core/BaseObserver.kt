@@ -11,5 +11,5 @@ open class BaseObserver {
 
     var initCount: Int = 0
 
-    var mInitCompletedAliases = CopyOnWriteArrayList<String>()
+    var mInitCompletedAliases = arrayListOf<String>()
 }
