@@ -33,6 +33,7 @@ class LazyAppDependInit
     IAppCompleteObserverOperate {
 
     private var mManagerObserver = AppManagerObserver()
+    private var hasStartInit = false
 
     override var mData: Map<Int, LazyDependModule> = TreeMap()
 
@@ -41,6 +42,7 @@ class LazyAppDependInit
     }
 
     fun initialize(context: InitContext) {
+        hasStartInit = true
         super.initialize(context, mManagerObserver)
     }
 
@@ -89,7 +91,7 @@ class LazyAppDependInit
         val module = getModule(moduleCode)
         if (config.lazy) {
             mManagerObserver.configLazy(config.moduleCode.toString())
-            module.setLazy(config.lazy)
+            module.setLazy(true)
         }
         val aliasList = config.dependAlias ?: return
         (module.init as DependModule).addAliasList(aliasList)
@@ -123,6 +125,10 @@ class LazyAppDependInit
      */
     private fun getModule(moduleCode: Int): LazyDependModule {
         return get(moduleCode) ?: LazyDependModule(moduleCode).also {
+            if (hasStartInit) {
+                //开始初始化后，添加的module统一为lazy~
+                it.setLazy(true)
+            }
             mManagerObserver.addModule(moduleCode)
             put(moduleCode, it)
         }
