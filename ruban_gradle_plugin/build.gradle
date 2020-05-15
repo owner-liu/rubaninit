@@ -11,7 +11,7 @@ dependencies {
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: uri("./repos")) // repos 为本地的地址，后续可以替换为网路上的 maven 库地址
+        repository(url: uri("../repos")) // repos 为本地的地址，后续可以替换为网路上的 maven 库地址
         pom.groupId = "com.lyw.ruban"
         pom.artifactId = "ruban-plugin"
         pom.version = "$ruban_plugin_upload"

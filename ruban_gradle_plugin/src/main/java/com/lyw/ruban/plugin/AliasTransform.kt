@@ -51,7 +51,7 @@ constructor(project: Project) : Transform() {
      */
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
         //只有项目内容～
-        return TransformManager.PROJECT_ONLY
+        return TransformManager.SCOPE_FULL_PROJECT
     }
 
     override fun transform(transformInvocation: TransformInvocation) {
@@ -67,9 +67,7 @@ constructor(project: Project) : Transform() {
 
         inputs.forEach {
             it.jarInputs.forEach {
-                println("RubanPlugin jarInputs")
                 val file = it.file
-
                 val absolutePath = file.absolutePath
                 val contentTypes = it.contentTypes
                 val scopes = it.scopes
@@ -83,12 +81,8 @@ constructor(project: Project) : Transform() {
             }
 
             it.directoryInputs.forEach {
-                println("RubanPlugin directoryInputs")
                 val file = it.file
-                file.listFiles().forEach {
-                    handleClass(file)
-                }
-
+                handleClass(file)
                 val name = it.name
                 val contentTypes = it.contentTypes
                 val scopes = it.scopes
@@ -105,17 +99,21 @@ constructor(project: Project) : Transform() {
 
     private fun handleClass(file: File) {
         if (file.isFile) {
-            println("RubanPlugin handleClass file:{${file.name}}")
-            val fis = FileInputStream(file)
-            val cr = ClassReader(fis)
-            val cw = ClassWriter(cr, 0)
-            val scv = ScanClassVisitor(Opcodes.ASM5, cw)
-            cr.accept(scv, ClassReader.EXPAND_FRAMES)
-            fis.close()
+            if (file.name.endsWith(".class")
+                && !file.name.endsWith("R.class")
+                && !file.name.endsWith("BuildConfig.class")
+                && !file.name.contains("R\$")
+            ) {
+                val fis = FileInputStream(file)
+                val cr = ClassReader(fis)
+                val cw = ClassWriter(cr, 0)
+                val scv = ScanClassVisitor(Opcodes.ASM5, cw)
+                cr.accept(scv, ClassReader.EXPAND_FRAMES)
+                fis.close()
+            }
         } else if (file.isDirectory) {
-            println("RubanPlugin handleClass directory:{${file.name}}")
-            file.listFiles().forEach {
-                handleClass(it)
+            file.listFiles().forEach { file ->
+                handleClass(file)
             }
         }
     }

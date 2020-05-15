@@ -8,7 +8,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url uri("./ruban_gradle_plugin/repos") } // repos 为本地的地址，后续需要修改为发布的 maven 库地址
+        maven { url uri("./repos") } // repos 为本地的地址，后续需要修改为发布的 maven 库地址
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
