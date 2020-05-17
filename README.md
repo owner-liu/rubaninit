@@ -22,7 +22,7 @@ Add the dependency
 
 proguard-rules.pro
 ```
-# RubanInit 避免初始化相关类名，防止有依赖时，没办法正确匹配到～ 
+# RubanInit 避免混淆相关初始化类名，防止有依赖时，没办法正确匹配到～ 
 -keep public class * extends com.lyw.ruban.init.lib.LibInit
 ```
 
