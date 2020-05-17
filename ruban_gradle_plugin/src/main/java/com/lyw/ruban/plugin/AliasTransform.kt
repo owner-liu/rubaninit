@@ -51,7 +51,7 @@ constructor(project: Project) : Transform() {
      */
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
         //只有项目内容～
-        return TransformManager.SCOPE_FULL_PROJECT
+        return TransformManager.PROJECT_ONLY
     }
 
     override fun transform(transformInvocation: TransformInvocation) {
