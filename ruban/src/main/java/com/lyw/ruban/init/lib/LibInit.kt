@@ -37,7 +37,7 @@ constructor(
 
     abstract fun doInit(context: InitContext, observer: IInitObserver)
 
-    override fun getAliasName(): String {
+    final override fun getAliasName(): String {
         return this.javaClass.simpleName
     }
 }

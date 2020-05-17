@@ -14,9 +14,6 @@ import com.lyw.ruban.init.lib.LibInit
  */
 class TestThreadCLib :
     LibInit(2, ConstantsForCore.THREAD_ASYNC, arrayListOf("TestThreadBLib")) {
-    override fun getAliasName(): String {
-        return "TestThreadCLib"
-    }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
         if (Looper.myLooper() == Looper.getMainLooper()) {

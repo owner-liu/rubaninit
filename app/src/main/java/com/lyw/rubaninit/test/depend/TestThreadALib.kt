@@ -13,9 +13,6 @@ import com.lyw.ruban.init.lib.LibInit
  * Created for
  */
 class TestThreadALib : LibInit(1, ConstantsForCore.THREAD_ASYNC, arrayListOf()) {
-    override fun getAliasName(): String {
-        return "TestThreadALib"
-    }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
