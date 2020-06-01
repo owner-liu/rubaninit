@@ -120,6 +120,12 @@ constructor(
     }
 
     override fun visitInsn(opcode: Int) {
+
+        /**
+         *  areturn 返回值类型为对象类型
+         *  ireturn 返回值类型为int
+         *  lreturn 返回值类型为long
+         */
         if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)
             || opcode == Opcodes.ATHROW
         ) {
