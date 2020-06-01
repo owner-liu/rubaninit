@@ -9,6 +9,7 @@ import jdk.internal.org.objectweb.asm.Opcodes
 import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileOutputStream
 
 /**
  * Created on  2020/4/30
@@ -50,8 +51,11 @@ constructor(project: Project) : Transform() {
      * SCOPE_FULL_PROJECT_WITH_LOCAL_JARS
      */
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
-        //只有项目内容～
-        return TransformManager.PROJECT_ONLY
+        /**
+         * 如果是application注册的transform, 通常情况下, 我们一般指定TransformManager.SCOPE_FULL_PROJECT;
+         * 如果是library注册的transform, 我们只能指定TransformManager.PROJECT_ONLY
+         */
+        return TransformManager.SCOPE_FULL_PROJECT
     }
 
     override fun transform(transformInvocation: TransformInvocation) {
@@ -109,7 +113,18 @@ constructor(project: Project) : Transform() {
                 val cw = ClassWriter(cr, 0)
                 val scv = ScanClassVisitor(Opcodes.ASM5, cw)
                 cr.accept(scv, ClassReader.EXPAND_FRAMES)
+
+                val bytes = cw.toByteArray()
+                val optFile = File(file.parent, file.name + ".opt")
+                val ops = FileOutputStream(optFile)
+                ops.write(bytes)
+
+                if (optFile.exists()) {
+                    optFile.renameTo(file)
+                }
+
                 fis.close()
+                ops.close()
             }
         } else if (file.isDirectory) {
             file.listFiles().forEach { file ->
