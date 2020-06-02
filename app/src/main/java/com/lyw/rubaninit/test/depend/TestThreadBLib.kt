@@ -13,7 +13,7 @@ import com.lyw.ruban.init.lib.LibInit
  */
 class TestThreadBLib : LibInit(2, ConstantsForCore.THREAD_SYNC) {
     override fun getAliasName(): String {
-        return "TestThreadBLib"
+        return "B"
     }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {

@@ -15,7 +15,7 @@ import com.lyw.ruban.init.lib.LibInit
 class TestThreadDLib :
     LibInit(3, ConstantsForCore.THREAD_ASYNC) {
     override fun getAliasName(): String {
-        return "TestThreadDLib"
+        return "D"
     }
 
     override fun doInit(context: InitContext, observer: IInitObserver) {
