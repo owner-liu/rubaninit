@@ -4,6 +4,7 @@ import jdk.internal.org.objectweb.asm.ClassVisitor
 import jdk.internal.org.objectweb.asm.Label
 import jdk.internal.org.objectweb.asm.MethodVisitor
 import jdk.internal.org.objectweb.asm.Opcodes
+import jdk.internal.org.objectweb.asm.commons.AdviceAdapter
 
 
 /**
@@ -20,7 +21,7 @@ visitOuterClass?
 visitEnd
  */
 class ScanClassVisitor
-constructor(api: Int, cv: ClassVisitor) : ClassVisitor(api, cv) {
+constructor(var mApi: Int, cv: ClassVisitor) : ClassVisitor(mApi, cv) {
 
     //是否需要扫描方法～
     private var needScanMethod = false
@@ -56,7 +57,9 @@ constructor(api: Int, cv: ClassVisitor) : ClassVisitor(api, cv) {
     ): MethodVisitor {
         var methodVisitor = super.visitMethod(access, name, desc, signature, exceptions)
         if (needScanMethod && name?.equals("getAliasName") == true) {
-            methodVisitor = ScanMethodVisitor(api, methodVisitor, classSimpleName)
+//            methodVisitor = ScanMethodVisitor(api, methodVisitor, classSimpleName)
+            methodVisitor =
+                ScanAdviceAdapter(classSimpleName, mApi, methodVisitor, access, name, desc)
         }
         return methodVisitor
     }
@@ -137,4 +140,23 @@ constructor(
         mv.visitInsn(opcode);
     }
 
+}
+
+class ScanAdviceAdapter
+constructor(
+    var className: String?,
+    api: Int,
+    visitor: MethodVisitor,
+    access: Int,
+    name: String?,
+    desc: String?
+) : AdviceAdapter(api, visitor, access, name, desc) {
+
+    override fun onMethodExit(opcode: Int) {
+        super.onMethodExit(opcode)
+        println("RubanPlugin insert code into $className-getAliasName()")
+        mv.visitLdcInsn(className)
+        mv.visitInsn(groovyjarjarasm.asm.Opcodes.ARETURN)
+        println("RubanPlugin insert end~")
+    }
 }
