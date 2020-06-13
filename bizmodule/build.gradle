@@ -1,24 +1,28 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'ruban-plugin'
 
 android {
     compileSdkVersion Integer.valueOf(version_compile_sdk)
+
     defaultConfig {
-        applicationId "com.lyw.rubaninit"
+
         minSdkVersion version_min_sdk
         targetSdkVersion version_target_sdk
         versionCode Integer.valueOf(version_code)
         versionName version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        consumerProguardFiles 'consumer-rules.pro'
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -26,11 +30,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$version_appcompat"
     implementation "androidx.core:core-ktx:$version_core_ktx"
-    implementation "androidx.constraintlayout:constraintlayout:$version_constraintlayout"
     testImplementation "junit:junit:$version_junit"
     androidTestImplementation "androidx.test.ext:junit:$version_ext_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$version_espresso_core"
 
     api project(':ruban')
-    api project(':bizmodule')
 }

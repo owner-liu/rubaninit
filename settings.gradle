@@ -1,3 +1,4 @@
 include ':app', ':ruban_core', ':ruban'
 rootProject.name='RubanInit'
 include ':ruban_gradle_plugin'
+include ':bizmodule'

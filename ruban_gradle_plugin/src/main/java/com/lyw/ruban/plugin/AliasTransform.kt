@@ -10,6 +10,7 @@ import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.util.jar.JarFile
 
 /**
  * Created on  2020/4/30
@@ -72,6 +73,7 @@ constructor(project: Project) : Transform() {
         inputs.forEach {
             it.jarInputs.forEach {
                 val file = it.file
+                handleJar(file)
                 val absolutePath = file.absolutePath
                 val contentTypes = it.contentTypes
                 val scopes = it.scopes
@@ -97,6 +99,23 @@ constructor(project: Project) : Transform() {
                     Format.DIRECTORY
                 )
                 FileUtils.copyDirectory(file, dest)
+            }
+        }
+    }
+
+    private fun handleJar(file: File) {
+        val jarFile = JarFile(file)
+        jarFile.stream().forEach {
+
+            val name = jarFile.name
+            if (name.endsWith(".class")
+                && !name.endsWith("R.class")
+                && !name.endsWith("BuildConfig.class")
+                && !name.contains("R\$")
+            ) {
+                val fileIs = jarFile.getInputStream(it)
+
+
             }
         }
     }

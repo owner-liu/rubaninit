@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import com.lyw.ruban.AppInitManager
 import com.lyw.ruban.ICompleteListener
+import com.lyw.ruban.bizmodule.TestBizLibInit
 import com.lyw.ruban.core.ILogger
 import com.lyw.ruban.init.module.ModuleConfig
 import com.lyw.rubaninit.test.depend.*
@@ -24,6 +25,7 @@ object TestManager {
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
             addLibInit(TestThreadDLib())
+            addLibInit(TestBizLibInit())
 
             configModule(ModuleConfig(1, false, arrayListOf("2")))
             configModule(ModuleConfig(3, true))
