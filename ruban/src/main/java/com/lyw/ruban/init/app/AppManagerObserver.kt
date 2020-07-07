@@ -8,6 +8,7 @@ import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.DependManagerObserver
 import java.lang.IllegalArgumentException
+import java.lang.ref.SoftReference
 
 /**
  * Created on  2020-03-14
@@ -21,7 +22,7 @@ class AppManagerObserver
     IDependInitObserver {
     // module 监测～
     private val mObserverList = arrayListOf<ModuleCompeteObserver>()
-    private val mAppObserverList = arrayListOf<ICompleteListener>()
+    private val mAppObserverList = arrayListOf<SoftReference<ICompleteListener>>()
 
     //主动初始化init 完成alias~
     private val mInitiativeModuleCompletedAliases = arrayListOf<String>()
@@ -47,7 +48,7 @@ class AppManagerObserver
             listener.onCompleted()
             return
         }
-        mAppObserverList.add(listener)
+        mAppObserverList.add(SoftReference(listener))
     }
 
     override fun onCompleted(context: InitContext, aliasName: String) {
@@ -61,7 +62,7 @@ class AppManagerObserver
             mInitiativeModuleCompletedAliases.add(aliasName)
             if (mInitiativeModuleCount == mInitiativeModuleCompletedAliases.size) {
                 mAppInitComplete = true
-                mAppObserverList.forEach { it.onCompleted() }
+                mAppObserverList.forEach { it.get()?.onCompleted() }
             }
         }
     }
@@ -87,13 +88,16 @@ class AppManagerObserver
 class ModuleCompeteObserver
 constructor(
     private var moduleAliases: HashSet<Int>,
-    private var listener: ICompleteListener
+    listener: ICompleteListener
 ) : IModuleCompleteListener {
+
+    var mListener: SoftReference<ICompleteListener>
 
     init {
         if (moduleAliases.isEmpty()) {
             throw IllegalArgumentException("添加了无效的module完成监听～")
         }
+        mListener = SoftReference(listener)
     }
 
     override fun onCompleted(aliasName: String) {
@@ -104,7 +108,7 @@ constructor(
         aliasName.toIntOrNull()?.let {
             moduleAliases.remove(it)
             if (moduleAliases.isEmpty()) {
-                listener.onCompleted()
+                mListener.get()?.onCompleted()
             }
         }
     }

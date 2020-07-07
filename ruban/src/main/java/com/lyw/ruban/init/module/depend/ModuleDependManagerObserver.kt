@@ -1,11 +1,11 @@
 package com.lyw.ruban.init.module.depend
 
-import android.util.Log
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.DependManagerObserver
+import java.lang.ref.SoftReference
 
 /**
  * Created on  2020-03-09
@@ -18,7 +18,7 @@ constructor(var moduleAliasName: String) :
     IDependInitObserver,
     IInitCompleteObserverOperate {
 
-    var mInitCompleteObserver = hashMapOf<String, ArrayList<ICompleteListener>>()
+    var mInitCompleteObserver = hashMapOf<String, ArrayList<SoftReference<ICompleteListener>>>()
 
     override fun onCompleted(context: InitContext, aliasName: String) {
         context.logger.i(msg = "complete-module:$moduleAliasName,init:$aliasName")
@@ -26,13 +26,13 @@ constructor(var moduleAliasName: String) :
 
         //监听整个module完成～
         if (initCount == mInitCompletedAliases.size) {
-            context.logger.i(msg =  "complete-module:$moduleAliasName")
+            context.logger.i(msg = "complete-module:$moduleAliasName")
             mObserver?.onCompleted(context, moduleAliasName)
         }
 
         //监听对应的init 完成～
         mInitCompleteObserver.get(aliasName)?.forEach {
-            it.onCompleted()
+            it.get()?.onCompleted()
         }
 
         val waitToInitList = mWaitToInitMap.remove(aliasName)
@@ -53,11 +53,11 @@ constructor(var moduleAliasName: String) :
             listener.onCompleted()
         } else {
             var list = mInitCompleteObserver.get(InitAliasName) ?: let {
-                arrayListOf<ICompleteListener>().also {
+                arrayListOf<SoftReference<ICompleteListener>>().also {
                     mInitCompleteObserver[InitAliasName] = it
                 }
             }
-            list.add(listener)
+            list.add(SoftReference(listener))
         }
     }
 }
