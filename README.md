@@ -3,7 +3,9 @@ Android App 相关库的初始化管理
 
 [![](https://jitpack.io/v/owner-liu/rubaninit.svg)](https://jitpack.io/#owner-liu/rubaninit)
 
-说明：
+#### 说明：
+
+- v1.0.1-rc5 去除自定义 alias。alias 统一为类名，需要添加 混淆配。
 - v1.0.1-rc6 针对于相关处理完成监听，使用软引用进行存储。
 
 Add it in your root build.gradle at the end of repositories:
