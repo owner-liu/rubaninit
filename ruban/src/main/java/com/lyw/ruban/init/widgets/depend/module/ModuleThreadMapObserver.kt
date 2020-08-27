@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.module.depend
+package com.lyw.ruban.init.widgets.depend.module
 
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
@@ -12,7 +12,7 @@ import java.lang.ref.SoftReference
  * Created by  lyw
  * Created for depend manager observer~
  */
-class ModuleDependManagerObserver
+class ModuleThreadMapObserver
 constructor(var moduleAliasName: String) :
     DependManagerObserver(),
     IDependInitObserver,
@@ -39,7 +39,7 @@ constructor(var moduleAliasName: String) :
         waitToInitList?.forEach {
             it.value.forEach {
                 it.refreshDependComplete(aliasName)
-                it.initialize(context, this@ModuleDependManagerObserver)
+                it.initialize(context, this@ModuleThreadMapObserver)
             }
         }
     }

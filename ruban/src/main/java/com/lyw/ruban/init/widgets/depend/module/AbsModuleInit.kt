@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.app
+package com.lyw.ruban.init.widgets.depend.module
 
 import com.lyw.ruban.IModule
 import com.lyw.ruban.core.AbsBaseInit

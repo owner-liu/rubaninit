@@ -5,9 +5,9 @@ import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.init.lib.LibInit
+import com.lyw.ruban.init.widgets.lib.LibInit
 import com.lyw.ruban.init.module.ModuleConfig
-import com.lyw.ruban.init.module.depend.ModuleLibExternalDependMap
+import com.lyw.ruban.init.widgets.depend.module.ModuleThreadMap
 import com.lyw.ruban.init.widgets.depend.DependModule
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
 import com.lyw.ruban.init.widgets.lazy.LazyDependModule
@@ -72,7 +72,7 @@ class LazyAppDependInit
 
     private fun addDependLibInit(moduleCode: Int, init: DependThreadLibInit) {
         val module = getModule(moduleCode)
-        ((module.init as DependModule).init as ModuleLibExternalDependMap).addInit(init)
+        ((module.init as DependModule).init as ModuleThreadMap).addInit(init)
     }
 
     override fun addModuleCompletedListener(
@@ -115,7 +115,7 @@ class LazyAppDependInit
         listener: ICompleteListener
     ) {
         val module = getModule(moduleCode)
-        ((module.init as DependModule).init as ModuleLibExternalDependMap).addInitCompletedListener(
+        ((module.init as DependModule).init as ModuleThreadMap).addInitCompletedListener(
             moduleCode, InitAliasName, listener
         )
     }

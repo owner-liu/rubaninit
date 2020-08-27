@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.module.depend
+package com.lyw.ruban.init.widgets.depend.module
 
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
@@ -13,16 +13,18 @@ import java.util.*
  * Created by  lyw
  * Created external module init~
  */
-class ModuleLibExternalDependMap
+class ModuleThreadMap
 constructor(
     var moduleCode: Int
 ) : IInitMap<Int, ThreadDependLibList, IDependInitObserver>,
-    AbsDependModuleInit<ThreadDependLibList,
+    AbsModuleThreadInit<ThreadDependLibList,
             DependThreadLibInit, IDependInitObserver>(),
     IInitCompleteObserverOperate {
 
     private val mObserver by lazy {
-        ModuleDependManagerObserver(getAliasName())
+        ModuleThreadMapObserver(
+            getAliasName()
+        )
     }
 
     override var mData: Map<Int, ThreadDependLibList> = TreeMap()

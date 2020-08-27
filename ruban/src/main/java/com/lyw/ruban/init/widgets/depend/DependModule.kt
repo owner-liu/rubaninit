@@ -2,7 +2,7 @@ package com.lyw.ruban.init.widgets.depend
 
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.depend.DependInitContainer
-import com.lyw.ruban.init.module.depend.ModuleLibExternalDependMap
+import com.lyw.ruban.init.widgets.depend.module.ModuleThreadMap
 
 /**
  * Created on  2020-03-17
@@ -15,5 +15,7 @@ constructor(
     aliasList: ArrayList<String> = arrayListOf()
 ) : DependInitContainer<IDependInitObserver>(
     aliasList,
-    ModuleLibExternalDependMap(moduleCode)
+    ModuleThreadMap(
+        moduleCode
+    )
 )

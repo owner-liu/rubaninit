@@ -2,7 +2,7 @@ package com.lyw.ruban.init.widgets.depend
 
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.depend.DependInitContainer
-import com.lyw.ruban.init.lib.LibInit
+import com.lyw.ruban.init.widgets.lib.LibInit
 import com.lyw.ruban.init.widgets.thread.ThreadLibInit
 
 /**

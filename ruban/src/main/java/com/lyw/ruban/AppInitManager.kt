@@ -4,7 +4,7 @@ import android.app.Application
 import com.lyw.ruban.core.ILogger
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.init.app.LazyAppDependInit
-import com.lyw.ruban.init.lib.LibInit
+import com.lyw.ruban.init.widgets.lib.LibInit
 import com.lyw.ruban.init.module.ModuleConfig
 import java.lang.IllegalArgumentException
 
