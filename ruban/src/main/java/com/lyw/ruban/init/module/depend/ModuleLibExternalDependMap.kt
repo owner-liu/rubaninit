@@ -4,7 +4,7 @@ import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
 import com.lyw.ruban.core.*
 import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
-import com.lyw.ruban.init.widgets.depend.LibExternalDependInitArrayList
+import com.lyw.ruban.init.widgets.depend.ThreadDependLibList
 import com.lyw.ruban.init.widgets.thread.ThreadLibInit
 import java.util.*
 
@@ -16,8 +16,8 @@ import java.util.*
 class ModuleLibExternalDependMap
 constructor(
     var moduleCode: Int
-) : IInitMap<Int, LibExternalDependInitArrayList, IDependInitObserver>,
-    AbsDependModuleInit<LibExternalDependInitArrayList,
+) : IInitMap<Int, ThreadDependLibList, IDependInitObserver>,
+    AbsDependModuleInit<ThreadDependLibList,
             DependThreadLibInit, IDependInitObserver>(),
     IInitCompleteObserverOperate {
 
@@ -25,9 +25,9 @@ constructor(
         ModuleDependManagerObserver(getAliasName())
     }
 
-    override var mData: Map<Int, LibExternalDependInitArrayList> = TreeMap()
+    override var mData: Map<Int, ThreadDependLibList> = TreeMap()
 
-    override fun put(key: Int, value: LibExternalDependInitArrayList) {
+    override fun put(key: Int, value: ThreadDependLibList) {
         (mData as TreeMap)[key] = value
     }
 
@@ -43,7 +43,7 @@ constructor(
     override fun doInit(
         context: InitContext,
         key: Int,
-        value: LibExternalDependInitArrayList?,
+        value: ThreadDependLibList?,
         observer: IDependInitObserver
     ) {
         value?.initialize(context, observer)
@@ -61,17 +61,19 @@ constructor(
         addLib(init, threadList)
     }
 
-    private fun addThreadList(threadCode: Int, list: LibExternalDependInitArrayList) {
+    private fun addThreadList(threadCode: Int, list: ThreadDependLibList) {
         put(threadCode, list)
     }
 
     private fun addLib(
         init: DependThreadLibInit,
-        threadInitContainer: LibExternalDependInitArrayList?
+        threadInitContainer: ThreadDependLibList?
     ) {
         val threadCode = (init.init as ThreadLibInit).getCurrentThreadCode()
         var container = threadInitContainer ?: let {
-            LibExternalDependInitArrayList().also {
+
+            // LABEL BY LYW: 同个module，针对于 线程 再分类，添加到 不同的 LibExternalDependInitArrayList中～
+            ThreadDependLibList().also {
                 addThreadList(threadCode, it)
             }
         }
