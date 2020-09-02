@@ -1,8 +1,8 @@
-package com.lyw.ruban.init.widgets.thread
+package com.lyw.ruban.init.lib
 
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.thread.ThreadInitContainer
-import com.lyw.ruban.init.widgets.lib.LibInit
+import com.lyw.ruban.init.lib.LibInit
 
 /**
  * Created on  2020-03-08

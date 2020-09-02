@@ -5,12 +5,12 @@ import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitMap
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.init.widgets.lib.LibInit
+import com.lyw.ruban.init.lib.LibInit
 import com.lyw.ruban.init.module.ModuleConfig
-import com.lyw.ruban.init.widgets.depend.module.ModuleThreadMap
-import com.lyw.ruban.init.widgets.depend.DependModule
-import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
-import com.lyw.ruban.init.widgets.lazy.LazyDependModule
+import com.lyw.ruban.init.module.base.ModuleThreadMap
+import com.lyw.ruban.init.module.DependModule
+import com.lyw.ruban.init.lib.DependThreadLibInit
+import com.lyw.ruban.init.module.LazyDependModule
 import java.lang.IllegalArgumentException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -124,7 +124,9 @@ class LazyAppDependInit
      * 添加module~
      */
     private fun getModule(moduleCode: Int): LazyDependModule {
-        return get(moduleCode) ?: LazyDependModule(moduleCode).also {
+        return get(moduleCode) ?: LazyDependModule(
+            moduleCode
+        ).also {
             if (hasStartInit) {
                 //开始初始化后，添加的module统一为lazy~
                 it.setLazy(true)

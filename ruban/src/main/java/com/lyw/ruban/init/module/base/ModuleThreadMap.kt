@@ -1,11 +1,11 @@
-package com.lyw.ruban.init.widgets.depend.module
+package com.lyw.ruban.init.module.base
 
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
 import com.lyw.ruban.core.*
-import com.lyw.ruban.init.widgets.depend.DependThreadLibInit
-import com.lyw.ruban.init.widgets.depend.ThreadDependLibList
-import com.lyw.ruban.init.widgets.thread.ThreadLibInit
+import com.lyw.ruban.init.lib.DependThreadLibInit
+import com.lyw.ruban.init.liblist.ThreadDependLibList
+import com.lyw.ruban.init.lib.ThreadLibInit
 import java.util.*
 
 /**

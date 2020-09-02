@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.widgets.lib
+package com.lyw.ruban.init.lib
 
 import com.lyw.ruban.core.AbsBaseInit
 import com.lyw.ruban.core.ConstantsForCore

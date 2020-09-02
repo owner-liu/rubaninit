@@ -1,8 +1,8 @@
-package com.lyw.ruban.init.widgets.lazy
+package com.lyw.ruban.init.module
 
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.lazy.LazyInitContainer
-import com.lyw.ruban.init.widgets.depend.DependModule
+import com.lyw.ruban.init.module.DependModule
 
 /**
  * Created on  2020-03-17

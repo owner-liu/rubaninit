@@ -1,10 +1,11 @@
-package com.lyw.ruban.init.widgets.depend
+package com.lyw.ruban.init.liblist
 
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.IInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.comm.AbsInitArrayList
 import com.lyw.ruban.core.depend.DependProxyObserver
+import com.lyw.ruban.init.lib.DependThreadLibInit
 
 /**
  * Created on  2020-03-08

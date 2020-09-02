@@ -1,4 +1,4 @@
-package com.lyw.ruban.init.widgets.depend.module
+package com.lyw.ruban.init.module.base
 
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate

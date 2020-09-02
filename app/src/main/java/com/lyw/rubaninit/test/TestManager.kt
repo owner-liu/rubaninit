@@ -25,7 +25,13 @@ object TestManager {
             addLibInit(TestThreadCLib())
             addLibInit(TestThreadDLib())
 
-            configModule(ModuleConfig(1, false, arrayListOf("2")))
+            configModule(
+                ModuleConfig(
+                    1,
+                    false,
+                    arrayListOf("2")
+                )
+            )
             configModule(ModuleConfig(3, true))
 
             addModuleCompletedListener(

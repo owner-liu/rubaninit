@@ -1,8 +1,8 @@
-package com.lyw.ruban.init.widgets.depend
+package com.lyw.ruban.init.module
 
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.depend.DependInitContainer
-import com.lyw.ruban.init.widgets.depend.module.ModuleThreadMap
+import com.lyw.ruban.init.module.base.ModuleThreadMap
 
 /**
  * Created on  2020-03-17
