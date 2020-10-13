@@ -37,8 +37,9 @@ import java.lang.IllegalArgumentException
  * 3. 初始化（依赖结果的，通过addInitCompletedListener，初始化需要的，直接添加depend～）
  */
 object AppInitManager
-    : IAppOperate,
+    : IAppOperateManager,
     IAppCompleteObserverOperate,
+    IModuleCompleteObserverOperate,
     IInitCompleteObserverOperate,
     IModuleConfig,
     ILoggerManager {
@@ -60,7 +61,7 @@ object AppInitManager
         mLazyAppDependInit.initialize(context)
     }
 
-    fun initializeLazy(moduleCodes: ArrayList<Int>) {
+    override fun initializeLazy(moduleCodes: ArrayList<Int>) {
         mContext?.let {
             mLazyAppDependInit.initializeLazy(it, moduleCodes)
         } ?: let {
@@ -68,7 +69,7 @@ object AppInitManager
         }
     }
 
-    fun initializeLazyAll() {
+    override fun initializeLazyAll() {
         mContext?.let {
             mLazyAppDependInit.initializeLazyAll(it)
         } ?: let {
@@ -84,7 +85,7 @@ object AppInitManager
         mLazyAppDependInit.addLibInit(libInit)
     }
 
-    fun addModuleCompletedListener(
+    override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
         listener: ICompleteListener
     ) {

@@ -25,12 +25,11 @@ import kotlin.collections.HashSet
 class LazyAppDependInit
     : IInitMap<Int, LazyDependModule, IDependInitObserver>,
     AbsBaseInit<IDependInitObserver>(),
-    IAppOperate,
-    IModuleConfig,
     IAppLazyOperate,
-    IInitCompleteObserverOperate,
+    IAppCompleteObserverOperate,
     IModuleCompleteObserverOperate,
-    IAppCompleteObserverOperate {
+    IInitCompleteObserverOperate,
+    IModuleConfig {
 
     private var mManagerObserver = AppManagerObserver()
     private var hasStartInit = false

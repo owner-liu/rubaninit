@@ -21,6 +21,13 @@ interface IAppLazyOperate : IAppOperate {
     fun initializeLazyAll(context: InitContext)
 }
 
+interface IAppOperateManager : IAppOperate {
+
+    fun initializeLazy(moduleCodes: ArrayList<Int>)
+
+    fun initializeLazyAll()
+}
+
 interface IModuleConfig {
     fun configModule(config: ModuleConfig)
 }
