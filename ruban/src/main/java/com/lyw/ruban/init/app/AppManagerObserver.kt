@@ -52,11 +52,13 @@ class AppManagerObserver
     }
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        // 触发相关监听回调~
+        // 优先触发相关监听回调~
         mObserverList.forEach { it.onCompleted(aliasName) }
 
+        // 触发相关依赖的库的初始化～
         super.onCompleted(context, aliasName)
 
+        // 判断是否已经初始化完成～
         if (!mLazyInitAliases.contains(aliasName)) {
             //非延迟初始化库初始化完成时触发校验检测~
             mInitiativeModuleCompletedAliases.add(aliasName)
