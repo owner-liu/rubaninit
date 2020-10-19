@@ -1,2 +1,3 @@
-include ':app', ':ruban_core', ':ruban'
 rootProject.name='RubanInit'
+include ':app', ':ruban_core', ':ruban'
+include ':ruban_analyse'
