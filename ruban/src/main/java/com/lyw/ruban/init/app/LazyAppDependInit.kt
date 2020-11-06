@@ -96,7 +96,7 @@ class LazyAppDependInit
         (module.init as DependModule).addAliasList(aliasList)
     }
 
-    override fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>) {
+    override fun initializeLazy(context: InitContext, moduleCodes: HashSet<Int>) {
         moduleCodes.forEach {
             get(it)?.initializeLazy(context, mManagerObserver)
         }

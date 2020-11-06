@@ -16,14 +16,14 @@ interface IAppOperate {
 
 interface IAppLazyOperate : IAppOperate {
 
-    fun initializeLazy(context: InitContext, moduleCodes: ArrayList<Int>)
+    fun initializeLazy(context: InitContext, moduleCodes: HashSet<Int>)
 
     fun initializeLazyAll(context: InitContext)
 }
 
 interface IAppOperateManager : IAppOperate {
 
-    fun initializeLazy(moduleCodes: ArrayList<Int>)
+    fun initializeLazy(moduleCodes: HashSet<Int>)
 
     fun initializeLazyAll()
 }

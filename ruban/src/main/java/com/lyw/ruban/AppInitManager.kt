@@ -61,7 +61,7 @@ object AppInitManager
         mLazyAppDependInit.initialize(context)
     }
 
-    override fun initializeLazy(moduleCodes: ArrayList<Int>) {
+    override fun initializeLazy(moduleCodes: HashSet<Int>) {
         mContext?.let {
             mLazyAppDependInit.initializeLazy(it, moduleCodes)
         } ?: let {
