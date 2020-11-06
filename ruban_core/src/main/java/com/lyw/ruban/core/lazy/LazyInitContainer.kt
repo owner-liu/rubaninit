@@ -1,6 +1,5 @@
 package com.lyw.ruban.core.lazy
 
-import android.util.Log
 import com.lyw.ruban.core.*
 
 /**
@@ -19,9 +18,10 @@ constructor(
     }
 
     override fun initializeLazy(context: InitContext, observer: T) {
-        if (hasInitComplete) {
-            return
-        }
+        // TODO by LYW: 2020/11/6 需要增加判断是否完成，需要通过动态代理来做～
+//        if (hasInitComplete) {
+//            return
+//        }
 
         init.let {
             init.initialize(context, observer)

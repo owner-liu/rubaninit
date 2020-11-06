@@ -14,7 +14,7 @@ constructor(
 ) : AbsDependInit<IDependInitObserver>(aliasList) {
 
     private val mContainerObserver =
-        DependProxyObserver<T>()
+        DependProxyObserver<T>(this)
 
     override fun getAliasName(): String {
         return init.getAliasName()

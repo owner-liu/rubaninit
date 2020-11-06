@@ -2,6 +2,7 @@ package com.lyw.ruban.init.module.base
 
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
+import com.lyw.ruban.core.AbsInit
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.DependManagerObserver
@@ -13,7 +14,7 @@ import java.lang.ref.SoftReference
  * Created for depend manager observer~
  */
 class ModuleThreadMapObserver
-constructor(var moduleAliasName: String) :
+constructor(var init: AbsInit) :
     DependManagerObserver(),
     IDependInitObserver,
     IInitCompleteObserverOperate {
@@ -21,13 +22,15 @@ constructor(var moduleAliasName: String) :
     var mInitCompleteObserver = hashMapOf<String, ArrayList<SoftReference<ICompleteListener>>>()
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        context.logger.i(msg = "complete-module:$moduleAliasName,init:$aliasName")
+        context.logger.i(msg = "complete-module:${init.getAliasName()},init:$aliasName")
         mInitCompletedAliases.add(aliasName)
 
         //监听整个module完成～
         if (initCount == mInitCompletedAliases.size) {
-            context.logger.i(msg = "complete-module:$moduleAliasName")
-            mObserver?.onCompleted(context, moduleAliasName)
+            // 设置 当前 module 已完成～
+            init.hasInitComplete = true
+            context.logger.i(msg = "complete-module:${init.getAliasName()}")
+            mObserver?.onCompleted(context, init.getAliasName())
         }
 
         //监听对应的init 完成～

@@ -18,7 +18,7 @@ class ThreadDependLibList :
     override var mData: List<DependThreadLibInit> = arrayListOf()
 
     private val mObserverProxy =
-        DependProxyObserver<IInitObserver>()
+        DependProxyObserver<IInitObserver>(this)
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
         // TODO by LYW: 2020/8/27  考虑 拦截 初始化 顺序～ 是否需要从 最大值

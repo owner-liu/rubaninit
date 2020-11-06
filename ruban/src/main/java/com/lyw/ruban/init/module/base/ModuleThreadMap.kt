@@ -23,7 +23,7 @@ constructor(
 
     private val mObserver by lazy {
         ModuleThreadMapObserver(
-            getAliasName()
+           this
         )
     }
 

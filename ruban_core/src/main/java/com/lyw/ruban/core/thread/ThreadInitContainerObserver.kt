@@ -9,10 +9,12 @@ import com.lyw.ruban.core.*
  * Created by  lyw
  * Created for thread container observer~
  */
-class ThreadInitContainerObserver<T : IInitObserver> : BaseObserverProxy<T>(),
+class ThreadInitContainerObserver<T : IInitObserver>
+constructor(var init: AbsInit) : BaseObserverProxy<T>(),
     IInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
+        init.hasInitComplete = true
         if (Looper.myLooper() == Looper.getMainLooper()) {
             mObserver?.onCompleted(context, aliasName)
         } else {

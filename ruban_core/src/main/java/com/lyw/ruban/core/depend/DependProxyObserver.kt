@@ -1,9 +1,6 @@
 package com.lyw.ruban.core.depend
 
-import com.lyw.ruban.core.BaseObserverProxy
-import com.lyw.ruban.core.IDependInitObserver
-import com.lyw.ruban.core.IInitObserver
-import com.lyw.ruban.core.InitContext
+import com.lyw.ruban.core.*
 
 /**
  * Created on  2020-03-09
@@ -11,10 +8,11 @@ import com.lyw.ruban.core.InitContext
  * Created for depend proxy observer~
  */
 class DependProxyObserver<T : IInitObserver>
-    : BaseObserverProxy<IDependInitObserver>(),
+constructor(var init: AbsInit) : BaseObserverProxy<IDependInitObserver>(),
     IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
+        init.hasInitComplete = true
         mObserver?.onCompleted(context, aliasName)
     }
 

@@ -9,5 +9,5 @@ open class BaseObserver {
 
     var initCount: Int = 0
 
-    var mInitCompletedAliases = arrayListOf<String>()
+    var mInitCompletedAliases = hashSetOf<String>()
 }
