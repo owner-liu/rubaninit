@@ -16,7 +16,7 @@ constructor(
 ) : AbsThreadInit<T>(threadCode), IInit<T> {
 
     private val mContainerObserver =
-        ThreadInitContainerObserver<T>()
+        ThreadInitContainerObserver<T>(this)
 
     override fun getAliasName(): String {
         return init.getAliasName()
