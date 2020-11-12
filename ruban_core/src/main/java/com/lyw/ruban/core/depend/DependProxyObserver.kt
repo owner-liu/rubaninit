@@ -12,7 +12,7 @@ constructor(var init: AbsInit) : BaseObserverProxy<IDependInitObserver>(),
     IDependInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        init.hasInitComplete = true
+        init.status = ConstantsForCore.INIT_STATUS_INITED
         mObserver?.onCompleted(context, aliasName)
     }
 

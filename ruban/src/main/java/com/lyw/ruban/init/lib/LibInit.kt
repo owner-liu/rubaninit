@@ -21,16 +21,19 @@ constructor(
     var libDependAlias: ArrayList<String> = arrayListOf()
 ) : AbsBaseInit<IInitObserver>() {
     final override fun initialize(context: InitContext, observer: IInitObserver) {
-        if (hasInitComplete) {
+        if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
             return
         }
+        status = ConstantsForCore.INIT_STATUS_INITING
+
         val start = System.currentTimeMillis()
         doInit(context, observer)
         context.logger.i(
             "ruban",
             "completeCost-init:${getAliasName()}-cost:${System.currentTimeMillis() - start}"
         )
-        hasInitComplete = true
+        status = ConstantsForCore.INIT_STATUS_INITED
+        // TODO by LYW: 2020/11/12 ~ 判断是否需要 主动调用 初始化完成～
         observer.onCompleted(context, getAliasName())
     }
 

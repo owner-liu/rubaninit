@@ -3,6 +3,7 @@ package com.lyw.ruban.init.module.base
 import com.lyw.ruban.ICompleteListener
 import com.lyw.ruban.IInitCompleteObserverOperate
 import com.lyw.ruban.core.AbsInit
+import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.DependManagerObserver
@@ -28,7 +29,8 @@ constructor(var init: AbsInit) :
         //监听整个module完成～
         if (initCount == mInitCompletedAliases.size) {
             // 设置 当前 module 已完成～
-            init.hasInitComplete = true
+            init.status = ConstantsForCore.INIT_STATUS_INITED
+
             context.logger.i(msg = "complete-module:${init.getAliasName()}")
             mObserver?.onCompleted(context, init.getAliasName())
         }

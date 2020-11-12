@@ -34,9 +34,11 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        if (hasInitComplete) {
+        if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
             return
         }
+        status = ConstantsForCore.INIT_STATUS_INITING
+
         mObserver.mObserver = observer
         mObserver.initCount = initCount
         super.initialize(context, mObserver)
@@ -56,7 +58,7 @@ constructor(
     }
 
     override fun addInit(init: DependThreadLibInit) {
-        hasInitComplete = false
+        status = ConstantsForCore.INIT_STATUS_DEFAULT
 
         val threadCode = (init.init as ThreadLibInit).getCurrentThreadCode()
         val threadList = get(threadCode)

@@ -24,9 +24,11 @@ constructor(
 
     override fun initialize(context: InitContext, observer: T) {
         context.logger.i(msg = "threadContainer-init:${init.getAliasName()}")
-        if (hasInitComplete) {
+
+        if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
             return
         }
+        status = ConstantsForCore.INIT_STATUS_INITING
 
         init?.let {
             mContainerObserver.mObserver = observer

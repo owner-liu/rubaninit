@@ -14,7 +14,7 @@ constructor(var init: AbsInit) : BaseObserverProxy<T>(),
     IInitObserver {
 
     override fun onCompleted(context: InitContext, aliasName: String) {
-        init.hasInitComplete = true
+        init.status = ConstantsForCore.INIT_STATUS_INITED
         if (Looper.myLooper() == Looper.getMainLooper()) {
             mObserver?.onCompleted(context, aliasName)
         } else {

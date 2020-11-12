@@ -21,9 +21,10 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        if (hasInitComplete) {
+        if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
             return
         }
+        status = ConstantsForCore.INIT_STATUS_INITING
 
         init.let {
             mContainerObserver.mObserver = observer
