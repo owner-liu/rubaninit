@@ -20,24 +20,41 @@ constructor(
     //不指定，默认无依赖～
     var libDependAlias: ArrayList<String> = arrayListOf()
 ) : AbsBaseInit<IInitObserver>() {
+
+    private var startTime: Long = 0L
+
+    lateinit var mObserver: IInitObserver
+    lateinit var mInitContext: InitContext
+
     final override fun initialize(context: InitContext, observer: IInitObserver) {
         if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
             return
         }
         status = ConstantsForCore.INIT_STATUS_INITING
+        mObserver = observer
+        mInitContext = context
 
-        val start = System.currentTimeMillis()
-        doInit(context, observer)
-        context.logger.i(
-            "ruban",
-            "completeCost-init:${getAliasName()}-cost:${System.currentTimeMillis() - start}"
-        )
-        status = ConstantsForCore.INIT_STATUS_INITED
-        // TODO by LYW: 2020/11/12 ~ 判断是否需要 主动调用 初始化完成～
-        observer.onCompleted(context, getAliasName())
+        startTime = System.currentTimeMillis()
+        val result = doInit(mInitContext)
+        if (result) {
+            notifyCompleted()
+        }
     }
 
-    abstract fun doInit(context: InitContext, observer: IInitObserver)
+    abstract fun doInit(context: InitContext): Boolean
+
+    fun notifyCompleted() {
+        if (status == ConstantsForCore.INIT_STATUS_INITED) {
+            return
+        }
+
+        mInitContext.logger.i(
+            "ruban",
+            "completeCost-init:${getAliasName()}-cost:${System.currentTimeMillis() - startTime}"
+        )
+        status = ConstantsForCore.INIT_STATUS_INITED
+        mObserver.onCompleted(mInitContext, getAliasName())
+    }
 
     final override fun getAliasName(): String {
         return this.javaClass.simpleName

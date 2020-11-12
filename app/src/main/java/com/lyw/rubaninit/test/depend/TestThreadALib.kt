@@ -13,9 +13,10 @@ import com.lyw.ruban.init.lib.LibInit
  */
 class TestThreadALib : LibInit(1, ConstantsForCore.THREAD_ASYNC, arrayListOf()) {
 
-    override fun doInit(context: InitContext, observer: IInitObserver) {
+    override fun doInit(context: InitContext): Boolean {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             context.logger.i(msg = "err-线程异常-init:${getAliasName()}")
         }
+        return true
     }
 }
