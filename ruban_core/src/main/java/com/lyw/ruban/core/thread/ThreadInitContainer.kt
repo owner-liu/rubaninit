@@ -26,6 +26,7 @@ constructor(
         context.logger.i(msg = "threadContainer-init:${init.getAliasName()}")
 
         if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
+            context.logger.i(msg = "init cancel:${getAliasName()} for ThreadInitContainer initialize ")
             return
         }
         status = ConstantsForCore.INIT_STATUS_INITING

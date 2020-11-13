@@ -28,6 +28,7 @@ constructor(
 
     final override fun initialize(context: InitContext, observer: IInitObserver) {
         if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
+            mInitContext.logger.i(msg = "init cancel:${getAliasName()} for LibInit initialize ")
             return
         }
         status = ConstantsForCore.INIT_STATUS_INITING
@@ -45,6 +46,7 @@ constructor(
 
     fun notifyCompleted() {
         if (status == ConstantsForCore.INIT_STATUS_INITED) {
+            mInitContext.logger.i(msg = "init cancel:${getAliasName()} for LibInit notifyCompleted ")
             return
         }
 
