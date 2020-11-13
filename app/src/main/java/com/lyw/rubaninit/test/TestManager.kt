@@ -24,6 +24,7 @@ object TestManager {
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
             addLibInit(TestThreadDLib())
+            addLibInit(TestThreadELib())
 
             configModule(
                 ModuleConfig(
@@ -53,6 +54,14 @@ object TestManager {
                 object : ICompleteListener {
                     override fun onCompleted() {
                         Log.i("ruban", "监听到相关module 3已完成～")
+                    }
+                })
+
+            addModuleCompletedListener(
+                hashSetOf(4),
+                object : ICompleteListener {
+                    override fun onCompleted() {
+                        Log.i("ruban", "监听到相关module 4已完成～")
                     }
                 })
 

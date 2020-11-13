@@ -23,40 +23,26 @@ constructor(
 
     private var startTime: Long = 0L
 
-    lateinit var mObserver: IInitObserver
-    lateinit var mInitContext: InitContext
-
-    final override fun initialize(context: InitContext, observer: IInitObserver) {
+    override fun initialize(context: InitContext, observer: IInitObserver) {
         if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
-            mInitContext.logger.i(msg = "init cancel:${getAliasName()} for LibInit initialize ")
+            context.logger.i(msg = "init cancel:${getAliasName()} for LibInit initialize ")
             return
         }
         status = ConstantsForCore.INIT_STATUS_INITING
-        mObserver = observer
-        mInitContext = context
 
         startTime = System.currentTimeMillis()
-        val result = doInit(mInitContext)
-        if (result) {
-            notifyCompleted()
-        }
-    }
 
-    abstract fun doInit(context: InitContext): Boolean
+        doInit(context)
 
-    fun notifyCompleted() {
-        if (status == ConstantsForCore.INIT_STATUS_INITED) {
-            mInitContext.logger.i(msg = "init cancel:${getAliasName()} for LibInit notifyCompleted ")
-            return
-        }
-
-        mInitContext.logger.i(
+        context.logger.i(
             "ruban",
             "completeCost-init:${getAliasName()}-cost:${System.currentTimeMillis() - startTime}"
         )
         status = ConstantsForCore.INIT_STATUS_INITED
-        mObserver.onCompleted(mInitContext, getAliasName())
+        observer.onCompleted(context, getAliasName())
     }
+
+    abstract fun doInit(context: InitContext)
 
     final override fun getAliasName(): String {
         return this.javaClass.simpleName
