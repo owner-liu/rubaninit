@@ -34,11 +34,11 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
+        if (checkInitStart()) {
             context.logger.i(msg = "init cancel:${getAliasName()} for ModuleThreadMap initialize ")
             return
         }
-        status = ConstantsForCore.INIT_STATUS_INITING
+        startInit()
 
         mObserver.mObserver = observer
         mObserver.initCount = initCount
@@ -59,7 +59,7 @@ constructor(
     }
 
     override fun addInit(init: DependThreadLibInit) {
-        status = ConstantsForCore.INIT_STATUS_DEFAULT
+        initInit()
 
         val threadCode = (init.init as ThreadLibInit).getCurrentThreadCode()
         val threadList = get(threadCode)

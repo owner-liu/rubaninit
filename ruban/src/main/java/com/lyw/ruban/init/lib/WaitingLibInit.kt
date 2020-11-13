@@ -26,12 +26,12 @@ constructor(
     lateinit var mInitContext: InitContext
 
     override fun initialize(context: InitContext, observer: IInitObserver) {
-        if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
+        if (checkInitStart()) {
             context.logger.i(msg = "init cancel:${getAliasName()} for WaitingLibInit initialize ")
             return
         }
 
-        status = ConstantsForCore.INIT_STATUS_INITING
+        startInit()
 
         mObserver = observer
         mInitContext = context
@@ -42,7 +42,7 @@ constructor(
     }
 
     fun notifyFinished() {
-        if (status == ConstantsForCore.INIT_STATUS_INITED) {
+        if (checkInitFinished()) {
             mInitContext.logger.i(msg = "init cancel:${getAliasName()} for WaitingLibInit notifyFinished ")
             return
         }
@@ -51,7 +51,7 @@ constructor(
             "ruban",
             "completeCost-init-waiting:${getAliasName()}-cost:${System.currentTimeMillis() - startTime}"
         )
-        status = ConstantsForCore.INIT_STATUS_INITED
+        finishInit()
         mObserver.onCompleted(mInitContext, getAliasName())
     }
 }

@@ -29,7 +29,7 @@ constructor(var init: AbsInit) :
         //监听整个module完成～
         if (initCount == mInitCompletedAliases.size) {
             // 设置 当前 module 已完成～
-            init.status = ConstantsForCore.INIT_STATUS_INITED
+            init.finishInit()
 
             context.logger.i(msg = "complete-module:${init.getAliasName()}")
             mObserver?.onCompleted(context, init.getAliasName())

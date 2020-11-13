@@ -24,11 +24,11 @@ constructor(
     private var startTime: Long = 0L
 
     override fun initialize(context: InitContext, observer: IInitObserver) {
-        if (status != ConstantsForCore.INIT_STATUS_DEFAULT) {
+        if (checkInitStart()) {
             context.logger.i(msg = "init cancel:${getAliasName()} for LibInit initialize ")
             return
         }
-        status = ConstantsForCore.INIT_STATUS_INITING
+        startInit()
 
         startTime = System.currentTimeMillis()
 
@@ -38,7 +38,7 @@ constructor(
             "ruban",
             "completeCost-init:${getAliasName()}-cost:${System.currentTimeMillis() - startTime}"
         )
-        status = ConstantsForCore.INIT_STATUS_INITED
+        finishInit()
         observer.onCompleted(context, getAliasName())
     }
 
