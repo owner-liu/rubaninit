@@ -21,12 +21,10 @@ constructor(
     }
 
     override fun initialize(context: InitContext, observer: IDependInitObserver) {
-        if (checkInitStart()) {
+        if (checkInitFinished()) {
             context.logger.i(msg = "init cancel:${getAliasName()} for DependInitContainer initialize ")
             return
         }
-       startInit()
-
         init.let {
             mContainerObserver.mObserver = observer
             //判断是否还有 依赖~

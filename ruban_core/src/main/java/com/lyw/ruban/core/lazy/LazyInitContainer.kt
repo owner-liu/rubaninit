@@ -19,7 +19,7 @@ constructor(
 
     override fun initializeLazy(context: InitContext, observer: T) {
         // TODO by LYW: 2020/11/6 需要增加判断是否完成，需要通过动态代理来做～
-//        if (hasInitComplete) {
+//        if (checkInitFinished()) {
 //            return
 //        }
 
