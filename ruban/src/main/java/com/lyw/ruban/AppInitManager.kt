@@ -69,6 +69,10 @@ object AppInitManager
         }
     }
 
+    override fun initializeLazy(moduleCode: Int) {
+        initializeLazy(hashSetOf(moduleCode))
+    }
+
     override fun initializeLazyAll() {
         mContext?.let {
             mLazyAppDependInit.initializeLazyAll(it)
@@ -83,6 +87,10 @@ object AppInitManager
 
     override fun addLibInit(libInit: LibInit) {
         mLazyAppDependInit.addLibInit(libInit)
+    }
+
+    override fun addModuleCompletedListener(moduleAliase: Int, listener: ICompleteListener) {
+        addModuleCompletedListener(hashSetOf(moduleAliase), listener)
     }
 
     override fun addModuleCompletedListener(

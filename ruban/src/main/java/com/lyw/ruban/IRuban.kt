@@ -23,6 +23,8 @@ interface IAppLazyOperate : IAppOperate {
 
 interface IAppOperateManager : IAppOperate {
 
+    fun initializeLazy(moduleCode:Int)
+
     fun initializeLazy(moduleCodes: HashSet<Int>)
 
     fun initializeLazyAll()
@@ -49,6 +51,8 @@ interface IModuleCompleteListener {
 }
 
 interface IModuleCompleteObserverOperate {
+    fun addModuleCompletedListener(moduleAliase:Int, listener: ICompleteListener)
+
     fun addModuleCompletedListener(moduleAliases: HashSet<Int>, listener: ICompleteListener)
 }
 
