@@ -7,6 +7,7 @@ Android App 相关库的初始化管理
 
 - v1.0.1-rc5 去除自定义 alias。alias 统一为类名，需要添加 混淆配。
 - v1.0.1-rc6 针对于相关处理完成监听，使用软引用进行存储。
+- v1.0.1-rc14 增加初始化中的标记位，增加代码调用初始化完成逻辑（初始化过程中需要等待异步回调），优化api
 
 Add it in your root build.gradle at the end of repositories:
 ```
