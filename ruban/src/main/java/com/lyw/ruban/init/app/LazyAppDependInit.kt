@@ -74,6 +74,10 @@ class LazyAppDependInit
         ((module.init as DependModule).init as ModuleThreadMap).addInit(init)
     }
 
+    override fun addModuleCompletedListener(moduleAliase: Int, listener: ICompleteListener) {
+        addModuleCompletedListener(hashSetOf(moduleAliase),listener)
+    }
+
     override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
         listener: ICompleteListener

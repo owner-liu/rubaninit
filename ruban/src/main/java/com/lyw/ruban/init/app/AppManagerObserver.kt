@@ -34,6 +34,10 @@ class AppManagerObserver
     //是否完成全部初始化～
     private var mAppInitComplete = false
 
+    override fun addModuleCompletedListener(moduleAliase: Int, listener: ICompleteListener) {
+        addModuleCompletedListener(hashSetOf(moduleAliase),listener)
+    }
+
     override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
         listener: ICompleteListener
