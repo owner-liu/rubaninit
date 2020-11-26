@@ -8,7 +8,9 @@ import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.depend.DependManagerObserver
 import java.lang.IllegalArgumentException
+import java.lang.ref.ReferenceQueue
 import java.lang.ref.SoftReference
+import java.lang.ref.WeakReference
 
 /**
  * Created on  2020-03-14
@@ -21,7 +23,7 @@ class AppManagerObserver
     IAppCompleteObserverOperate,
     IDependInitObserver {
     // module 监测～
-    private val mObserverList = arrayListOf<ModuleCompeteObserver>()
+    private val mObserverList = hashMapOf<Int, ModuleCompeteObserver>()
     private val mAppObserverList = arrayListOf<SoftReference<ICompleteListener>>()
 
     //主动初始化init 完成alias~
@@ -34,17 +36,35 @@ class AppManagerObserver
     //是否完成全部初始化～
     private var mAppInitComplete = false
 
+    private var mReferenceQueue: ReferenceQueue<ICompleteListener> = ReferenceQueue()
+
     override fun addModuleCompletedListener(moduleAliase: Int, listener: ICompleteListener) {
-        addModuleCompletedListener(hashSetOf(moduleAliase),listener)
+        addModuleCompletedListener(hashSetOf(moduleAliase), listener)
     }
 
     override fun addModuleCompletedListener(
         moduleAliases: HashSet<Int>,
         listener: ICompleteListener
     ) {
-        val moduleCompeteObserver = ModuleCompeteObserver(moduleAliases, listener)
+        // 添加监听时，先进行清理相关 监听～
+        var ref: RubanWeakReference<ICompleteListener>?
+        do {
+            ref = mReferenceQueue.poll() as? RubanWeakReference<ICompleteListener>
+            ref?.let {
+                mObserverList.remove(ref.hashCode)
+            }
+        } while (ref != null)
+
+
+        var hashCode = listener.hashCode();
+        val listenerWeakReference = RubanWeakReference(
+            referent = listener,
+            hashCode = hashCode,
+            referenceQueue = mReferenceQueue
+        )
+        val moduleCompeteObserver = ModuleCompeteObserver(moduleAliases, listenerWeakReference)
         mInitCompletedAliases.forEach { moduleCompeteObserver.onCompleted(it) }
-        mObserverList.add(moduleCompeteObserver)
+        mObserverList[hashCode] = moduleCompeteObserver
     }
 
     override fun addAppInitiativeCompletedListener(listener: ICompleteListener) {
@@ -57,7 +77,9 @@ class AppManagerObserver
 
     override fun onCompleted(context: InitContext, aliasName: String) {
         // 优先触发相关监听回调~
-        mObserverList.forEach { it.onCompleted(aliasName) }
+        mObserverList.forEach { (t, u) ->
+            u.onCompleted(aliasName)
+        }
 
         // 触发相关依赖的库的初始化～
         super.onCompleted(context, aliasName)
@@ -94,16 +116,13 @@ class AppManagerObserver
 class ModuleCompeteObserver
 constructor(
     private var moduleAliases: HashSet<Int>,
-    listener: ICompleteListener
+    private var listenerWeakReference: RubanWeakReference<ICompleteListener>
 ) : IModuleCompleteListener {
-
-    var mListener: SoftReference<ICompleteListener>
 
     init {
         if (moduleAliases.isEmpty()) {
             throw IllegalArgumentException("添加了无效的module完成监听～")
         }
-        mListener = SoftReference(listener)
     }
 
     override fun onCompleted(aliasName: String) {
@@ -114,8 +133,15 @@ constructor(
         aliasName.toIntOrNull()?.let {
             moduleAliases.remove(it)
             if (moduleAliases.isEmpty()) {
-                mListener.get()?.onCompleted()
+                listenerWeakReference.get()?.onCompleted()
             }
         }
     }
 }
+
+class RubanWeakReference<T>
+constructor(
+    referent: T,
+    var hashCode: Int,
+    referenceQueue: ReferenceQueue<T>
+) : WeakReference<T>(referent, referenceQueue)
