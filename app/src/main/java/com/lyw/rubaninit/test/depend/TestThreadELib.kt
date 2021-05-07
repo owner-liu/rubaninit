@@ -2,7 +2,7 @@ package com.lyw.rubaninit.test.depend
 
 import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.InitContext
-import com.lyw.ruban.init.lib.WaitingLibInit
+import com.lyw.ruban.init.lib.NetWorkConfigInit
 
 /**
  * Created on  2020-03-08
@@ -10,7 +10,7 @@ import com.lyw.ruban.init.lib.WaitingLibInit
  * Created for
  */
 class TestThreadELib :
-    WaitingLibInit(4, ConstantsForCore.THREAD_ASYNC) {
+    NetWorkConfigInit(4, ConstantsForCore.THREAD_ASYNC) {
     override fun doInit(context: InitContext) {
 
         // TODO by LYW: 2020/11/13 ~进行 异步耗时任务～
