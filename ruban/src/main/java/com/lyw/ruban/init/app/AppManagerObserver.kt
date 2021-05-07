@@ -23,7 +23,7 @@ class AppManagerObserver
     IAppCompleteObserverOperate,
     IDependInitObserver {
     // module 监测～
-    private val mObserverList = hashMapOf<Int, ModuleCompeteObserver>()
+    private val mObserverList = HashMap<Int, ModuleCompeteObserver>(50)
     private val mAppObserverList = arrayListOf<SoftReference<ICompleteListener>>()
 
     //主动初始化init 完成alias~

@@ -31,7 +31,7 @@ object RubanAnalyse : IRubanAnalyse {
     }
 
     //记录所有的init～
-    private val mAnalyseInfos = hashMapOf<String, AnalyseInfo>()
+    private val mAnalyseInfos = HashMap<String, AnalyseInfo>(50)
 
     /**
      * 只处理 同步～

@@ -20,7 +20,7 @@ constructor(var init: AbsInit) :
     IDependInitObserver,
     IInitCompleteObserverOperate {
 
-    var mInitCompleteObserver = hashMapOf<String, ArrayList<SoftReference<ICompleteListener>>>()
+    var mInitCompleteObserver = HashMap<String, ArrayList<SoftReference<ICompleteListener>>>(50)
 
     override fun onCompleted(context: InitContext, aliasName: String) {
         context.logger.i(msg = "complete-module:${init.getAliasName()},init:$aliasName")
