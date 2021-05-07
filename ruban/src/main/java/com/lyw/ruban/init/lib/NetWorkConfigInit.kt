@@ -10,7 +10,7 @@ import com.lyw.ruban.init.module.ConstantForModule
  * Created by  lyw
  * Created for lib 等待型～
  */
-abstract class WaitingLibInit
+abstract class NetWorkConfigInit
 constructor(
     //不指定，默认
     var waitingLibModuleCode: Int = ConstantForModule.CODE_MODULE_DEFAULT,
