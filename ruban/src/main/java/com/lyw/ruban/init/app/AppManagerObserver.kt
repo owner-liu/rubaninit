@@ -144,4 +144,4 @@ constructor(
     referent: T,
     var hashCode: Int,
     referenceQueue: ReferenceQueue<T>
-) : WeakReference<T>(referent, referenceQueue)
+) : SoftReference<T>(referent, referenceQueue)
