@@ -24,7 +24,7 @@ object TestManager {
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
             addLibInit(TestThreadDLib())
-            addLibInit(TestThreadELib())
+//            addLibInit(TestThreadELib())
 
             configModule(ModuleConfig(3, true))
 

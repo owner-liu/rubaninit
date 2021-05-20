@@ -19,9 +19,12 @@
 
         <provider
             android:name=".test.RubanInitializationProviderImpl"
-            android:authorities="com.ruban.provider"
+            android:authorities="${applicationId}.provider1"
             android:exported="false" />
-
+        <provider
+            android:name=".test.RubanInitializationProviderImpl2"
+            android:authorities="${applicationId}.provider2"
+            android:exported="false" />
     </application>
 
 </manifest>
