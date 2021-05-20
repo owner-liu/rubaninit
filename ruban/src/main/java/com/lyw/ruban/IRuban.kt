@@ -19,6 +19,8 @@ interface IAppLazyOperate : IAppOperate {
     fun initializeLazy(context: InitContext, moduleCodes: HashSet<Int>)
 
     fun initializeLazyAll(context: InitContext)
+
+    fun hasStartInit(): Boolean
 }
 
 interface IAppOperateManager : IAppOperate {
@@ -28,6 +30,8 @@ interface IAppOperateManager : IAppOperate {
     fun initializeLazy(moduleCodes: HashSet<Int>)
 
     fun initializeLazyAll()
+
+    fun hasStartInit(): Boolean
 }
 
 interface IModuleConfig {

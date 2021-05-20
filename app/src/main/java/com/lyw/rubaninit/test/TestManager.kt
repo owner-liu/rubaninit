@@ -20,19 +20,12 @@ object TestManager {
 
     private fun testAppLazyDependThreadInit(application: Application, isDebug: Boolean) {
         AppInitManager.apply {
-            addLibInit(TestThreadALib())
+//            addLibInit(TestThreadALib())
             addLibInit(TestThreadBLib())
             addLibInit(TestThreadCLib())
             addLibInit(TestThreadDLib())
             addLibInit(TestThreadELib())
 
-            configModule(
-                ModuleConfig(
-                    1,
-                    false,
-                    arrayListOf("2")
-                )
-            )
             configModule(ModuleConfig(3, true))
 
             addModuleCompletedListener(

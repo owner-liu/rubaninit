@@ -22,10 +22,7 @@ constructor(
 //        if (checkInitFinished()) {
 //            return
 //        }
-
-        init.let {
-            init.initialize(context, observer)
-        }
+        init.initialize(context, observer)
     }
 
     override fun initialize(context: InitContext, observer: T) {

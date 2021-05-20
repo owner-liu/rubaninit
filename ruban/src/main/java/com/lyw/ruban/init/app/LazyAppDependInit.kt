@@ -75,7 +75,7 @@ class LazyAppDependInit
     }
 
     override fun addModuleCompletedListener(moduleAliase: Int, listener: ICompleteListener) {
-        addModuleCompletedListener(hashSetOf(moduleAliase),listener)
+        addModuleCompletedListener(hashSetOf(moduleAliase), listener)
     }
 
     override fun addModuleCompletedListener(
@@ -137,5 +137,9 @@ class LazyAppDependInit
             mManagerObserver.addModule(moduleCode)
             put(moduleCode, it)
         }
+    }
+
+    override fun hasStartInit(): Boolean {
+        return hasStartInit
     }
 }

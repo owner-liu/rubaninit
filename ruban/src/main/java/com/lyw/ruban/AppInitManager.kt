@@ -115,4 +115,8 @@ object AppInitManager
     override fun setLogger(logger: ILogger?) {
         this.mLogger = logger
     }
+
+    override fun hasStartInit(): Boolean {
+        return mLazyAppDependInit.hasStartInit()
+    }
 }
