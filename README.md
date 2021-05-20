@@ -9,6 +9,7 @@ Android App 相关库的初始化管理
 - v1.0.1-rc6 针对于相关处理完成监听，使用软引用进行存储。
 - v1.0.1-rc14 增加初始化中的标记位，增加代码调用初始化完成逻辑（初始化过程中需要等待异步回调），优化api
 - v1.0.1-rc16 代码优化，增加 NetWorkConfigInit 类,针对于 网络配置的初始化，可以手动调用 notifyFinished() 来设置初始化完成状态
+- v1.0.1-rc17 增加ContentProvider 方式 初始化配置，使用可以参考 RubanInitializationProviderImpl 类，记得androidmanifest.xml中配置，authorities 记得配置不同的。 
 
 Add it in your root build.gradle at the end of repositories:
 ```
@@ -34,6 +35,7 @@ proguard-rules.pro
 ```
 
 #### 示例代码：
+##### App module 统一配置
 ```
  AppInitManager.apply {
             addLibInit(TestThreadALib())
@@ -104,6 +106,47 @@ class CustomizationLogger : ILogger {
 
 }
 ```
+##### contentProvider 方式配置
+```
+class RubanInitializationProviderImpl : RubanInitializationProvider() {
+
+    override fun initLib(): ArrayList<LibInit> {
+        return arrayListOf(TestThreadALib())
+    }
+
+    override fun isLazy(): Boolean {
+        return false
+    }
+
+    override fun getDepends(): ArrayList<String> {
+        return arrayListOf("2")
+    }
+}
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lyw.rubaninit">
+
+    <application
+       ...>
+       
+        <provider
+            android:name=".test.RubanInitializationProviderImpl"
+            android:authorities="${applicationId}.provider1"
+            android:exported="false" />
+        <provider
+            android:name=".test.RubanInitializationProviderImpl2"
+            android:authorities="${applicationId}.provider2"
+            android:exported="false" />
+    </application>
+
+</manifest>
+
+
+```
+
 
 #### 说明：
 ##### 1.初始化
