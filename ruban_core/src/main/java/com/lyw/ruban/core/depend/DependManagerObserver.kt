@@ -1,11 +1,11 @@
 package com.lyw.ruban.core.depend
 
-import android.util.Log
 import com.lyw.ruban.core.ConstantsForCore
 import com.lyw.ruban.core.IDependInitObserver
 import com.lyw.ruban.core.InitContext
 import com.lyw.ruban.core.thread.ThreadInitContainer
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created on  2020-03-09
@@ -51,7 +51,7 @@ open class DependManagerObserver
                 }
             }
             val list = treeMap.get(threadCode) ?: let {
-                arrayListOf<AbsDependInit<IDependInitObserver>>().also {
+                ArrayList<AbsDependInit<IDependInitObserver>>(50).also {
                     treeMap.put(threadCode, it)
                 }
             }

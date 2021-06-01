@@ -58,7 +58,7 @@ constructor(var init: AbsInit) :
             listener.onCompleted()
         } else {
             var list = mInitCompleteObserver.get(InitAliasName) ?: let {
-                arrayListOf<SoftReference<ICompleteListener>>().also {
+                ArrayList<SoftReference<ICompleteListener>>(50).also {
                     mInitCompleteObserver[InitAliasName] = it
                 }
             }

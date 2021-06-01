@@ -15,5 +15,5 @@ open class BaseDependObserverProxy
     : BaseObserverProxy<IDependInitObserver>() {
 
     var mWaitToInitMap =
-        HashMap<String, TreeMap<Int, ArrayList<AbsDependInit<IDependInitObserver>>>>(20)
+        HashMap<String, TreeMap<Int, ArrayList<AbsDependInit<IDependInitObserver>>>>(50)
 }

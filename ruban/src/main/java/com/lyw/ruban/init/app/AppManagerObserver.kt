@@ -24,11 +24,11 @@ class AppManagerObserver
     IDependInitObserver {
     // module 监测～
     private val mObserverList = HashMap<Int, ModuleCompeteObserver>(50)
-    private val mAppObserverList = arrayListOf<SoftReference<ICompleteListener>>()
+    private val mAppObserverList = ArrayList<SoftReference<ICompleteListener>>(50)
 
     //主动初始化init 完成alias~
-    private val mInitiativeModuleCompletedAliases = arrayListOf<String>()
-    private val mLazyInitAliases = arrayListOf<String>()
+    private val mInitiativeModuleCompletedAliases = ArrayList<String>(50)
+    private val mLazyInitAliases = ArrayList<String>(50)
 
     //module 数量～
     private var mInitiativeModuleCount: Int = 0
