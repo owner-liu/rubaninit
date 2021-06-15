@@ -10,7 +10,6 @@ import com.lyw.ruban.core.depend.DependManagerObserver
 import java.lang.IllegalArgumentException
 import java.lang.ref.ReferenceQueue
 import java.lang.ref.SoftReference
-import java.lang.ref.WeakReference
 
 /**
  * Created on  2020-03-14
@@ -47,9 +46,9 @@ class AppManagerObserver
         listener: ICompleteListener
     ) {
         // 添加监听时，先进行清理相关 监听～
-        var ref: RubanWeakReference<ICompleteListener>?
+        var ref: RubanSoftReference<ICompleteListener>?
         do {
-            ref = mReferenceQueue.poll() as? RubanWeakReference<ICompleteListener>
+            ref = mReferenceQueue.poll() as? RubanSoftReference<ICompleteListener>
             ref?.let {
                 mObserverList.remove(ref.hashCode)
             }
@@ -57,7 +56,7 @@ class AppManagerObserver
 
 
         var hashCode = listener.hashCode();
-        val listenerWeakReference = RubanWeakReference(
+        val listenerWeakReference = RubanSoftReference(
             referent = listener,
             hashCode = hashCode,
             referenceQueue = mReferenceQueue
@@ -116,7 +115,7 @@ class AppManagerObserver
 class ModuleCompeteObserver
 constructor(
     private var moduleAliases: HashSet<Int>,
-    private var listenerWeakReference: RubanWeakReference<ICompleteListener>
+    private var listenerWeakReference: RubanSoftReference<ICompleteListener>
 ) : IModuleCompleteListener {
 
     init {
@@ -139,7 +138,7 @@ constructor(
     }
 }
 
-class RubanWeakReference<T>
+class RubanSoftReference<T>
 constructor(
     referent: T,
     var hashCode: Int,
